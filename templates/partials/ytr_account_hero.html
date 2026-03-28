@@ -1,0 +1,23 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/ytr-account-hero.css' %}">
+<section class="ytr-acct-hero" aria-label="Section header">
+  <div class="ytr-acct-hero__sky">
+    <div class="ytr-acct-hero__inner px-3 px-md-4">
+      <h1 class="ytr-acct-hero__title">{{ hero_title|safe }}</h1>
+      {% if hero_subtitle %}
+      <p class="ytr-acct-hero__sub">{{ hero_subtitle }}</p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="ytr-acct-hero__cars" aria-hidden="true">
+    <img
+      class="ytr-acct-hero__cars-img"
+      src="{% static 'images/hero-cars-reference.png' %}"
+      alt=""
+      width="1600"
+      height="420"
+      loading="lazy"
+      decoding="async"
+    >
+  </div>
+</section>

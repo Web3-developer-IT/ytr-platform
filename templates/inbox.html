@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Messages | Yours To Rent{% endblock %}
+
+{% block content %}
+<h1>Messages</h1>
+
+<h2>Inbox</h2>
+{% for msg in inbox_messages %}
+  <div style="margin-bottom:16px;">
+    <strong>{{ msg.sender.username }}</strong> about <strong>{{ msg.listing.title }}</strong>
+    <p>{{ msg.content }}</p>
+    <small>{{ msg.created_at }}</small><br>
+    <a href="{% url 'conversation' msg.listing.id msg.sender.id %}">Open conversation</a>
+  </div>
+{% empty %}
+  <p>No inbox messages yet.</p>
+{% endfor %}
+
+<hr>
+
+<h2>Sent</h2>
+{% for msg in sent_messages %}
+  <div style="margin-bottom:16px;">
+    To <strong>{{ msg.receiver.username }}</strong> about <strong>{{ msg.listing.title }}</strong>
+    <p>{{ msg.content }}</p>
+    <small>{{ msg.created_at }}</small><br>
+    <a href="{% url 'conversation' msg.listing.id msg.receiver.id %}">Open conversation</a>
+  </div>
+{% empty %}
+  <p>No sent messages yet.</p>
+{% endfor %}
+{% endblock %}
+

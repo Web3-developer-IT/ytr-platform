@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Edit Listing | Yours To Rent{% endblock %}
+{% block content %}
+<h2>Edit Listing</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="title" value="{{ listing.title }}" required><br><br>
+
+<textarea name="description" required>{{ listing.description }}</textarea><br><br>
+
+<select name="category" required>
+<option value="car" {% if listing.category == 'car' %}selected{% endif %}>Car</option>
+<option value="tool" {% if listing.category == 'tool' %}selected{% endif %}>Tool</option>
+<option value="equipment" {% if listing.category == 'equipment' %}selected{% endif %}>Equipment</option>
+</select><br><br>
+
+<input type="number" name="price_day" value="{{ listing.price_per_day }}" step="0.01" required><br><br>
+<input type="number" name="price_hour" value="{{ listing.price_per_hour }}" step="0.01"><br><br>
+
+<input type="text" name="location" value="{{ listing.location }}" required><br><br>
+
+<button type="submit">Save Changes</button>
+</form>
+{% endblock %}
+

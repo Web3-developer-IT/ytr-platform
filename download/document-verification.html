@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification & Alerts | Yours To Rent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+    <style>
+        :root { --sidebar-width: 280px; }
+        body { background: #0a0a0a; }
+        .dashboard-wrapper { display: flex; min-height: 100vh; }
+        .main-content { flex: 1; margin-left: var(--sidebar-width); padding: 30px; color: #fff; }
+        .card-dark {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+        }
+        .muted { color: rgba(255,255,255,0.65); }
+        .doc-status { font-size: 0.8rem; border-radius: 999px; padding: 4px 10px; }
+        .status-pending { background: rgba(255,193,7,0.2); color: #ffc107; }
+        .status-approved { background: rgba(25,135,84,0.22); color: #3ddc97; }
+        .status-rejected { background: rgba(220,53,69,0.22); color: #ff6b81; }
+        @media (max-width: 1200px) {
+            .sidebar { transform: translateX(-100%); transition: transform .3s ease; }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body class="ytr-account-body">
+<div class="dashboard-wrapper">
+    {% include 'partials/account_sidebar.html' %}
+    <main class="main-content">
+        {% include 'partials/account_topbar.html' %}
+
+        <div class="mb-4">
+            <h1 class="mb-2">Verification & Admin Alerts</h1>
+            <p class="muted mb-0">Upload verification documents and track admin notifications.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="card-dark p-4">
+                    <h5 class="mb-3"><i class="fas fa-file-upload me-2"></i>Upload document</h5>
+                    <form method="post" enctype="multipart/form-data" action="{% url 'documents_center' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label muted">Document Type</label>
+                            <select name="document_type" class="form-select" required>
+                                <option value="">Select type</option>
+                                <option value="id_document">ID Document</option>
+                                <option value="drivers_license">Driver's License</option>
+                                <option value="proof_of_address">Proof of Address</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label muted">File</label>
+                            <input type="file" name="document_file" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 fw-bold">Submit For Verification</button>
+                    </form>
+                </div>
+
+                <div class="card-dark p-4 mt-4">
+                    <h5 class="mb-3"><i class="fas fa-bell me-2"></i>Admin Alerts</h5>
+                    {% if notifications %}
+                        <div class="d-grid gap-2">
+                            {% for n in notifications %}
+                                <div class="border border-secondary-subtle rounded p-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <strong>{{ n.title }}</strong>
+                                        {% if n.id in notification_read_ids %}
+                                            <span class="badge text-bg-secondary">Read</span>
+                                        {% else %}
+                                            <a href="{% url 'mark_notification_read' n.id %}" class="badge text-bg-warning text-dark text-decoration-none">Mark read</a>
+                                        {% endif %}
+                                    </div>
+                                    <p class="muted mb-1 mt-2">{{ n.message }}</p>
+                                    <small class="muted">{{ n.created_at|date:"M d, Y H:i" }}</small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="muted mb-0">No active notifications.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card-dark p-4">
+                    <h5 class="mb-3"><i class="fas fa-shield-check me-2"></i>My Verification Documents</h5>
+                    {% if documents %}
+                        <div class="table-responsive">
+                            <table class="table table-dark table-borderless align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Uploaded</th>
+                                        <th>Status</th>
+                                        <th>Admin Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for d in documents %}
+                                    <tr>
+                                        <td>{{ d.get_document_type_display }}</td>
+                                        <td>{{ d.submitted_at|date:"M d, Y" }}</td>
+                                        <td>
+                                            <span class="doc-status status-{{ d.status }}">{{ d.status|title }}</span>
+                                        </td>
+                                        <td>{{ d.review_notes|default:"-" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="muted mb-0">No documents submitted yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% include 'partials/account_shell_scripts.html' %}
+</body>
+</html>

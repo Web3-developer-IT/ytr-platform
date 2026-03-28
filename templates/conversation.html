@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Conversation | Yours To Rent{% endblock %}
+{% block content %}
+<h2 class="mb-3">Conversation about {{ listing.title }}</h2>
+<div class="p-3 rounded-4 mb-3" style="background:#111;border:1px solid rgba(255,255,255,.08)">
+    {% for message in messages %}
+        <div class="mb-3">
+            <strong>{{ message.sender.username }}:</strong> {{ message.content }}<br>
+            <small class="text-white-50">{{ message.created_at }}</small>
+        </div>
+    {% empty %}
+        <p class="text-white-50 mb-0">No messages yet.</p>
+    {% endfor %}
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    <textarea class="form-control bg-dark text-white border-secondary mb-3" name="content" placeholder="Type your message..." required></textarea>
+    <button class="btn btn-warning" type="submit">Send Message</button>
+</form>
+{% endblock %}

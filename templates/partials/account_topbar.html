@@ -1,0 +1,36 @@
+{% load static %}
+<div class="ytr-account-top-bar">
+  <button type="button" class="btn btn-outline-light d-lg-none" onclick="toggleSidebar()" aria-label="Open menu">
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="ytr-topbar-heading flex-grow-1 min-w-0">
+    <h1>{{ topbar_title|default:"Account" }}</h1>
+    {% if topbar_subtitle %}
+    <p>{{ topbar_subtitle }}</p>
+    {% endif %}
+  </div>
+  <form class="search-box" method="get" action="{% url 'browse' %}" role="search">
+    <i class="fas fa-search" aria-hidden="true"></i>
+    <input type="search" name="q" placeholder="Search listings, locations…" value="{{ request.GET.q|default:'' }}" autocomplete="off" aria-label="Search marketplace">
+  </form>
+  <div class="top-bar-actions">
+    <a href="{% url 'documents_center' %}" class="notification-btn" title="Alerts &amp; verification">
+      <i class="fas fa-bell"></i>
+      {% if sidebar_notification_count %}<span class="badge-dot" aria-hidden="true"></span>{% endif %}
+    </a>
+    <a href="{% url 'inbox' %}" class="message-btn" title="Messages">
+      <i class="fas fa-envelope"></i>
+      {% if sidebar_message_count %}<span class="badge-dot" aria-hidden="true"></span>{% endif %}
+    </a>
+    <div class="dropdown">
+      <button type="button" class="btn btn-warning text-dark fw-bold dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-plus me-1"></i>New
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+        <li><a class="dropdown-item" href="{% url 'add_listing' %}"><i class="fas fa-car me-2"></i>List vehicle</a></li>
+        <li><a class="dropdown-item" href="{% url 'browse' %}?commercial=1"><i class="fas fa-truck me-2"></i>Browse commercial</a></li>
+        <li><a class="dropdown-item" href="{% url 'owner_dashboard' %}"><i class="fas fa-th-large me-2"></i>Dashboard</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

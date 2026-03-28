@@ -1,0 +1,45 @@
+/* Account page hero strip — cars band + headline */
+.ytr-acct-hero {
+  position: relative;
+  overflow: hidden;
+  background: #050508;
+}
+.ytr-acct-hero__sky {
+  padding: 48px 24px 28px;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 180, 60, 0.08), transparent 55%);
+}
+.ytr-acct-hero__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.ytr-acct-hero__title {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  color: #fff;
+  margin: 0 0 10px;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.ytr-acct-hero__sub {
+  color: rgba(255,255,255,0.65);
+  margin: 0;
+  max-width: 720px;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+.ytr-acct-hero__cars {
+  border-top: 1px solid rgba(255, 190, 80, 0.2);
+  background: linear-gradient(180deg, #050508 0%, #0a0a0c 100%);
+}
+.ytr-acct-hero__cars-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: cover;
+  object-position: center 40%;
+  opacity: 0.95;
+}

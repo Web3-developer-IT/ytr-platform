@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YourStoreNT | Rent Anything</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f5f7fa;
+color:#333;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:#0f172a;
+color:white;
+}
+
+nav a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.hero{
+height:85vh;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+background:linear-gradient(120deg,#0f172a,#2563eb);
+color:white;
+}
+
+.hero h1{
+font-size:55px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:20px;
+max-width:700px;
+}
+
+.cta-btn{
+margin-top:30px;
+padding:15px 40px;
+background:#facc15;
+border:none;
+font-size:18px;
+cursor:pointer;
+border-radius:5px;
+}
+
+.features{
+padding:80px 8%;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:40px;
+}
+
+.feature-card{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+transition:.3s;
+}
+
+.feature-card:hover{
+transform:translateY(-10px);
+}
+
+.feature-card h3{
+margin-bottom:15px;
+}
+
+.listings{
+padding:80px 8%;
+background:white;
+}
+
+.listing-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.listing-card{
+background:#f9fafb;
+padding:20px;
+border-radius:8px;
+box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+footer{
+background:#0f172a;
+color:white;
+padding:40px;
+text-align:center;
+margin-top:80px;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<h2>YourStoreNT</h2>
+<div><!-----
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'about' %}">About</a>
+<a href="{% url 'how_it_works' %}">How It Works</a>
+</div> ---->
+</nav>
+
+<section class="hero">
+<h1>Rent Anything. Anytime.</h1>
+<p>YourStoreNT connects people who want to rent items with people who own them.</p>
+<button class="cta-btn" onclick="explore()">Explore Listings</button>
+</section>
+
+<section class="features">
+
+<div class="feature-card">
+<h3>List Your Items</h3>
+<p>Turn your unused equipment, vehicles, or tools into passive income.</p>
+</div>
+
+<div class="feature-card">
+<h3>Secure Bookings</h3>
+<p>All transactions and bookings are protected and verified.</p>
+</div>
+
+<div class="feature-card">
+<h3>Trusted Community</h3>
+<p>Verified users, ratings, and reviews keep the marketplace safe.</p>
+</div>
+
+</section>
+
+<section class="listings">
+
+<h2 style="margin-bottom:40px;">Popular Rentals</h2>
+
+<div class="listing-grid">
+
+<div class="listing-card">
+<h4>Luxury Car</h4>
+<p>$120/day</p>
+</div>
+
+<div class="listing-card">
+<h4>Camera Kit</h4>
+<p>$40/day</p>
+</div>
+
+<div class="listing-card">
+<h4>Construction Tools</h4>
+<p>$35/day</p>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+<p>© 2026 YourStoreNT Platform</p>
+</footer>
+
+<script>
+
+function explore(){
+window.location.href="/listings/";
+}
+
+</script>
+
+</body>
+</html>

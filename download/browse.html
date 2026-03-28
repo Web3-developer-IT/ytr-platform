@@ -1,0 +1,1104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Vehicles | Yours To Rent</title>
+    <meta name="description" content="Browse live vehicle listings on Yours To Rent — commercial fleet focus at launch; more categories rolling out over time.">
+    
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-orange: #E8722A;
+            --primary-red: #C41E3A;
+            --dark-bg: #0A0A0B;
+            --dark-card: #111113;
+            --dark-border: #1E1E22;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A, #C41E3A);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 4px; }
+        
+        /* Navbar */
+        .navbar-ytr {
+            background: rgba(10, 10, 11, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-secondary) !important; font-weight: 500; padding: 8px 18px !important; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-gold) !important; }
+        .btn-nav-primary { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 24px; border-radius: 8px; }
+        .btn-nav-outline { border: 1px solid var(--primary-gold); color: var(--primary-gold); padding: 10px 24px; border-radius: 8px; }
+        
+        /* Page Header */
+        .page-header {
+            padding: 140px 0 60px;
+            background: linear-gradient(180deg, rgba(212, 168, 83, 0.1) 0%, var(--dark-bg) 100%);
+        }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 15px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+        
+        /* Filters Sidebar */
+        .filters-section {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 16px;
+            padding: 25px;
+            position: sticky;
+            top: 100px;
+        }
+        .filter-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+        .filter-title a { color: var(--primary-gold); font-size: 0.85rem; font-weight: 500; text-decoration: none; }
+        .filter-group { margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid var(--dark-border); }
+        .filter-group:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .filter-label { font-weight: 600; font-size: 0.9rem; margin-bottom: 12px; display: block; }
+        .filter-input { width: 100%; background: var(--dark-bg); border: 1px solid var(--dark-border); border-radius: 10px; padding: 12px 15px; color: var(--text-primary); transition: all 0.3s; }
+        .filter-input:focus { outline: none; border-color: var(--primary-gold); }
+        
+        /* Custom Checkbox */
+        .filter-checkbox { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; }
+        .filter-checkbox input { display: none; }
+        .filter-checkbox .checkmark {
+            width: 22px; height: 22px; border: 2px solid var(--dark-border); border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+        }
+        .filter-checkbox input:checked + .checkmark { background: var(--gradient-gold); border-color: var(--primary-gold); }
+        .filter-checkbox input:checked + .checkmark::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 12px; color: #000; }
+        .filter-checkbox span:last-child { color: var(--text-secondary); font-size: 0.9rem; }
+        .filter-checkbox span:last-child small { color: var(--text-muted); }
+        
+        /* Price Slider */
+        .price-slider { margin: 20px 0; }
+        .noUi-target { background: var(--dark-border); border: none; box-shadow: none; height: 6px; }
+        .noUi-connect { background: var(--gradient-gold); }
+        .noUi-handle { width: 20px; height: 20px; border-radius: 50%; background: var(--primary-gold); border: 3px solid var(--dark-bg); box-shadow: none; top: -7px; cursor: pointer; }
+        .noUi-handle:before, .noUi-handle:after { display: none; }
+        .price-range-display { display: flex; justify-content: space-between; margin-top: 15px; }
+        .price-range-display span { background: var(--dark-bg); padding: 8px 15px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+        
+        /* Quick Filters */
+        .quick-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+        .quick-filter {
+            background: var(--dark-card); border: 1px solid var(--dark-border); padding: 10px 20px;
+            border-radius: 50px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none; color: inherit;
+        }
+        .quick-filter:hover, .quick-filter.active { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .quick-filter .count { background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; }
+        
+        /* Sort & View Options */
+        .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .results-count { font-size: 0.95rem; color: var(--text-secondary); }
+        .results-count strong { color: var(--text-primary); }
+        .sort-options { display: flex; align-items: center; gap: 15px; }
+        .sort-select { background: var(--dark-card); border: 1px solid var(--dark-border); color: var(--text-primary); padding: 10px 15px; border-radius: 8px; font-size: 0.9rem; }
+        .view-toggle { display: flex; gap: 5px; }
+        .view-btn { width: 40px; height: 40px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 8px; color: var(--text-muted); cursor: pointer; transition: all 0.3s; }
+        .view-btn.active, .view-btn:hover { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        
+        /* Vehicle Grid */
+        .vehicles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .vehicles-grid.list-view { grid-template-columns: 1fr; }
+        
+        /* Vehicle Card */
+        .vehicle-card {
+            background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px;
+            overflow: hidden; transition: all 0.4s ease;
+        }
+        .vehicle-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.15); border-color: rgba(212, 168, 83, 0.3); }
+        .vehicle-image { position: relative; height: 200px; overflow: hidden; }
+        .vehicle-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .vehicle-card:hover .vehicle-image img { transform: scale(1.1); }
+        .vehicle-badges { position: absolute; top: 15px; left: 15px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .vehicle-badge { background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .vehicle-badge.featured { background: var(--gradient-gold); color: #000; }
+        .vehicle-badge.instant { background: rgba(34, 197, 94, 0.9); color: #fff; }
+        .vehicle-badge.superhost { background: rgba(168, 85, 247, 0.9); color: #fff; }
+        .vehicle-favorite { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: rgba(0,0,0,0.7); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; color: #fff; transition: all 0.3s; }
+        .vehicle-favorite:hover, .vehicle-favorite.active { background: var(--primary-red); }
+        .vehicle-content { padding: 20px; }
+        .vehicle-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .vehicle-category { font-size: 0.8rem; color: var(--primary-gold); font-weight: 500; }
+        .vehicle-rating { display: flex; align-items: center; gap: 5px; font-size: 0.85rem; }
+        .vehicle-rating i { color: var(--primary-gold); }
+        .vehicle-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+        .vehicle-title a { color: var(--text-primary); text-decoration: none; }
+        .vehicle-title a:hover { color: var(--primary-gold); }
+        .vehicle-location { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
+        .vehicle-specs { display: flex; gap: 12px; padding: 15px 0; border-top: 1px solid var(--dark-border); border-bottom: 1px solid var(--dark-border); margin-bottom: 15px; flex-wrap: wrap; }
+        .spec-item { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--text-secondary); }
+        .spec-item i { color: var(--primary-gold); font-size: 0.9rem; }
+        .vehicle-footer { display: flex; align-items: center; justify-content: space-between; }
+        .vehicle-price { font-size: 1.2rem; font-weight: 700; }
+        .vehicle-price span { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); }
+        .btn-book { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 20px; border-radius: 8px; transition: all 0.3s; text-decoration: none; }
+        .btn-book:hover { transform: scale(1.05); color: #000; }
+        
+        /* List View */
+        .vehicles-grid.list-view .vehicle-card { display: grid; grid-template-columns: 300px 1fr; }
+        .vehicles-grid.list-view .vehicle-image { height: 100%; min-height: 220px; }
+        .vehicles-grid.list-view .vehicle-content { display: flex; flex-direction: column; justify-content: center; }
+        
+        /* Pagination */
+        .pagination-wrapper { display: flex; justify-content: center; margin-top: 50px; }
+        .pagination { display: flex; gap: 8px; }
+        .page-link-custom {
+            width: 45px; height: 45px; background: var(--dark-card); border: 1px solid var(--dark-border);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary); font-weight: 600; transition: all 0.3s; text-decoration: none;
+        }
+        .page-link-custom:hover, .page-link-custom.active { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        
+        /* Mobile Filter Button */
+        .mobile-filter-btn {
+            display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--gradient-gold); color: #000; font-weight: 700; padding: 15px 30px;
+            border-radius: 50px; border: none; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Footer */
+        .footer { background: var(--dark-bg); padding: 60px 0 30px; border-top: 1px solid var(--dark-border); margin-top: 80px; }
+        .footer-logo { height: 40px; margin-bottom: 15px; }
+        .footer-text { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+        .footer-title { font-weight: 700; margin-bottom: 20px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .footer-bottom { border-top: 1px solid var(--dark-border); padding-top: 25px; margin-top: 40px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; }
+        .footer-copyright { color: var(--text-muted); font-size: 0.85rem; }
+        
+        @media (max-width: 1200px) {
+            .vehicles-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 992px) {
+            .filters-section { display: none; }
+            .mobile-filter-btn { display: block; }
+            .page-title { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .vehicles-grid { grid-template-columns: 1fr; }
+            .vehicles-grid.list-view .vehicle-card { grid-template-columns: 1fr; }
+            .quick-filters { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 10px; }
+            .quick-filter { white-space: nowrap; }
+        }
+    </style>
+ <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-orange: #E8722A;
+            --primary-red: #C41E3A;
+            --dark-bg: #0A0A0B;
+            --dark-card: #111113;
+            --dark-border: #1E1E22;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A, #C41E3A);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); line-height: 1.6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 4px; }
+        
+        .navbar-ytr { background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--dark-border); padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-secondary) !important; font-weight: 500; padding: 8px 18px !important; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-gold) !important; }
+        .btn-nav-primary { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 24px; border-radius: 8px; }
+        .btn-nav-outline { border: 1px solid var(--primary-gold); color: var(--primary-gold); background: transparent; padding: 10px 24px; border-radius: 8px; }
+        
+        /* Hero */
+        .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920') center/cover no-repeat; opacity: 0.1; }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; color: #22c55e; margin-bottom: 25px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
+        .hero-title .gradient-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 550px; }
+        .hero-cta { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 50px; }
+        .btn-hero { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        .btn-hero-outline { background: transparent; border: 2px solid var(--dark-border); color: var(--text-primary); }
+        .btn-hero-outline:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+        
+        /* Earnings Calculator */
+        .earnings-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 24px; padding: 40px; }
+        .earnings-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .earnings-title i { color: var(--primary-gold); }
+        .earnings-field { margin-bottom: 25px; }
+        .earnings-label { display: block; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .earnings-select { width: 100%; background: var(--dark-bg); border: 1px solid var(--dark-border); border-radius: 12px; padding: 14px 16px; color: var(--text-primary); font-size: 1rem; cursor: pointer; }
+        .earnings-select:focus { outline: none; border-color: var(--primary-gold); }
+        .earnings-slider { width: 100%; margin: 15px 0; }
+        .days-display { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
+        .earnings-result { background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); border-radius: 16px; padding: 25px; text-align: center; margin-top: 20px; }
+        .earnings-amount { font-size: 3rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .earnings-period { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 15px; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        
+        /* Why List */
+        .why-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 40px 30px; height: 100%; transition: all 0.4s; }
+        .why-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.1); }
+        .why-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin-bottom: 25px; transition: all 0.4s; }
+        .why-card:hover .why-icon { background: var(--gradient-gold); color: #000; }
+        .why-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+        .why-text { color: var(--text-secondary); }
+        
+        /* Requirements */
+        .requirements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .requirement-item { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 16px; padding: 25px; display: flex; gap: 20px; transition: all 0.3s; }
+        .requirement-item:hover { border-color: var(--primary-gold); }
+        .requirement-icon { width: 50px; height: 50px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.3rem; flex-shrink: 0; }
+        .requirement-title { font-weight: 600; margin-bottom: 5px; }
+        .requirement-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* Testimonials */
+        .testimonial-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 35px; height: 100%; }
+        .testimonial-stars { color: var(--primary-gold); margin-bottom: 20px; }
+        .testimonial-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 15px; }
+        .testimonial-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-gold); }
+        .testimonial-name { font-weight: 600; }
+        .testimonial-info { font-size: 0.85rem; color: var(--text-muted); }
+        .testimonial-earnings { background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-left: auto; }
+        
+        /* Protection */
+        .protection-section { background: var(--dark-card); border-radius: 30px; padding: 60px; }
+        .protection-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .protection-item { text-align: center; }
+        .protection-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin: 0 auto 15px; }
+        .protection-title { font-weight: 600; margin-bottom: 8px; }
+        .protection-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* CTA */
+        .cta-section { background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, rgba(232, 114, 42, 0.1) 100%); border-radius: 30px; padding: 80px; text-align: center; position: relative; overflow: hidden; }
+        .cta-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 20px; }
+        .cta-text { color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn-cta { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 50px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        
+        .footer { background: var(--dark-bg); padding: 80px 0 30px; border-top: 1px solid var(--dark-border); margin-top: 100px; }
+        .footer-logo { height: 50px; margin-bottom: 20px; }
+        .footer-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; max-width: 300px; }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 45px; height: 45px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s; }
+        .footer-social a:hover { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .footer-title { font-weight: 700; margin-bottom: 25px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .footer-bottom { border-top: 1px solid var(--dark-border); padding-top: 30px; margin-top: 60px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-copyright { color: var(--text-muted); font-size: 0.9rem; }
+        
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3rem; }
+            .requirements-grid { grid-template-columns: 1fr; }
+            .protection-grid { grid-template-columns: repeat(2, 1fr); }
+            .cta-section { padding: 50px 30px; }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .protection-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+   <!-- =========================================================
+YTR ENTERPRISE NAV + HERO SYSTEM v4.0 (FULLY RESPONSIVE)
+PASTE ONCE • MOBILE-FIRST • ENTERPRISE SAFE
+========================================================= -->
+
+<style>
+/* ================= RESET & SAFETY ================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  background: #000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ================= NAVBAR ================= */
+.ytrE-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 88px;
+  z-index: 100000;
+  background: rgba(0,0,0,0.97);
+  border-bottom: 1px solid rgba(255,69,0,0.4);
+  backdrop-filter: blur(14px);
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink { height: 64px; }
+
+.ytrE-nav-inner {
+  max-width: 1480px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ytrE-logo img {
+  height: 44px;
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink .ytrE-logo img { height: 34px; }
+
+/* ================= DESKTOP LINKS ================= */
+.ytrE-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+.ytrE-links a {
+  position: relative;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+.ytrE-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg,#ff4500,#ff7a18);
+  transition: width .25s ease;
+}
+.ytrE-links a:hover::after { width: 100%; }
+
+/* ================= ACTIONS ================= */
+.ytrE-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ytrE-login {
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.ytrE-signup {
+  padding: 7px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#ff4500,#ff7a18);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+/* ================= BURGER ================= */
+.ytrE-burger {
+  display: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ================= MEGA MENU ================= */
+.ytrE-mega {
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: #0b0b0b;
+  display: none;
+}
+.ytrE-mega.show { display: block; }
+
+.ytrE-mega-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 32px;
+}
+.ytrE-mega h6 {
+  margin: 0 0 12px;
+  color: #ff7a18;
+  font-size: 14px;
+}
+.ytrE-mega a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* ================= MOBILE DRAWER ================= */
+.ytrE-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(88%, 380px);
+  background: #050505;
+  z-index: 200000;
+  transform: translateX(-100%);
+  transition: transform .35s ease;
+  padding: 90px 22px 30px;
+}
+.ytrE-drawer.open { transform: translateX(0); }
+
+.ytrE-drawer a {
+  display: block;
+  padding: 14px 0;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ================= HERO ================= */
+.ytrE-hero {
+  padding-top: 140px;
+  padding-bottom: 120px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,69,0,0.18), transparent 45%),
+    radial-gradient(circle at 88% 20%, rgba(255,122,24,0.15), transparent 45%),
+    #000;
+}
+.ytrE-hero-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 56px;
+  align-items: center;
+}
+.ytrE-hero-img img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 60px 140px rgba(0,0,0,0.9));
+}
+.ytrE-hero h1 {
+  color: #fff;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.12;
+  margin: 0;
+}
+.ytrE-hero p {
+  margin-top: 18px;
+  max-width: 560px;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.6;
+}
+
+/* ================= STATS ================= */
+.ytrE-stats {
+  margin-top: 38px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px;
+}
+.ytrE-stat {
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .ytrE-links, .ytrE-actions { display: none; }
+  .ytrE-burger { display: block; }
+}
+
+@media (max-width: 900px) {
+  .ytrE-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .ytrE-hero p { margin-left: auto; margin-right: auto; }
+  .ytrE-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+</style>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="ytrE-nav" id="ytrENav">
+  <div class="ytrE-nav-inner">
+    <a href="{% url 'home' %}" class="ytrE-logo d-flex">
+      <img src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" height="42" width="132" decoding="async">
+      <span class="ytrE-tagline d-none d-lg-inline" style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.72);max-width:200px;line-height:1.25;">South Africa&rsquo;s Premier Vehicle Marketplace</span>
+    </a>
+
+    <div class="ytrE-links">
+      <a href="{% url 'browse' %}" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="{% url 'how_it_works' %}">How It Works</a>
+      <a href="{% url 'add_listing' %}">List Vehicle</a>
+      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'about' %}">Company</a>
+      <a href="{% url 'contact' %}">Support</a>
+    </div>
+
+    <div class="ytrE-actions">
+      {% if user.is_authenticated %}
+      <a href="{% url 'owner_dashboard' %}" class="ytrE-login">Dashboard</a>
+      <a href="{% url 'logout' %}" class="ytrE-signup">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="ytrE-login">Login</a>
+      <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
+      {% endif %}
+    </div>
+
+    <div class="ytrE-burger" id="ytrEBurger">☰</div>
+  </div>
+
+  <!-- Mega Menu -->
+  <div class="ytrE-mega" id="ytrEMega">
+    <div class="ytrE-mega-inner">
+      <div>
+        <h6>By Category</h6>
+        <a>Sedan</a><a>SUV</a><a>Luxury</a><a>Economy</a>
+      </div>
+      <div>
+        <h6>More</h6>
+        <a>Bakkie</a><a>Van</a><a>Commercial</a>
+      </div>
+      <div>
+        <h6>Services</h6>
+        <a>License Test</a><a>Corporate</a>
+      </div>
+      <div>
+        <h6>Featured</h6>
+        <a>BMW 3 Series</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- ================= MOBILE DRAWER ================= -->
+<div class="ytrE-drawer" id="ytrEDrawer">
+<a href="{% url 'home' %}">Homepage</a>
+  <a href="{% url 'browse' %}">Browse Vehicles</a>
+  <a href="{% url 'how_it_works' %}">How It Works</a>
+  <a href="{% url 'add_listing' %}">List Vehicle</a>
+  <a href="{% url 'services' %}">Services</a>
+  <a href="{% url 'about' %}">Company</a>
+  <a href="{% url 'contact' %}">Support</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'owner_dashboard' %}">Dashboard</a>
+  <a href="{% url 'logout' %}">Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'register' %}">Sign Up</a>
+  {% endif %}
+</div>
+
+
+<script>
+/* ================= JS ================= */
+const nav = document.getElementById('ytrENav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) nav.classList.add('shrink');
+  else nav.classList.remove('shrink');
+});
+
+const mega = document.getElementById('ytrEMega');
+const browse = document.getElementById('ytrEBrowse');
+browse && browse.addEventListener('mouseenter',()=>mega.classList.add('show'));
+nav.addEventListener('mouseleave',()=>mega.classList.remove('show'));
+
+const burger = document.getElementById('ytrEBurger');
+const drawer = document.getElementById('ytrEDrawer');
+burger.addEventListener('click',()=>{
+  drawer.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+});
+</script>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title" data-aos="fade-up">Browse Vehicles</h1>
+            <p class="page-subtitle" data-aos="fade-up" data-aos-delay="100">Discover <strong>{{ browse_total }}</strong> live listing{{ browse_total|pluralize }} on the platform{% if page_obj.paginator.count != browse_total %} ({{ page_obj.paginator.count }} match{{ page_obj.paginator.count|pluralize }} your filters){% endif %}.</p>
+        </div>
+    </section>
+
+    {% if commercial_focus %}
+    <div class="container mb-3">
+        <div class="rounded-3 p-3 p-md-4 border border-warning border-opacity-50" style="background: rgba(255,200,80,0.08); color: rgba(255,255,255,0.92);">
+            <strong class="text-warning">Commercial launch focus.</strong>
+            Showing vans, trucks, bakkies, and fleet-style listings.
+            <a href="{% url 'browse' %}" class="text-white fw-semibold ms-1">Browse all body styles</a>
+            <span class="text-white-50"> — luxury daily-driver programmes and additional verticals are <span class="text-warning">coming soon</span>.</span>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Filters -->
+    <div class="container mb-4">
+        <div class="quick-filters" data-aos="fade-up">
+            <a href="{% url 'browse' %}?commercial=1" class="quick-filter{% if commercial_focus %} active{% endif %}">Commercial <span class="count">{{ commercial_total }}</span></a>
+            <a href="{% url 'browse' %}" class="quick-filter{% if not style and not commercial_focus %} active{% endif %}">All <span class="count">{{ browse_total }}</span></a>
+            <a href="{% url 'browse' %}?style=Sedan{% if commercial_focus %}&amp;commercial=1{% endif %}" class="quick-filter{% if style == 'Sedan' %} active{% endif %}">Sedan <span class="count">{{ browse_style_counts.Sedan|default:0 }}</span></a>
+            <a href="{% url 'browse' %}?style=SUV{% if commercial_focus %}&amp;commercial=1{% endif %}" class="quick-filter{% if style == 'SUV' %} active{% endif %}">SUV <span class="count">{{ browse_style_counts.SUV|default:0 }}</span></a>
+            <a href="{% url 'browse' %}?style=Luxury{% if commercial_focus %}&amp;commercial=1{% endif %}" class="quick-filter{% if style == 'Luxury' %} active{% endif %}">Luxury <span class="count">{{ browse_style_counts.Luxury|default:0 }}</span></a>
+            <a href="{% url 'browse' %}?style=Bakkie{% if commercial_focus %}&amp;commercial=1{% endif %}" class="quick-filter{% if style == 'Bakkie' %} active{% endif %}">Bakkie <span class="count">{{ browse_style_counts.Bakkie|default:0 }}</span></a>
+            <a href="{% url 'browse' %}?style=Sports{% if commercial_focus %}&amp;commercial=1{% endif %}" class="quick-filter{% if style == 'Sports' %} active{% endif %}">Sports <span class="count">{{ browse_style_counts.Sports|default:0 }}</span></a>
+            <a href="{% url 'browse' %}?style=Economy{% if commercial_focus %}&amp;commercial=1{% endif %}" class="quick-filter{% if style == 'Economy' %} active{% endif %}">Economy <span class="count">{{ browse_style_counts.Economy|default:0 }}</span></a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-3" data-aos="fade-right">
+                <div class="filters-section">
+                    <form method="get" action="{% url 'browse' %}" id="browseFiltersForm">
+                    {% if commercial_focus %}<input type="hidden" name="commercial" value="1">{% endif %}
+                    {% if style %}<input type="hidden" name="style" value="{{ style }}">{% endif %}
+                    <input type="hidden" name="sort" value="{{ sort }}">
+                    <div class="filter-title">
+                        Filters
+                        <a href="{% url 'browse' %}">Clear All</a>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="filterQ">Search</label>
+                        <input type="search" class="filter-input" id="filterQ" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Make, model, area…" autocomplete="off">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="filterLocation">Location</label>
+                        <select class="filter-input" id="filterLocation" name="location">
+                            <option value="">All locations</option>
+                            <option value="Johannesburg" {% if request.GET.location == 'Johannesburg' %}selected{% endif %}>Johannesburg</option>
+                            <option value="Cape Town" {% if request.GET.location == 'Cape Town' %}selected{% endif %}>Cape Town</option>
+                            <option value="Durban" {% if request.GET.location == 'Durban' %}selected{% endif %}>Durban</option>
+                            <option value="Pretoria" {% if request.GET.location == 'Pretoria' %}selected{% endif %}>Pretoria</option>
+                            <option value="Umhlanga" {% if request.GET.location == 'Umhlanga' %}selected{% endif %}>Umhlanga</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="filterCategory">Category</label>
+                        <select class="filter-input" id="filterCategory" name="category">
+                            <option value="">All categories</option>
+                            <option value="car" {% if request.GET.category == 'car' %}selected{% endif %}>Cars</option>
+                            <option value="tool" {% if request.GET.category == 'tool' %}selected{% endif %}>Tools</option>
+                            <option value="equipment" {% if request.GET.category == 'equipment' %}selected{% endif %}>Equipment</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Price Range (per day)</label>
+                        <input type="hidden" name="min_price" id="minPriceInput" value="{{ request.GET.min_price|default:'200' }}">
+                        <input type="hidden" name="max_price" id="maxPriceInput" value="{{ request.GET.max_price|default:'5000' }}">
+                        <div class="price-slider" id="priceSlider"></div>
+                        <div class="price-range-display">
+                            <span id="priceMin">R200</span>
+                            <span id="priceMax">R5,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Body style (live counts)</label>
+                        <p class="text-white-50 small mb-2">Tap a style to filter — numbers come from your database.</p>
+                        <div class="d-flex flex-column gap-1 small">
+                            <a href="{% url 'browse' %}?style=Sedan" class="text-decoration-none {% if style == 'Sedan' %}text-warning{% else %}text-white-50{% endif %}">Sedan — {{ browse_style_counts.Sedan|default:0 }}</a>
+                            <a href="{% url 'browse' %}?style=SUV" class="text-decoration-none {% if style == 'SUV' %}text-warning{% else %}text-white-50{% endif %}">SUV — {{ browse_style_counts.SUV|default:0 }}</a>
+                            <a href="{% url 'browse' %}?style=Luxury" class="text-decoration-none {% if style == 'Luxury' %}text-warning{% else %}text-white-50{% endif %}">Luxury — {{ browse_style_counts.Luxury|default:0 }}</a>
+                            <a href="{% url 'browse' %}?style=Bakkie" class="text-decoration-none {% if style == 'Bakkie' %}text-warning{% else %}text-white-50{% endif %}">Bakkie — {{ browse_style_counts.Bakkie|default:0 }}</a>
+                            <a href="{% url 'browse' %}?style=Sports" class="text-decoration-none {% if style == 'Sports' %}text-warning{% else %}text-white-50{% endif %}">Sports — {{ browse_style_counts.Sports|default:0 }}</a>
+                            <a href="{% url 'browse' %}?style=Economy" class="text-decoration-none {% if style == 'Economy' %}text-warning{% else %}text-white-50{% endif %}">Economy — {{ browse_style_counts.Economy|default:0 }}</a>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Transmission</label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            <span>Automatic</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            <span>Manual</span>
+                        </label>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Fuel Type</label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            <span>Petrol</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" checked>
+                            <span class="checkmark"></span>
+                            <span>Diesel</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            <span>Electric</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            <span>Hybrid</span>
+                        </label>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Features</label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            <span>Instant Book</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            <span>All-Star Hosts</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            <span>Free Cancellation</span>
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            <span>Delivery Available</span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-nav-primary w-100 mt-2">Apply filters</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Results -->
+            <div class="col-lg-9" data-aos="fade-up">
+                <div class="results-header">
+                    <div class="results-count">
+                        Showing <strong>{% if page_obj.paginator.count %}{{ page_obj.start_index }}–{{ page_obj.end_index }}{% else %}0{% endif %}</strong> of <strong>{{ page_obj.paginator.count }}</strong> vehicles
+                    </div>
+                    <div class="sort-options">
+                        <form method="get" action="{% url 'browse' %}" style="display:inline;">
+                            {% for key, value in query_params.items %}
+                                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                            {% endfor %}
+                        <select class="sort-select" name="sort" onchange="this.form.submit()" aria-label="Sort listings">
+                            <option value="recommended" {% if sort == 'recommended' %}selected{% endif %}>Recommended</option>
+                            <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest Listed</option>
+                            <option value="price_low" {% if sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+                            <option value="price_high" {% if sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+                        </select>
+                        </form>
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i></button>
+                            <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="vehicles-grid" id="vehiclesGrid">
+                    {% for listing in page_obj %}
+                    <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            {% if listing.primary_image_url %}
+                            <img src="{{ listing.primary_image_url }}" alt="{{ listing.title }}" loading="lazy">
+                            {% else %}
+                            <img src="{% static 'images/rental.jpg' %}" alt="{{ listing.title }}">
+                            {% endif %}
+                            <div class="vehicle-badges">
+                                <span class="vehicle-badge featured">Available</span>
+                            </div>
+                            <button type="button" class="vehicle-favorite" aria-label="Favorite"><i class="far fa-heart"></i></button>
+                        </div>
+                        <div class="vehicle-content">
+                            <div class="vehicle-meta">
+                                <span class="vehicle-category">{{ listing.body_style }}</span>
+                                <div class="vehicle-rating text-muted small"><i class="fas fa-star-half-stroke"></i><span>Reviews — coming soon</span></div>
+                            </div>
+                            <h3 class="vehicle-title"><a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a></h3>
+                            <div class="vehicle-location"><i class="fas fa-map-marker-alt"></i><span>{{ listing.location }}</span></div>
+                            <div class="vehicle-specs">
+                                <div class="spec-item"><i class="fas fa-cog"></i> {{ listing.transmission }}</div>
+                                <div class="spec-item"><i class="fas fa-gas-pump"></i> {{ listing.fuel_type }}</div>
+                                <div class="spec-item"><i class="fas fa-user"></i> {{ listing.seats }} Seats</div>
+                                <div class="spec-item"><i class="fas fa-road"></i> {{ listing.mileage_display }}</div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">R{{ listing.price_per_day|floatformat:0 }} <span>/day</span></div>
+                                <a href="{% url 'listing_detail' listing.id %}" class="btn btn-book">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5" style="grid-column: 1 / -1;">
+                        <p class="text-white-50 mb-3">No listings match your filters yet.</p>
+                        <a href="{% url 'browse' %}" class="btn btn-outline-light">View all vehicles</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if paginator.num_pages > 1 %}
+                <div class="pagination-wrapper">
+                    <div class="pagination">
+                        {% if page_obj.has_previous %}
+                        <a href="{% url 'browse' %}?{% if query_params.urlencode %}{{ query_params.urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}" class="page-link-custom" aria-label="Previous page"><i class="fas fa-chevron-left"></i></a>
+                        {% else %}
+                        <span class="page-link-custom" style="opacity:0.35;pointer-events:none;"><i class="fas fa-chevron-left"></i></span>
+                        {% endif %}
+                        {% for n in page_numbers %}
+                        <a href="{% url 'browse' %}?{% if query_params.urlencode %}{{ query_params.urlencode }}&{% endif %}page={{ n }}" class="page-link-custom{% if n == page_obj.number %} active{% endif %}">{{ n }}</a>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                        <a href="{% url 'browse' %}?{% if query_params.urlencode %}{{ query_params.urlencode }}&{% endif %}page={{ page_obj.next_page_number }}" class="page-link-custom" aria-label="Next page"><i class="fas fa-chevron-right"></i></a>
+                        {% else %}
+                        <span class="page-link-custom" style="opacity:0.35;pointer-events:none;"><i class="fas fa-chevron-right"></i></span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Filter Button -->
+    <button class="mobile-filter-btn">
+        <i class="fas fa-filter me-2"></i>Filters
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <img src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" class="footer-logo" height="48" width="160" decoding="async">
+                    <p class="footer-text">Your fleet. Your services. Your terms. South Africa's premier vehicle rental marketplace.</p>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'browse' %}">Browse Vehicles</a></li>
+                        <li><a href="{% url 'add_listing' %}">List Your Car</a></li>
+                        <li><a href="{% url 'how_it_works' %}">How It Works</a></li>
+                      
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5 class="footer-title">Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'services' %}">Services</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5 class="footer-title">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'help_center' %}">Help Center</a></li>
+                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                        <li><a href="{% url 'faq' %}">Trust &amp; Safety</a></li>
+                        <li><a href="{% url 'faq' %}">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2 mb-4">
+                    <h5 class="footer-title">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'faq' %}">Policies &amp; FAQ</a></li>
+                        <li><a href="{% url 'feedback' %}">Feedback</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">&copy; 2026 Yours To Rent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-out', once: true });
+        
+        // Price Slider (syncs min/max to GET filters)
+        const priceSlider = document.getElementById('priceSlider');
+        const minPriceInput = document.getElementById('minPriceInput');
+        const maxPriceInput = document.getElementById('maxPriceInput');
+        const startMin = minPriceInput ? parseFloat(minPriceInput.value) || 200 : 200;
+        const startMax = maxPriceInput ? parseFloat(maxPriceInput.value) || 5000 : 5000;
+        noUiSlider.create(priceSlider, {
+            start: [startMin, startMax],
+            connect: true,
+            range: { 'min': 100, 'max': 10000 },
+            step: 50
+        });
+        
+        priceSlider.noUiSlider.on('update', function(values) {
+            document.getElementById('priceMin').textContent = 'R' + Math.round(values[0]);
+            document.getElementById('priceMax').textContent = 'R' + Math.round(values[1]);
+            if (minPriceInput) minPriceInput.value = Math.round(values[0]);
+            if (maxPriceInput) maxPriceInput.value = Math.round(values[1]);
+        });
+        
+        // View Toggle
+        const viewBtns = document.querySelectorAll('.view-btn');
+        const vehiclesGrid = document.getElementById('vehiclesGrid');
+        
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                viewBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                if (this.dataset.view === 'list') {
+                    vehiclesGrid.classList.add('list-view');
+                } else {
+                    vehiclesGrid.classList.remove('list-view');
+                }
+            });
+        });
+        
+        // Favorite Toggle
+        document.querySelectorAll('.vehicle-favorite').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.classList.toggle('active');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('far');
+                icon.classList.toggle('fas');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+/* Global readability + contrast (dark UI) */
+:root {
+  --ytr-text-primary: #f3f4f6;
+  --ytr-text-muted: #b8c0cc;
+  --ytr-link: #ffc857;
+  --ytr-link-hover: #ffe08a;
+}
+
+body {
+  color: var(--ytr-text-primary) !important;
+}
+
+p,
+li,
+small,
+.footer-text,
+.text-muted {
+  color: var(--ytr-text-muted) !important;
+}
+
+a:not(.btn):not(.nav-link):not(.page-link-custom):not(.ytrE-logo) {
+  color: var(--ytr-link);
+}
+
+a:not(.btn):not(.nav-link):not(.page-link-custom):not(.ytrE-logo):hover {
+  color: var(--ytr-link-hover);
+}
+
+.results-count strong,
+.vehicle-title a,
+.footer-title {
+  color: #ffffff !important;
+}
+
+.vehicle-specs .spec-item,
+.vehicle-location span {
+  color: #d7dde6 !important;
+}
+
+.pagination .page-link-custom {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+.pagination .page-link-custom.active,
+.pagination .page-link-custom:hover {
+  background: rgba(255, 200, 60, 0.18) !important;
+  border-color: rgba(255, 200, 60, 0.45) !important;
+  color: #ffd200 !important;
+}

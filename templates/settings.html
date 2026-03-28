@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Yours To Rent</title>
+    <meta name="description" content="Manage your account settings on Yours To Rent.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <style>
+        :root {
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            background: #0a0a0a;
+        }
+        
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+        
+        .sidebar-nav .nav-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 25px 10px;
+        }
+        
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+        
+        .sidebar-nav .nav-link i {
+            width: 24px;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+        }
+        
+        .page-header {
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            color: #fff;
+            font-weight: 700;
+        }
+        
+        .settings-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .settings-nav .nav-btn {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .settings-nav .nav-btn:hover,
+        .settings-nav .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: transparent;
+            color: #000;
+        }
+        
+        .settings-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .settings-card .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .settings-card .card-header h4 {
+            color: #fff;
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .settings-card .card-body {
+            padding: 30px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .setting-item:first-child {
+            padding-top: 0;
+        }
+        
+        .setting-item .info h5 {
+            color: #fff;
+            margin: 0 0 5px;
+            font-weight: 500;
+        }
+        
+        .setting-item .info p {
+            color: rgba(255,255,255,0.5);
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .form-switch .form-check-input {
+            width: 50px;
+            height: 26px;
+            background-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+        
+        .form-switch .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .form-switch .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255,165,0,0.25);
+        }
+        
+        .custom-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            padding: 15px 20px;
+        }
+        
+        .custom-input:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255,165,0,0.1);
+            color: #fff;
+        }
+        
+        .custom-input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+        
+        .security-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .security-item .icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+        }
+        
+        .security-item .icon i {
+            font-size: 20px;
+            color: #000;
+        }
+        
+        .security-item .info {
+            flex: 1;
+        }
+        
+        .security-item .info h5 {
+            color: #fff;
+            margin: 0 0 5px;
+        }
+        
+        .security-item .info p {
+            color: rgba(255,255,255,0.5);
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .security-item .status {
+            text-align: right;
+        }
+        
+        .security-item .status .badge {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background: rgba(0,200,83,0.1);
+            color: #00c853;
+        }
+        
+        .badge-warning {
+            background: rgba(255,165,0,0.1);
+            color: #ffa500;
+        }
+        
+        .connected-accounts {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .account-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        
+        .account-item .info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .account-item .info .icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .account-item .info .icon.google {
+            background: #fff;
+            color: #4285f4;
+        }
+        
+        .account-item .info .icon.facebook {
+            background: #1877f2;
+            color: #fff;
+        }
+        
+        .account-item .info .icon.apple {
+            background: #000;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .danger-zone {
+            border-color: rgba(255,68,68,0.3);
+        }
+        
+        .danger-zone .card-header {
+            border-bottom-color: rgba(255,68,68,0.3);
+        }
+        
+        .danger-zone .card-header h4 {
+            color: #ff4444;
+        }
+        
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
+                </a>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="d-flex align-items-center">
+                    <img src="/placeholder.svg?height=60&width=60" alt="User" class="avatar me-3">
+                    <div>
+                        <h6 class="text-white mb-0">John Doe</h6>
+                        <small class="text-white-50">Premium Member</small>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-label">Main Menu</div>
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="my-bookings.html" class="nav-link">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>My Bookings</span>
+                </a>
+                <a href="my-vehicles.html" class="nav-link">
+                    <i class="fas fa-car"></i>
+                    <span>My Vehicles</span>
+                </a>
+                <a href="messages.html" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                
+                <div class="nav-label">Finance</div>
+                <a href="earnings.html" class="nav-link">
+                    <i class="fas fa-wallet"></i>
+                    <span>Earnings</span>
+                </a>
+                <a href="transactions.html" class="nav-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </a>
+                
+                <div class="nav-label">Account</div>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="settings.html" class="nav-link active">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <button class="btn btn-outline-light d-lg-none mb-4" onclick="document.getElementById('sidebar').classList.toggle('active')">
+                <i class="fas fa-bars me-2"></i>Menu
+            </button>
+            
+            <div class="page-header">
+                <h1>Settings</h1>
+                <p class="text-white-50">Manage your account preferences and security</p>
+            </div>
+            
+            <!-- Settings Navigation -->
+            <div class="settings-nav">
+                <button class="nav-btn active" data-tab="general">General</button>
+                <button class="nav-btn" data-tab="notifications">Notifications</button>
+                <button class="nav-btn" data-tab="security">Security</button>
+                <button class="nav-btn" data-tab="privacy">Privacy</button>
+                <button class="nav-btn" data-tab="connected">Connected Accounts</button>
+            </div>
+            
+            <!-- General Settings -->
+            <div class="settings-section" id="general-section">
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Account Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Full Name</label>
+                                <input type="text" class="form-control custom-input" value="John Doe">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Email Address</label>
+                                <input type="email" class="form-control custom-input" value="john@example.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Phone Number</label>
+                                <input type="tel" class="form-control custom-input" value="+27 82 123 4567">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Date of Birth</label>
+                                <input type="date" class="form-control custom-input" value="1990-05-15">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-white-50">Address</label>
+                                <input type="text" class="form-control custom-input" value="123 Main Street, Cape Town, 8001">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Language & Region</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Language</label>
+                                <select class="form-select custom-input">
+                                    <option>English</option>
+                                    <option>Afrikaans</option>
+                                    <option>Zulu</option>
+                                    <option>Xhosa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Currency</label>
+                                <select class="form-select custom-input">
+                                    <option>ZAR (R)</option>
+                                    <option>USD ($)</option>
+                                    <option>EUR (€)</option>
+                                    <option>GBP (£)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Timezone</label>
+                                <select class="form-select custom-input">
+                                    <option>Africa/Johannesburg (GMT+2)</option>
+                                    <option>UTC</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Date Format</label>
+                                <select class="form-select custom-input">
+                                    <option>DD/MM/YYYY</option>
+                                    <option>MM/DD/YYYY</option>
+                                    <option>YYYY-MM-DD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-save me-2"></i>Save Changes
+                </button>
+            </div>
+            
+            <!-- Notifications Settings -->
+            <div class="settings-section d-none" id="notifications-section">
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Email Notifications</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Booking Confirmations</h5>
+                                <p>Receive email when a booking is confirmed</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Booking Reminders</h5>
+                                <p>Get reminded before your trip starts</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>New Messages</h5>
+                                <p>Receive email when you get a new message</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Payout Notifications</h5>
+                                <p>Get notified when payouts are processed</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Promotional Emails</h5>
+                                <p>Receive special offers and promotions</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Push Notifications</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Enable Push Notifications</h5>
+                                <p>Receive notifications on your device</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Sound</h5>
+                                <p>Play sound for notifications</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>SMS Notifications</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Booking Updates</h5>
+                                <p>Receive SMS for important booking updates</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Security Alerts</h5>
+                                <p>Get SMS for security-related events</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Security Settings -->
+            <div class="settings-section d-none" id="security-section">
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Security Status</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="security-item">
+                            <div class="icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info">
+                                <h5>Email Verified</h5>
+                                <p>john@example.com</p>
+                            </div>
+                            <div class="status">
+                                <span class="badge badge-success">Verified</span>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <div class="icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="info">
+                                <h5>Phone Verified</h5>
+                                <p>+27 82 123 4567</p>
+                            </div>
+                            <div class="status">
+                                <span class="badge badge-success">Verified</span>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <div class="icon">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <div class="info">
+                                <h5>ID Verification</h5>
+                                <p>Government-issued ID</p>
+                            </div>
+                            <div class="status">
+                                <span class="badge badge-success">Verified</span>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <div class="icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="info">
+                                <h5>Two-Factor Authentication</h5>
+                                <p>Add extra security to your account</p>
+                            </div>
+                            <div class="status">
+                                <span class="badge badge-warning">Not Enabled</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Change Password</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <label class="form-label text-white-50">Current Password</label>
+                                <input type="password" class="form-control custom-input" placeholder="Enter current password">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">New Password</label>
+                                <input type="password" class="form-control custom-input" placeholder="Enter new password">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-white-50">Confirm New Password</label>
+                                <input type="password" class="form-control custom-input" placeholder="Confirm new password">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-4">Update Password</button>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Login Sessions</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="security-item">
+                            <div class="icon" style="background: rgba(0,200,83,0.2);">
+                                <i class="fas fa-laptop" style="color: #00c853;"></i>
+                            </div>
+                            <div class="info">
+                                <h5>MacBook Pro - Chrome</h5>
+                                <p>Cape Town, South Africa · Current session</p>
+                            </div>
+                            <div class="status">
+                                <span class="badge badge-success">Active</span>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <div class="icon" style="background: rgba(255,255,255,0.05);">
+                                <i class="fas fa-mobile-alt" style="color: rgba(255,255,255,0.5);"></i>
+                            </div>
+                            <div class="info">
+                                <h5>iPhone 14 - Safari</h5>
+                                <p>Last active: 2 hours ago</p>
+                            </div>
+                            <div class="status">
+                                <button class="btn btn-sm btn-outline-danger">Revoke</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Privacy Settings -->
+            <div class="settings-section d-none" id="privacy-section">
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Profile Visibility</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Public Profile</h5>
+                                <p>Allow others to see your profile and reviews</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Show Full Name</h5>
+                                <p>Display your full name on your profile</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Show Location</h5>
+                                <p>Display your general location</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Data & Privacy</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Share Usage Data</h5>
+                                <p>Help us improve by sharing anonymous usage data</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Personalized Recommendations</h5>
+                                <p>Get vehicle recommendations based on your activity</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Data Management</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex gap-3 flex-wrap">
+                            <button class="btn btn-outline-light">
+                                <i class="fas fa-download me-2"></i>Download My Data
+                            </button>
+                            <a href="privacy.html" class="btn btn-outline-light">
+                                <i class="fas fa-file-alt me-2"></i>Privacy Policy
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card danger-zone">
+                    <div class="card-header">
+                        <h4><i class="fas fa-exclamation-triangle me-2"></i>Danger Zone</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Deactivate Account</h5>
+                                <p>Temporarily disable your account</p>
+                            </div>
+                            <button class="btn btn-outline-warning">Deactivate</button>
+                        </div>
+                        <div class="setting-item">
+                            <div class="info">
+                                <h5>Delete Account</h5>
+                                <p>Permanently delete your account and all data</p>
+                            </div>
+                            <button class="btn btn-outline-danger">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Connected Accounts -->
+            <div class="settings-section d-none" id="connected-section">
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Social Accounts</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="connected-accounts">
+                            <div class="account-item">
+                                <div class="info">
+                                    <div class="icon google">
+                                        <i class="fab fa-google"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-white mb-0">Google</h6>
+                                        <small class="text-white-50">john@gmail.com</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger">Disconnect</button>
+                            </div>
+                            <div class="account-item">
+                                <div class="info">
+                                    <div class="icon facebook">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-white mb-0">Facebook</h6>
+                                        <small class="text-white-50">Not connected</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-primary">Connect</button>
+                            </div>
+                            <div class="account-item">
+                                <div class="info">
+                                    <div class="icon apple">
+                                        <i class="fab fa-apple"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-white mb-0">Apple</h6>
+                                        <small class="text-white-50">Not connected</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-primary">Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <div class="card-header">
+                        <h4>Payment Methods</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="connected-accounts">
+                            <div class="account-item">
+                                <div class="info">
+                                    <div class="icon" style="background: linear-gradient(135deg, #1a1f71, #2d4dab);">
+                                        <i class="fab fa-cc-visa" style="color: #fff;"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-white mb-0">Visa ending in 4242</h6>
+                                        <small class="text-white-50">Expires 12/2027</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <span class="badge badge-success">Default</span>
+                                    <button class="btn btn-sm btn-outline-light">Edit</button>
+                                </div>
+                            </div>
+                            <div class="account-item">
+                                <div class="info">
+                                    <div class="icon" style="background: linear-gradient(135deg, #eb001b, #f79e1b);">
+                                        <i class="fab fa-cc-mastercard" style="color: #fff;"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-white mb-0">Mastercard ending in 8888</h6>
+                                        <small class="text-white-50">Expires 08/2026</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-light">Edit</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary mt-3">
+                            <i class="fas fa-plus me-2"></i>Add Payment Method
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.settings-nav .nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active from all
+                document.querySelectorAll('.settings-nav .nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.settings-section').forEach(s => s.classList.add('d-none'));
+                
+                // Add active to clicked
+                this.classList.add('active');
+                const tab = this.getAttribute('data-tab');
+                document.getElementById(tab + '-section').classList.remove('d-none');
+            });
+        });
+    </script>
+</body>
+</html>

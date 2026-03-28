@@ -1,0 +1,2885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Your Vehicle | Yours To Rent</title>
+    <meta name="description" content="List your vehicle on Yours To Rent and start earning passive income today.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Dropzone CSS -->
+    <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet">
+    
+    <!-- noUiSlider -->
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+
+
+<style>
+.ytr__Δ77_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999998;
+}
+.ytr__Δ77_box {
+  background: #0b0b0b;
+  border: 1px solid #1c1c1c;
+  padding: 26px;
+  max-width: 420px;
+  border-radius: 18px;
+  color: #e6f2ec;
+  font-family: system-ui, sans-serif;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,255,136,0.22);
+}
+.ytr__Δ77_box strong {
+  color: #00ff88;
+  letter-spacing: 0.4px;
+}
+.ytr__Δ77_box button {
+  margin-top: 18px;
+  padding: 10px 20px;
+  background: #00ff88;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #000;
+}
+</style>
+
+<div class="ytr__Δ77_overlay" id="ytrPreviewNotice">
+  <div class="ytr__Δ77_box">
+    <strong>Platform Preview</strong>
+    <p style="margin-top:14px;font-size:14px;color:#9aa3a0;">
+      Some features displayed are part of the planned platform roadmap and are shown for conceptual and design demonstration purposes only.
+    </p>
+    <button onclick="document.getElementById('ytrPreviewNotice').remove()">Continue</button>
+  </div>
+</div>
+
+<style>
+.ytr__InfoOrb {
+  position: fixed;
+  bottom: 84px;
+  right: 22px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #00ff88;
+  color: #000;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999996;
+  box-shadow: 0 0 18px rgba(0,255,136,0.35);
+}
+</style>
+
+<div class="ytr__InfoOrb"
+  onclick="alert('This platform is currently presented as a UI/UX prototype to demonstrate vision and planned functionality.')">
+  i
+</div>
+
+<script>
+(function () {
+  const path = window.location.pathname;
+
+  const ytrMessages = {
+    "/list-vehicle": "This page demonstrates the intended vehicle listing flow. Submission and uploads activate in a later rollout phase.",
+    "/signup": "Sign-up currently captures early access interest only.",
+    "/login": "Login functionality will activate once backend systems are live.",
+    "/how-it-works": "This page outlines the planned user journey for demonstration.",
+    "/insurance": "Insurance alignment shown reflects future intent, not active coverage.",
+    "/trust-safety": "Trust & safety principles shown represent the platform’s intended framework."
+  };
+
+  if (ytrMessages[path]) {
+    const n = document.createElement("div");
+    n.textContent = ytrMessages[path];
+    Object.assign(n.style, {
+      position: "fixed",
+      top: "90px",
+      right: "22px",
+      background: "#0b0b0b",
+      border: "1px solid #1c1c1c",
+      color: "#9aa3a0",
+      padding: "12px 14px",
+      fontSize: "12px",
+      borderRadius: "14px",
+      maxWidth: "300px",
+      zIndex: "999997",
+      boxShadow: "0 0 16px rgba(0,255,136,0.18)"
+    });
+    document.body.appendChild(n);
+  }
+})();
+</script>
+<style>
+.ytr__ψBtnHint {
+  position: absolute;
+  background: #0b0b0b;
+  color: #00ff88;
+  padding: 6px 10px;
+  font-size: 11px;
+  border-radius: 8px;
+  border: 1px solid #1c1c1c;
+  z-index: 999999;
+  box-shadow: 0 0 12px rgba(0,255,136,0.25);
+}
+</style>
+
+<script>
+document.addEventListener("mouseover", function (e) {
+  if (
+    e.target.tagName === "BUTTON" &&
+    /submit|book|upload|register|list/i.test(e.target.innerText)
+  ) {
+    const h = document.createElement("div");
+    h.className = "ytr__ψBtnHint";
+    h.textContent = "Preview only · Activates in a later phase";
+    document.body.appendChild(h);
+
+    const r = e.target.getBoundingClientRect();
+    h.style.top = r.top - 36 + "px";
+    h.style.left = r.left + "px";
+
+    e.target.addEventListener("mouseleave", () => h.remove(), { once: true });
+  }
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        .list-hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0.98) 100%),
+                        url('/placeholder.svg?height=800&width=1920') center/cover;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+        }
+        
+        .listing-form-section {
+            background: var(--dark-bg);
+            padding: 80px 0;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle,
+        .step.completed .step-circle {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: var(--primary-color);
+            color: #000;
+        }
+        
+        .step-line {
+            width: 100px;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            margin: 0 15px;
+        }
+        
+        .step.completed + .step-line,
+        .step.active + .step-line {
+            background: var(--primary-color);
+        }
+        
+        .step-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+        
+        .step.active .step-label,
+        .step.completed .step-label {
+            color: var(--primary-color);
+        }
+        
+        .listing-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            color: #fff;
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 500;
+        }
+        
+        .form-group .form-control,
+        .form-group .form-select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group .form-control:focus,
+        .form-group .form-select:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(255,165,0,0.15);
+        }
+        
+        .form-group .form-select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+        
+        .dropzone {
+            background: rgba(255,255,255,0.02);
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .dropzone:hover {
+            border-color: var(--primary-color);
+            background: rgba(255,165,0,0.05);
+        }
+        
+        .dropzone .dz-message {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .dropzone .dz-message i {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .feature-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-checkbox:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .feature-checkbox input {
+            display: none;
+        }
+        
+        .feature-checkbox input:checked + .checkbox-custom {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .feature-checkbox input:checked + .checkbox-custom i {
+            opacity: 1;
+        }
+        
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox-custom i {
+            color: #000;
+            font-size: 14px;
+            opacity: 0;
+        }
+        
+        .feature-checkbox span {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .pricing-preview {
+            background: linear-gradient(135deg, rgba(255,165,0,0.1), rgba(255,69,0,0.1));
+            border: 1px solid rgba(255,165,0,0.3);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .pricing-preview h4 {
+            color: var(--primary-color);
+        }
+        
+        .pricing-calculator {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .slider-wrapper {
+            padding: 20px 0;
+        }
+        
+        .noUi-target {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            box-shadow: none;
+        }
+        
+        .noUi-connect {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .noUi-handle {
+            background: var(--primary-color);
+            border: none;
+            box-shadow: 0 0 20px rgba(255,165,0,0.5);
+        }
+        
+        .earnings-estimate {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .earnings-estimate h3 {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .summary-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-card h5 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-item span:first-child {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .summary-item span:last-child {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .btn-prev,
+        .btn-next {
+            padding: 15px 40px;
+            font-weight: 600;
+        }
+    </style>
+ <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-orange: #E8722A;
+            --primary-red: #C41E3A;
+            --dark-bg: #0A0A0B;
+            --dark-card: #111113;
+            --dark-border: #1E1E22;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A, #C41E3A);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); line-height: 1.6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 4px; }
+        
+        .navbar-ytr { background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--dark-border); padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-secondary) !important; font-weight: 500; padding: 8px 18px !important; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-gold) !important; }
+        .btn-nav-primary { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 24px; border-radius: 8px; }
+        .btn-nav-outline { border: 1px solid var(--primary-gold); color: var(--primary-gold); background: transparent; padding: 10px 24px; border-radius: 8px; }
+        
+        /* Hero */
+        .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920') center/cover no-repeat; opacity: 0.1; }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; color: #22c55e; margin-bottom: 25px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
+        .hero-title .gradient-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 550px; }
+        .hero-cta { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 50px; }
+        .btn-hero { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        .btn-hero-outline { background: transparent; border: 2px solid var(--dark-border); color: var(--text-primary); }
+        .btn-hero-outline:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+        
+        /* Earnings Calculator */
+        .earnings-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 24px; padding: 40px; }
+        .earnings-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .earnings-title i { color: var(--primary-gold); }
+        .earnings-field { margin-bottom: 25px; }
+        .earnings-label { display: block; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .earnings-select { width: 100%; background: var(--dark-bg); border: 1px solid var(--dark-border); border-radius: 12px; padding: 14px 16px; color: var(--text-primary); font-size: 1rem; cursor: pointer; }
+        .earnings-select:focus { outline: none; border-color: var(--primary-gold); }
+        .earnings-slider { width: 100%; margin: 15px 0; }
+        .days-display { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
+        .earnings-result { background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); border-radius: 16px; padding: 25px; text-align: center; margin-top: 20px; }
+        .earnings-amount { font-size: 3rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .earnings-period { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 15px; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        
+        /* Why List */
+        .why-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 40px 30px; height: 100%; transition: all 0.4s; }
+        .why-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.1); }
+        .why-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin-bottom: 25px; transition: all 0.4s; }
+        .why-card:hover .why-icon { background: var(--gradient-gold); color: #000; }
+        .why-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+        .why-text { color: var(--text-secondary); }
+        
+        /* Requirements */
+        .requirements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .requirement-item { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 16px; padding: 25px; display: flex; gap: 20px; transition: all 0.3s; }
+        .requirement-item:hover { border-color: var(--primary-gold); }
+        .requirement-icon { width: 50px; height: 50px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.3rem; flex-shrink: 0; }
+        .requirement-title { font-weight: 600; margin-bottom: 5px; }
+        .requirement-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* Testimonials */
+        .testimonial-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 35px; height: 100%; }
+        .testimonial-stars { color: var(--primary-gold); margin-bottom: 20px; }
+        .testimonial-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 15px; }
+        .testimonial-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-gold); }
+        .testimonial-name { font-weight: 600; }
+        .testimonial-info { font-size: 0.85rem; color: var(--text-muted); }
+        .testimonial-earnings { background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-left: auto; }
+        
+        /* Protection */
+        .protection-section { background: var(--dark-card); border-radius: 30px; padding: 60px; }
+        .protection-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .protection-item { text-align: center; }
+        .protection-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin: 0 auto 15px; }
+        .protection-title { font-weight: 600; margin-bottom: 8px; }
+        .protection-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* CTA */
+        .cta-section { background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, rgba(232, 114, 42, 0.1) 100%); border-radius: 30px; padding: 80px; text-align: center; position: relative; overflow: hidden; }
+        .cta-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 20px; }
+        .cta-text { color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn-cta { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 50px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        
+        .footer { background: var(--dark-bg); padding: 80px 0 30px; border-top: 1px solid var(--dark-border); margin-top: 100px; }
+        .footer-logo { height: 50px; margin-bottom: 20px; }
+        .footer-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; max-width: 300px; }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 45px; height: 45px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s; }
+        .footer-social a:hover { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .footer-title { font-weight: 700; margin-bottom: 25px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .footer-bottom { border-top: 1px solid var(--dark-border); padding-top: 30px; margin-top: 60px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-copyright { color: var(--text-muted); font-size: 0.9rem; }
+        
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3rem; }
+            .requirements-grid { grid-template-columns: 1fr; }
+            .protection-grid { grid-template-columns: repeat(2, 1fr); }
+            .cta-section { padding: 50px 30px; }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .protection-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<!-- =========================================================
+ YTR ENTERPRISE MASTER LAYOUT SYSTEM v1.0
+ COPY ONCE • USE EVERYWHERE • ZERO BREAKAGE
+========================================================= -->
+
+<style>
+/* =========================================================
+ YTR ENTERPRISE UI CORE — HARDENED & ISOLATED
+========================================================= */
+
+:root {
+  --ytrx-orange: #ff4500;
+  --ytrx-orange-soft: #ff7a18;
+  --ytrx-black: #000;
+  --ytrx-white: #fff;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ====================== NAVBAR ====================== */
+.ytrx-nav-root-882910 {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 78px;
+  z-index: 999999;
+  background: linear-gradient(180deg, rgba(0,0,0,0.98), rgba(0,0,0,0.93));
+  border-bottom: 1px solid rgba(255,69,0,0.35);
+  backdrop-filter: blur(14px);
+}
+
+.ytrx-nav-inner-773201 {
+  max-width: 1480px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ytrx-logo-wrap-109283 img {
+  height: 42px;
+  display: block;
+}
+
+/* NAV LINKS */
+.ytrx-nav-links-449201 {
+  display: flex;
+  align-items: center;
+  gap: 38px;
+}
+
+.ytrx-nav-links-449201 a {
+  position: relative;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 14.6px;
+  font-weight: 500;
+  padding: 6px 0;
+  transition: color .25s ease;
+  white-space: nowrap;
+}
+
+/* 🔥 HOVER EFFECT */
+.ytrx-nav-links-449201 a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ytrx-orange), var(--ytrx-orange-soft));
+  transition: width .3s ease;
+}
+
+.ytrx-nav-links-449201 a:hover {
+  color: #fff;
+}
+
+.ytrx-nav-links-449201 a:hover::after {
+  width: 100%;
+}
+
+/* CTA BUTTONS */
+.ytrx-nav-cta-998210 {
+  display: flex;
+  gap: 14px;
+}
+
+.ytrx-btn-outline-332019 {
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+.ytrx-btn-primary-332020 {
+  padding: 7px 22px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--ytrx-orange), var(--ytrx-orange-soft));
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+/* ====================== HERO ====================== */
+.ytrx-hero-root-220991 {
+  padding-top: 130px;
+  padding-bottom: 120px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,69,0,0.18), transparent 45%),
+    radial-gradient(circle at 88% 20%, rgba(255,122,24,0.15), transparent 45%),
+    #000;
+}
+
+.ytrx-hero-inner-882901 {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* IMAGE LEFT */
+.ytrx-hero-img-wrap-882912 {
+  display: flex;
+  justify-content: center;
+}
+
+.ytrx-hero-img-wrap-882912 img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  filter: drop-shadow(0 60px 140px rgba(0,0,0,0.9));
+}
+
+/* TEXT */
+.ytrx-hero-text-772201 {
+  color: #fff;
+}
+
+.ytrx-hero-title-001992 {
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.12;
+  font-weight: 700;
+}
+
+.ytrx-gradient-text-889201 {
+  background: linear-gradient(135deg, var(--ytrx-orange), var(--ytrx-orange-soft));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ytrx-hero-desc-991202 {
+  margin-top: 22px;
+  max-width: 560px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.88);
+}
+
+.ytrx-hero-cta-009912 {
+  margin-top: 32px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* STATS */
+.ytrx-stats-grid-100921 {
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 18px;
+}
+
+.ytrx-stat-card-119201 {
+  background: rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+}
+
+.ytrx-stat-val-009991 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.ytrx-stat-lbl-001991 {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.75);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 980px) {
+  .ytrx-nav-links-449201 {
+    display: none;
+  }
+
+  .ytrx-hero-inner-882901 {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .ytrx-hero-img-wrap-882912 img {
+    max-width: 420px;
+  }
+
+  .ytrx-stats-grid-100921 {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+</style>
+<!-- =========================================================
+YTR ENTERPRISE NAV + HERO SYSTEM v4.0 (FULLY RESPONSIVE)
+PASTE ONCE • MOBILE-FIRST • ENTERPRISE SAFE
+========================================================= -->
+
+<style>
+/* ================= RESET & SAFETY ================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  background: #000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ================= NAVBAR ================= */
+.ytrE-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 88px;
+  z-index: 100000;
+  background: rgba(0,0,0,0.97);
+  border-bottom: 1px solid rgba(255,69,0,0.4);
+  backdrop-filter: blur(14px);
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink { height: 64px; }
+
+.ytrE-nav-inner {
+  max-width: 1480px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ytrE-logo img {
+  height: 44px;
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink .ytrE-logo img { height: 34px; }
+
+/* ================= DESKTOP LINKS ================= */
+.ytrE-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+.ytrE-links a {
+  position: relative;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+.ytrE-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg,#ff4500,#ff7a18);
+  transition: width .25s ease;
+}
+.ytrE-links a:hover::after { width: 100%; }
+
+/* ================= ACTIONS ================= */
+.ytrE-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ytrE-login {
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.ytrE-signup {
+  padding: 7px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#ff4500,#ff7a18);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+/* ================= BURGER ================= */
+.ytrE-burger {
+  display: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ================= MEGA MENU ================= */
+.ytrE-mega {
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: #0b0b0b;
+  display: none;
+}
+.ytrE-mega.show { display: block; }
+
+.ytrE-mega-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 32px;
+}
+.ytrE-mega h6 {
+  margin: 0 0 12px;
+  color: #ff7a18;
+  font-size: 14px;
+}
+.ytrE-mega a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* ================= MOBILE DRAWER ================= */
+.ytrE-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(88%, 380px);
+  background: #050505;
+  z-index: 200000;
+  transform: translateX(-100%);
+  transition: transform .35s ease;
+  padding: 90px 22px 30px;
+}
+.ytrE-drawer.open { transform: translateX(0); }
+
+.ytrE-drawer a {
+  display: block;
+  padding: 14px 0;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ================= HERO ================= */
+.ytrE-hero {
+  padding-top: 140px;
+  padding-bottom: 120px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,69,0,0.18), transparent 45%),
+    radial-gradient(circle at 88% 20%, rgba(255,122,24,0.15), transparent 45%),
+    #000;
+}
+.ytrE-hero-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 56px;
+  align-items: center;
+}
+.ytrE-hero-img img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 60px 140px rgba(0,0,0,0.9));
+}
+.ytrE-hero h1 {
+  color: #fff;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.12;
+  margin: 0;
+}
+.ytrE-hero p {
+  margin-top: 18px;
+  max-width: 560px;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.6;
+}
+
+/* ================= STATS ================= */
+.ytrE-stats {
+  margin-top: 38px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px;
+}
+.ytrE-stat {
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .ytrE-links, .ytrE-actions { display: none; }
+  .ytrE-burger { display: block; }
+}
+
+@media (max-width: 900px) {
+  .ytrE-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .ytrE-hero p { margin-left: auto; margin-right: auto; }
+  .ytrE-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+</style>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="ytrE-nav" id="ytrENav">
+  <div class="ytrE-nav-inner">
+    <a href="index.html" class="ytrE-logo">
+      <img src="/static/images/ytr-logo-reference.svg" alt="YTR">
+    </a>
+
+    <div class="ytrE-links">
+      <a href="{% url 'browse' %}" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="{% url 'how_it_works' %}">How It Works</a>
+      <a href="{% url 'add_listing' %}">List Vehicle</a>
+      <a href="{% url 'about' %}">Company</a>
+      <a href="{% url 'contact' %}">Support</a>
+    </div>
+
+    <div class="ytrE-actions">
+      {% if user.is_authenticated %}
+      <a href="{% url 'owner_dashboard' %}" class="ytrE-login">Dashboard</a>
+      <a href="{% url 'logout' %}" class="ytrE-signup">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="ytrE-login">Login</a>
+      <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
+      {% endif %}
+    </div>
+
+    <div class="ytrE-burger" id="ytrEBurger">☰</div>
+  </div>
+
+  <!-- Mega Menu -->
+  <div class="ytrE-mega" id="ytrEMega">
+    <div class="ytrE-mega-inner">
+      <div>
+        <h6>By Category</h6>
+        <a>Sedan</a><a>SUV</a><a>Luxury</a><a>Economy</a>
+      </div>
+      <div>
+        <h6>More</h6>
+        <a>Bakkie</a><a>Van</a><a>Commercial</a>
+      </div>
+      <div>
+        <h6>Services</h6>
+        <a>License Test</a><a>Corporate</a>
+      </div>
+      <div>
+        <h6>Featured</h6>
+        <a>BMW 3 Series</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= MOBILE DRAWER ================= -->
+<div class="ytrE-drawer" id="ytrEDrawer">
+<a href="{% url 'home' %}">Homepage</a>
+  <a href="{% url 'browse' %}">Browse Vehicles</a>
+  <a href="{% url 'how_it_works' %}">How It Works</a>
+  <a href="{% url 'add_listing' %}">List Vehicle</a>
+  <a href="{% url 'about' %}">Company</a>
+  <a href="{% url 'contact' %}">Support</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'owner_dashboard' %}">Dashboard</a>
+  <a href="{% url 'logout' %}">Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'register' %}">Sign Up</a>
+  {% endif %}
+</div>
+
+<script>
+/* ================= JS ================= */
+const nav = document.getElementById('ytrENav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) nav.classList.add('shrink');
+  else nav.classList.remove('shrink');
+});
+
+const mega = document.getElementById('ytrEMega');
+const browse = document.getElementById('ytrEBrowse');
+browse && browse.addEventListener('mouseenter',()=>mega.classList.add('show'));
+nav.addEventListener('mouseleave',()=>mega.classList.remove('show'));
+
+const burger = document.getElementById('ytrEBurger');
+const drawer = document.getElementById('ytrEDrawer');
+burger.addEventListener('click',()=>{
+  drawer.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+});
+</script>
+    <!-- Hero Section -->
+    <section class="list-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <span class="badge-pill" data-aos="fade-up">Become a Host</span>
+                    <h1 class="display-3 fw-bold text-white mt-3" data-aos="fade-up" data-aos-delay="100">
+                        Turn Your Vehicle Into a <span class="gradient-text">Real Income Stream</span>
+                    </h1>
+                    <p class="lead text-white-50 mt-4" data-aos="fade-up" data-aos-delay="200">
+                        Yours To Rent is built to help everyday vehicle owners earn extra income using what they already own. This is not about hype or unrealistic promises — it’s about creating real financial opportunities for people who need them most.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+<section class="section-padding">
+    <div class="container">
+        <div class="toggle-tabs" data-aos="fade-up">
+            <button class="toggle-tab active" data-target="renters"><i class="fas fa-wallet"></i> For Renters</button>
+            <button class="toggle-tab" data-target="owners"><i class="fas fa-hand-holding-usd"></i> For Vehicle Owners</button>
+        </div>
+
+        <!-- Renters Steps -->
+        <div class="steps-container active" id="renters">
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3 class="step-title">Clear Pricing & Deposit Visibility</h3>
+                    <p class="step-text">
+                        Before requesting a vehicle, renters see a full cost breakdown — the rental price, required
+                        refundable deposit, and how funds are handled. Transparency is built into every transaction.
+                    </p>
+                    <p class="step-text">
+                        Example: If a vehicle is listed at R550, the required refundable deposit is twice the rental
+                        price. All amounts are shown before any commitment is made.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-receipt"></i> Full cost breakdown</span>
+                        <span class="step-feature"><i class="fas fa-shield-alt"></i> Refundable deposit</span>
+                        <span class="step-feature"><i class="fas fa-eye"></i> No hidden fees</span>
+                        <span class="step-feature"><i class="fas fa-lock"></i> Secure transactions</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1554224154-22dec7ec8818?w=600" alt="Transparent Pricing">
+                </div>
+            </div>
+
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3 class="step-title">Deposit Paid Into Holding Account</h3>
+                    <p class="step-text">
+                        Once a rental request is submitted, the total amount is placed into a secure holding account.
+                        Using the R550 example, the renter pays R1,650 upfront (rental + deposit).
+                    </p>
+                    <p class="step-text">
+                        Funds are held securely and are only released in stages once conditions are met.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-university"></i> Holding account system</span>
+                        <span class="step-feature"><i class="fas fa-user-check"></i> Owner approval required</span>
+                        <span class="step-feature"><i class="fas fa-balance-scale"></i> Fair fund control</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600" alt="Holding Account">
+                </div>
+            </div>
+
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3 class="step-title">Vehicle Collection & Payment Release</h3>
+                    <p class="step-text">
+                        When the renter collects the vehicle, the owner immediately receives half of the rental
+                        amount. In this example, R225 is released after handover documentation.
+                    </p>
+                    <p class="step-text">
+                        Once the renter confirms the vehicle matches the listing, the remaining rental balance is
+                        released to the owner.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-camera"></i> Condition verification</span>
+                        <span class="step-feature"><i class="fas fa-money-bill-wave"></i> Partial payout</span>
+                        <span class="step-feature"><i class="fas fa-check-circle"></i> Confirmation-based release</span>
+                        <span class="step-feature"><i class="fas fa-file-contract"></i> Digital records</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1611095973763-414019e72400?w=600" alt="Vehicle Handover">
+                </div>
+            </div>
+
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3 class="step-title">Return Vehicle & Deposit Refund</h3>
+                    <p class="step-text">
+                        After the vehicle is returned and inspected, the renter receives their full deposit back if
+                        the vehicle is returned in the agreed condition.
+                    </p>
+                    <p class="step-text">
+                        Any issues are handled transparently, with clear documentation for both parties.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-undo"></i> Deposit refund</span>
+                        <span class="step-feature"><i class="fas fa-clipboard-check"></i> Fair inspection</span>
+                        <span class="step-feature"><i class="fas fa-handshake"></i> Trust resolution</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1565374395542-0ce18882c857?w=600" alt="Deposit Refund">
+                </div>
+            </div>
+        </div>
+
+        <!-- Owners Steps -->
+        <div class="steps-container" id="owners">
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3 class="step-title">Free Listing & Owner-Controlled Pricing</h3>
+                    <p class="step-text">
+                        Listing your vehicle is completely free. You choose your rental price, change it anytime,
+                        and keep full control over your earnings.
+                    </p>
+                    <p class="step-text">
+                        The platform charges a simple 10% fee per completed rental — you keep 90%.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-tags"></i> No listing fees</span>
+                        <span class="step-feature"><i class="fas fa-sliders-h"></i> Adjustable pricing</span>
+                        <span class="step-feature"><i class="fas fa-percentage"></i> 90% owner earnings</span>
+                        <span class="step-feature"><i class="fas fa-receipt"></i> Transparent fee</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?w=600" alt="Owner Earnings">
+                </div>
+            </div>
+
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3 class="step-title">Deposit-Backed Booking Requests</h3>
+                    <p class="step-text">
+                        Owners only receive requests from renters who have already paid a deposit. This significantly
+                        reduces cancellations and increases rental reliability.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-user-shield"></i> Serious renters only</span>
+                        <span class="step-feature"><i class="fas fa-ban"></i> Reduced no-shows</span>
+                        <span class="step-feature"><i class="fas fa-check-double"></i> Owner approval</span>
+                        <span class="step-feature"><i class="fas fa-lock"></i> Secure transactions</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600" alt="Secure Requests">
+                </div>
+            </div>
+
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3 class="step-title">Documented Handover & Confirmation</h3>
+                    <p class="step-text">
+                        Vehicle condition is documented at handover. Once the renter confirms the vehicle matches the
+                        listing, the remaining rental amount is released automatically.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-clipboard-list"></i> Digital checklist</span>
+                        <span class="step-feature"><i class="fas fa-camera-retro"></i> Photo evidence</span>
+                        <span class="step-feature"><i class="fas fa-money-check-alt"></i> Secure release</span>
+                        <span class="step-feature"><i class="fas fa-gavel"></i> Dispute prevention</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600" alt="Secure Handover">
+                </div>
+            </div>
+
+            <div class="step-card" data-aos="fade-up">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3 class="step-title">Earnings Payout & Fee Deduction</h3>
+                    <p class="step-text">
+                        After rental completion, a 10% platform fee is automatically deducted. For a R550 rental,
+                        R55 is deducted and the remaining amount is paid to the owner.
+                    </p>
+                    <p class="step-text">
+                        Every transaction is recorded clearly for full financial transparency.
+                    </p>
+                    <div class="step-features">
+                        <span class="step-feature"><i class="fas fa-calculator"></i> Automatic calculation</span>
+                        <span class="step-feature"><i class="fas fa-wallet"></i> Owner payout</span>
+                        <span class="step-feature"><i class="fas fa-chart-line"></i> Earnings tracking</span>
+                        <span class="step-feature"><i class="fas fa-file-invoice-dollar"></i> Clear records</span>
+                    </div>
+                </div>
+                <div class="step-image">
+                    <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=600" alt="Owner Payout">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-orange: #E8722A;
+            --primary-red: #C41E3A;
+            --dark-bg: #0A0A0B;
+            --dark-card: #111113;
+            --dark-border: #1E1E22;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A, #C41E3A);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); line-height: 1.6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 4px; }
+        
+        .navbar-ytr { background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--dark-border); padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-secondary) !important; font-weight: 500; padding: 8px 18px !important; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-gold) !important; }
+        .btn-nav-primary { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 24px; border-radius: 8px; }
+        .btn-nav-outline { border: 1px solid var(--primary-gold); color: var(--primary-gold); background: transparent; padding: 10px 24px; border-radius: 8px; }
+        
+        .page-hero { padding: 180px 0 100px; background: linear-gradient(180deg, rgba(212, 168, 83, 0.1) 0%, var(--dark-bg) 100%); text-align: center; }
+        .page-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.3); padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; color: var(--primary-gold); margin-bottom: 20px; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; margin-bottom: 20px; }
+        .page-title .gradient-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .page-subtitle { font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; }
+        
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 15px; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        
+        /* Toggle Tabs */
+        .toggle-tabs { display: flex; justify-content: center; gap: 20px; margin-bottom: 60px; }
+        .toggle-tab { background: var(--dark-card); border: 2px solid var(--dark-border); color: var(--text-secondary); font-weight: 600; padding: 16px 40px; border-radius: 50px; cursor: pointer; transition: all 0.4s; display: flex; align-items: center; gap: 10px; font-size: 1rem; }
+        .toggle-tab:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+        .toggle-tab.active { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .toggle-tab i { font-size: 1.2rem; }
+        
+        /* Steps */
+        .steps-container { display: none; }
+        .steps-container.active { display: block; }
+        
+        .step-card { display: flex; gap: 40px; align-items: center; margin-bottom: 80px; }
+        .step-card:nth-child(even) { flex-direction: row-reverse; }
+        .step-number { width: 100px; height: 100px; background: var(--gradient-gold); border-radius: 30px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: white; flex-shrink: 0; }
+        .step-content { flex: 1; }
+        .step-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; }
+        .step-text { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; }
+        .step-features { display: flex; flex-wrap: wrap; gap: 15px; }
+        .step-feature { display: flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); padding: 8px 16px; border-radius: 25px; font-size: 0.9rem; }
+        .step-feature i { color: var(--primary-gold); }
+        .step-image { flex: 1; max-width: 500px; }
+        .step-image img { width: 100%; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+        
+        /* Benefits */
+        .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .benefit-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 40px 30px; text-align: center; transition: all 0.4s; }
+        .benefit-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.1); }
+        .benefit-icon { width: 80px; height: 80px; background: rgba(212, 168, 83, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary-gold); margin: 0 auto 25px; transition: all 0.4s; }
+        .benefit-card:hover .benefit-icon { background: var(--gradient-gold); color: #000; }
+        .benefit-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+        .benefit-text { color: var(--text-secondary); }
+        
+        /* Process Flow */
+        .process-flow { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-top: 60px; }
+        .process-step { text-align: center; flex: 1; position: relative; }
+        .process-step:not(:last-child)::after { content: ''; position: absolute; top: 35px; right: -50%; width: 100%; height: 2px; background: var(--dark-border); z-index: 0; }
+        .process-icon { width: 70px; height: 70px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #000; margin: 0 auto 15px; position: relative; z-index: 1; }
+        .process-label { font-weight: 600; font-size: 0.95rem; }
+        
+        /* FAQ */
+        .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .faq-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 16px; padding: 25px; transition: all 0.3s; }
+        .faq-card:hover { border-color: var(--primary-gold); }
+        .faq-question { font-weight: 600; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; }
+        .faq-question i { color: var(--primary-gold); margin-top: 3px; }
+        .faq-answer { color: var(--text-secondary); padding-left: 28px; }
+        
+        /* CTA */
+        .cta-section { background: var(--dark-card); border-radius: 30px; padding: 80px; text-align: center; position: relative; overflow: hidden; }
+        .cta-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(212, 168, 83, 0.1) 0%, transparent 50%); }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; }
+        .cta-text { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 30px; }
+        .btn-cta { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 16px 40px; border-radius: 12px; font-size: 1.05rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; margin: 0 10px; }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        .btn-cta-outline { background: transparent; border: 2px solid var(--primary-gold); color: var(--primary-gold); }
+        .btn-cta-outline:hover { background: var(--primary-gold); color: #000; }
+        
+        .footer { background: var(--dark-bg); padding: 80px 0 30px; border-top: 1px solid var(--dark-border); margin-top: 100px; }
+        .footer-logo { height: 50px; margin-bottom: 20px; }
+        .footer-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; max-width: 300px; }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 45px; height: 45px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s; }
+        .footer-social a:hover { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .footer-title { font-weight: 700; margin-bottom: 25px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .footer-bottom { border-top: 1px solid var(--dark-border); padding-top: 30px; margin-top: 60px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-copyright { color: var(--text-muted); font-size: 0.9rem; }
+        
+        @media (max-width: 992px) {
+            .page-title { font-size: 3rem; }
+            .step-card, .step-card:nth-child(even) { flex-direction: column; text-align: center; }
+            .step-number { margin: 0 auto; }
+            .step-features { justify-content: center; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .process-flow { flex-direction: column; align-items: center; gap: 30px; }
+            .process-step:not(:last-child)::after { display: none; }
+            .faq-grid { grid-template-columns: 1fr; }
+            .cta-section { padding: 50px 25px; }
+        }
+        @media (max-width: 768px) {
+            .page-title { font-size: 2.5rem; }
+            .toggle-tabs { flex-direction: column; }
+            .toggle-tab { width: 100%; justify-content: center; }
+        }
+    </style>
+
+
+
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        document.querySelectorAll('.toggle-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.toggle-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.steps-container').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.target).classList.add('active');
+            });
+        });
+    </script>
+
+
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        const vehicleType = document.getElementById('vehicleType');
+        const daysSlider = document.getElementById('daysSlider');
+        const daysValue = document.getElementById('daysValue');
+        const earningsResult = document.getElementById('earningsResult');
+        
+        function calculateEarnings() {
+            const dailyRate = parseInt(vehicleType.value);
+            const days = parseInt(daysSlider.value);
+            const earnings = dailyRate * days;
+            daysValue.textContent = days;
+            earningsResult.textContent = 'R' + earnings.toLocaleString();
+        }
+        
+        vehicleType.addEventListener('change', calculateEarnings);
+        daysSlider.addEventListener('input', calculateEarnings);
+    </script>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        let currentStep = 1;
+        const totalSteps = 5;
+        
+        // Initialize Dropzone
+        Dropzone.autoDiscover = false;
+        const dropzone = new Dropzone('#photoDropzone', {
+            url: '#',
+            maxFiles: 20,
+            maxFilesize: 5,
+            acceptedFiles: 'image/*',
+            autoProcessQueue: false,
+            addRemoveLinks: true
+        });
+        
+        // Initialize noUiSlider
+        const slider = document.getElementById('daysSlider');
+        noUiSlider.create(slider, {
+            start: [15],
+            connect: [true, false],
+            step: 1,
+            range: {
+                'min': 5,
+                'max': 30
+            }
+        });
+        
+        slider.noUiSlider.on('update', function(values) {
+            const days = Math.round(values[0]);
+            document.getElementById('selectedDays').textContent = days + ' days';
+            calculateEarnings(days);
+        });
+        
+        function calculateEarnings(days) {
+            const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 800;
+            const grossEarnings = dailyRate * days;
+            const netEarnings = grossEarnings * 0.85; // After 15% fee
+            document.getElementById('estimatedEarnings').textContent = 'R ' + netEarnings.toLocaleString();
+        }
+        
+        // Update price previews
+        document.getElementById('dailyRate').addEventListener('input', updatePricing);
+        document.getElementById('weeklyDiscount').addEventListener('input', updatePricing);
+        document.getElementById('monthlyDiscount').addEventListener('input', updatePricing);
+        
+        function updatePricing() {
+            const daily = parseFloat(document.getElementById('dailyRate').value) || 0;
+            const weeklyDiscount = parseFloat(document.getElementById('weeklyDiscount').value) || 0;
+            const monthlyDiscount = parseFloat(document.getElementById('monthlyDiscount').value) || 0;
+            
+            const weekly = daily * 7 * (1 - weeklyDiscount/100);
+            const monthly = daily * 30 * (1 - monthlyDiscount/100);
+            
+            document.getElementById('previewDaily').textContent = 'R ' + daily.toLocaleString();
+            document.getElementById('previewWeekly').textContent = 'R ' + Math.round(weekly).toLocaleString();
+            document.getElementById('previewMonthly').textContent = 'R ' + Math.round(monthly).toLocaleString();
+            
+            calculateEarnings(15);
+        }
+        
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+                
+                currentStep++;
+                
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                
+                updateButtons();
+                updateSummary();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                currentStep--;
+                
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
+                
+                updateButtons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function updateButtons() {
+            const prevBtn = document.querySelector('.btn-prev');
+            const nextBtn = document.querySelector('.btn-next');
+            const submitBtn = document.querySelector('.btn-submit');
+            
+            prevBtn.style.display = currentStep > 1 ? 'inline-flex' : 'none';
+            nextBtn.style.display = currentStep < totalSteps ? 'inline-flex' : 'none';
+            submitBtn.style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
+        }
+        
+        function updateSummary() {
+            if (currentStep === 5) {
+                const make = document.getElementById('make').value;
+                const model = document.getElementById('model').value;
+                document.getElementById('summaryMakeModel').textContent = `${make.toUpperCase()} ${model}`;
+                document.getElementById('summaryYear').textContent = document.getElementById('year').value;
+                document.getElementById('summaryType').textContent = document.getElementById('type').value;
+                document.getElementById('summaryTransmission').textContent = document.getElementById('transmission').value;
+                
+                const daily = parseFloat(document.getElementById('dailyRate').value) || 0;
+                const weeklyDiscount = parseFloat(document.getElementById('weeklyDiscount').value) || 0;
+                const monthlyDiscount = parseFloat(document.getElementById('monthlyDiscount').value) || 0;
+                const deposit = parseFloat(document.getElementById('deposit').value) || 0;
+                
+                document.getElementById('summaryDailyRate').textContent = 'R ' + daily.toLocaleString();
+                document.getElementById('summaryWeeklyRate').textContent = 'R ' + Math.round(daily * 7 * (1 - weeklyDiscount/100)).toLocaleString();
+                document.getElementById('summaryMonthlyRate').textContent = 'R ' + Math.round(daily * 30 * (1 - monthlyDiscount/100)).toLocaleString();
+                document.getElementById('summaryDeposit').textContent = 'R ' + deposit.toLocaleString();
+            }
+        }
+        
+        // Django handles the final form submission on step 5.
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Listing Form Section -->
+    <section class="listing-form-section">
+        <div class="container">
+            <!-- Step Indicator -->
+            <div class="step-indicator position-relative" data-aos="fade-up">
+                <div class="step active" data-step="1">
+                    <div class="step-circle">1</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="2">
+                    <div class="step-circle">2</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="3">
+                    <div class="step-circle">3</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="4">
+                    <div class="step-circle">4</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="5">
+                    <div class="step-circle">5</div>
+                </div>
+            </div>
+
+            <form id="listingForm" method="POST" action="{% url 'add_listing' %}">
+                {% csrf_token %}
+                <!-- Step 1: Vehicle Details -->
+                <div class="form-step active" data-step="1">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="listing-card" data-aos="fade-up">
+                                <h2 class="text-white mb-4">Vehicle Details</h2>
+                                <p class="text-white-50 mb-5">Tell us about your vehicle</p>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Vehicle Make</label>
+                                            <select class="form-select" id="make" name="make" required>
+                                                <option value="">Select Make</option>
+                                                <option value="bmw">BMW</option>
+                                                <option value="mercedes">Mercedes-Benz</option>
+                                                <option value="audi">Audi</option>
+                                                <option value="toyota">Toyota</option>
+                                                <option value="volkswagen">Volkswagen</option>
+                                                <option value="ford">Ford</option>
+                                                <option value="nissan">Nissan</option>
+                                                <option value="hyundai">Hyundai</option>
+                                                <option value="honda">Honda</option>
+                                                <option value="mazda">Mazda</option>
+                                                <option value="kia">Kia</option>
+                                                <option value="porsche">Porsche</option>
+                                                <option value="jaguar">Jaguar</option>
+                                                <option value="land-rover">Land Rover</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Vehicle Model</label>
+                                            <input type="text" class="form-control" id="model" name="model" placeholder="e.g. X5, C-Class, A4" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Year</label>
+                                            <select class="form-select" id="year" required>
+                                                <option value="">Select Year</option>
+                                                <script>
+                                                    for(let y = 2026; y >= 2010; y--) {
+                                                        document.write(`<option value="${y}">${y}</option>`);
+                                                    }
+                                                </script>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Vehicle Type</label>
+                                            <select class="form-select" id="type" name="type" required>
+                                                <option value="">Select Type</option>
+                                                <option value="sedan">Sedan</option>
+                                                <option value="suv">SUV</option>
+                                                <option value="hatchback">Hatchback</option>
+                                                <option value="coupe">Coupe</option>
+                                                <option value="convertible">Convertible</option>
+                                                <option value="pickup">Pickup Truck</option>
+                                                <option value="van">Van</option>
+                                                <option value="wagon">Wagon</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Transmission</label>
+                                            <select class="form-select" id="transmission" required>
+                                                <option value="">Select Transmission</option>
+                                                <option value="automatic">Automatic</option>
+                                                <option value="manual">Manual</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Fuel Type</label>
+                                            <select class="form-select" id="fuel" required>
+                                                <option value="">Select Fuel Type</option>
+                                                <option value="petrol">Petrol</option>
+                                                <option value="diesel">Diesel</option>
+                                                <option value="hybrid">Hybrid</option>
+                                                <option value="electric">Electric</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Seats</label>
+                                            <select class="form-select" id="seats" required>
+                                                <option value="">Select Seats</option>
+                                                <option value="2">2 Seats</option>
+                                                <option value="4">4 Seats</option>
+                                                <option value="5">5 Seats</option>
+                                                <option value="7">7 Seats</option>
+                                                <option value="8">8+ Seats</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Mileage (km)</label>
+                                            <input type="number" class="form-control" id="mileage" placeholder="e.g. 45000" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>License Plate</label>
+                                            <input type="text" class="form-control" id="plate" placeholder="e.g. ABC 123 GP" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>VIN Number</label>
+                                            <input type="text" class="form-control" id="vin" placeholder="Vehicle Identification Number" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Photos -->
+                <div class="form-step" data-step="2">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="listing-card" data-aos="fade-up">
+                                <h2 class="text-white mb-4">Vehicle Photos</h2>
+                                <p class="text-white-50 mb-5">Upload at least 5 high-quality photos of your vehicle</p>
+                                
+                                <div id="photoDropzone" class="dropzone">
+                                    <div class="dz-message">
+                                        <i class="fas fa-cloud-upload-alt d-block"></i>
+                                        <h4 class="text-white mt-3">Drag & Drop Photos Here</h4>
+                                        <p>or click to browse (Max 20 photos, 5MB each)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h5 class="text-white mb-3">Photo Requirements:</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <div class="feature-checkbox">
+                                                <input type="checkbox" id="photoFront" checked disabled>
+                                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                                <span>Front view</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="feature-checkbox">
+                                                <input type="checkbox" id="photoBack" checked disabled>
+                                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                                <span>Back view</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="feature-checkbox">
+                                                <input type="checkbox" id="photoSide" checked disabled>
+                                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                                <span>Side view</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="feature-checkbox">
+                                                <input type="checkbox" id="photoInterior" checked disabled>
+                                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                                <span>Interior</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="feature-checkbox">
+                                                <input type="checkbox" id="photoDashboard" checked disabled>
+                                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                                <span>Dashboard</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="feature-checkbox">
+                                                <input type="checkbox" id="photoTrunk" checked disabled>
+                                                <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                                <span>Trunk space</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Features -->
+                <div class="form-step" data-step="3">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="listing-card" data-aos="fade-up">
+                                <h2 class="text-white mb-4">Vehicle Features</h2>
+                                <p class="text-white-50 mb-5">Select all features your vehicle has</p>
+                                
+                                <h5 class="text-white mb-3">Comfort & Convenience</h5>
+                                <div class="row g-3 mb-5">
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="ac">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Air Conditioning</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="heated-seats">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Heated Seats</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="leather">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Leather Seats</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="sunroof">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Sunroof</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="cruise">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Cruise Control</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="keyless">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Keyless Entry</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="power-seats">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Power Seats</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="tinted">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Tinted Windows</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="text-white mb-3">Technology</h5>
+                                <div class="row g-3 mb-5">
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="bluetooth">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Bluetooth</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="gps">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>GPS Navigation</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="usb">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>USB Ports</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="apple-carplay">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Apple CarPlay</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="android-auto">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Android Auto</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="backup-camera">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Backup Camera</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="360-camera">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>360° Camera</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="parking-sensors">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Parking Sensors</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="text-white mb-3">Safety</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="airbags">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Airbags</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="abs">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>ABS</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="blind-spot">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Blind Spot Monitor</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="feature-checkbox">
+                                            <input type="checkbox" name="features" value="lane-assist">
+                                            <span class="checkbox-custom"><i class="fas fa-check"></i></span>
+                                            <span>Lane Assist</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Pricing -->
+                <div class="form-step" data-step="4">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="listing-card" data-aos="fade-up">
+                                <h2 class="text-white mb-4">Set Your Price</h2>
+                                <p class="text-white-50 mb-5">Set competitive daily rates to attract more renters</p>
+                                
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Daily Rate (R)</label>
+                                            <input type="number" class="form-control" id="dailyRate" name="daily_rate" placeholder="e.g. 800" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Weekly Discount (%)</label>
+                                            <input type="number" class="form-control" id="weeklyDiscount" placeholder="e.g. 10" value="10">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Monthly Discount (%)</label>
+                                            <input type="number" class="form-control" id="monthlyDiscount" placeholder="e.g. 25" value="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Security Deposit (R)</label>
+                                            <input type="number" class="form-control" id="deposit" name="deposit" placeholder="e.g. 5000" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="pricing-calculator mt-5">
+                                    <h4 class="text-white mb-4">Earnings Calculator</h4>
+                                    <p class="text-white-50 mb-4">See how much you could earn based on rental days per month</p>
+                                    
+                                    <div class="slider-wrapper">
+                                        <div id="daysSlider"></div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-white-50">5 days</span>
+                                            <span class="text-white" id="selectedDays">15 days</span>
+                                            <span class="text-white-50">30 days</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="earnings-estimate">
+                                        <p class="text-white-50 mb-2">Estimated Monthly Earnings</p>
+                                        <h3 id="estimatedEarnings">R 12,000</h3>
+                                        <small class="text-white-50">*After YTR service fee (15%)</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="pricing-preview mt-4">
+                                    <h4>Your Price Breakdown</h4>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4 text-center">
+                                            <h5 class="text-white">Daily</h5>
+                                            <p class="h4 text-white" id="previewDaily">R 0</p>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <h5 class="text-white">Weekly</h5>
+                                            <p class="h4 text-white" id="previewWeekly">R 0</p>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <h5 class="text-white">Monthly</h5>
+                                            <p class="h4 text-white" id="previewMonthly">R 0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Review & Submit -->
+                <div class="form-step" data-step="5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="listing-card" data-aos="fade-up">
+                                <h2 class="text-white mb-4">Review Your Listing</h2>
+                                <p class="text-white-50 mb-5">Make sure everything looks good before submitting</p>
+                                
+                                <div class="summary-card">
+                                    <h5>Vehicle Details</h5>
+                                    <div class="summary-item">
+                                        <span>Make & Model</span>
+                                        <span id="summaryMakeModel">-</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Year</span>
+                                        <span id="summaryYear">-</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Type</span>
+                                        <span id="summaryType">-</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Transmission</span>
+                                        <span id="summaryTransmission">-</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="summary-card">
+                                    <h5>Pricing</h5>
+                                    <div class="summary-item">
+                                        <span>Daily Rate</span>
+                                        <span id="summaryDailyRate">-</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Weekly Rate</span>
+                                        <span id="summaryWeeklyRate">-</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Monthly Rate</span>
+                                        <span id="summaryMonthlyRate">-</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Security Deposit</span>
+                                        <span id="summaryDeposit">-</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="termsAgree" required>
+                                    <label class="form-check-label text-white-50" for="termsAgree">
+                                        I agree to the <a href="terms.html" class="text-gradient">Terms of Service</a> and 
+                                        <a href="privacy.html" class="text-gradient">Privacy Policy</a>
+                                    </label>
+                                </div>
+                                
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="insuranceAgree" required>
+                                    <label class="form-check-label text-white-50" for="insuranceAgree">
+                                        I understand and accept the <a href="insurance.html" class="text-gradient">Insurance Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-lg-8">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-light btn-prev" style="display: none;" onclick="prevStep()">
+                                <i class="fas fa-arrow-left me-2"></i>Previous
+                            </button>
+                            <button type="button" class="btn btn-primary btn-next ms-auto" onclick="nextStep()">
+                                Next<i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-submit ms-auto" style="display: none;">
+                                <i class="fas fa-check me-2"></i>Submit Listing
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="hero-content">
+                        <span class="hero-badge"><i class="fas fa-wallet"></i> Earn Passive Income</span>
+                        <h1 class="hero-title">Turn Your Vehicle Into <span class="gradient-text">Extra Income</span></h1>
+                        <p class="hero-subtitle"> <span class="gradient-text"> Many vehicles sit unused for days, weeks, or months.</span> We help you turn that idle asset into consistent earnings, while ensuring every listing is verified for quality and trust. You list, we review, and once approved, your vehicle is visible to thousands of potential renters. </p>
+                        <div class="hero-cta">
+                            <a href="register.html?type=owner" class="btn-hero"><i class="fas fa-car"></i> List Your Vehicle Free</a>
+                            <a href="how-it-works.html#owners" class="btn-hero btn-hero-outline"><i class="fas fa-play-circle"></i> See How It Works</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-star"></i> Benefits</span>
+                <h2 class="section-title">Why List With Us?</h2>
+                <p class="section-subtitle">Join South Africa's fastest-growing vehicle sharing community</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-coins"></i></div>
+                        <h3 class="why-title">Earn Income Without a Job</h3>
+                        <p class="why-text">Your vehicle can generate real income while you focus on your life. You don’t need a business background, a company or even a complex setup. <br>You simply list your vehicle and earn from it.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-bolt"></i></div>
+                        <h3 class="why-title">Free Marketing & Visibility</h3>
+                        <p class="why-text">Once approved, your listing receives exposure through the platform. You don’t have to run your own marketing campaigns — we support visibility through platform discovery and outreach.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-calendar-check"></i></div>
+                        <h3 class="why-title">Transparent Pricing & Deposit</h3>
+                        <p class="why-text">Everything is displayed clearly — rental cost, deposit, and booking terms. No hidden fees, no surprises.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="why-title">Simple, Honest Process</h3>
+                        <p class="why-text">The platform is intentionally focused. We avoid unnecessary features and keep the experience clean, fast, and user-friendly.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-user-check"></i></div>
+                        <h3 class="why-title">Verified Renters Only</h3>
+                        <p class="why-text">All renters undergo ID verification, license checks, and background screening before booking.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-headset"></i></div>
+                        <h3 class="why-title">24/7 Support</h3>
+                        <p class="why-text">Our dedicated owner support team is always available to help with any questions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="background: var(--dark-card);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-clipboard-check"></i> Requirements</span>
+                <h2 class="section-title">What You Need</h2>
+                <p class="section-subtitle">Getting started is easy - here's what you'll need</p>
+            </div>
+            <div class="requirements-grid">
+               
+                <div class="requirement-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="requirement-icon"><i class="fas fa-id-card"></i></div>
+                    <div>
+                        <h4 class="requirement-title">Valid ID OR Driver’s License</h4>
+                        <p class="requirement-text">Only one is required — not both.
+This supports owners who may have inherited a vehicle, share a vehicle, or do not personally drive it.</p>
+                    </div>
+                </div>
+                <div class="requirement-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="requirement-icon"><i class="fas fa-file-contract"></i></div>
+                    <div>
+                        <h4 class="requirement-title">Proof of Ownership or Authorization</h4>
+                        <p class="requirement-text">You must prove that you own the vehicle or have authorization to list it. This can be:</p>
+
+<p class="requirement-text">Registration papers in your name</p>
+
+<p class="requirement-text">An authorized letter from the registered owner</p>
+                    </div>
+                </div>
+                <div class="requirement-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="requirement-icon"><i class="fas fa-camera"></i></div>
+                    <div>
+                        <h4 class="requirement-title">Quality Photos</h4>
+                        <p class="requirement-text">You will need clear photos of your vehicle from different angles, including interior and exterior.</p>
+                    </div>
+                </div>
+ <div class="requirement-item" data-aos="fade-up">
+                    <div class="requirement-icon"><i class="fas fa-car"></i></div>
+                    <div>
+                        <h4 class="requirement-title">Optional Verification</h4>
+                        <p class="requirement-text">In some cases, we may request additional verification for trust and safety. This may include:</p>
+
+<p class="requirement-text">Additional photos</p>
+
+<p class="requirement-text">A short verification video</p>
+
+<p class="requirement-text">Proof of authorization</p>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+<br>
+<div class="section-header">
+<h2 class="section-title">This is not meant to be intrusive — <br> it’s to protect both owners and renters.</h2>
+</div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge"><i class="fas fa-quote-left"></i> Success Stories</span>
+                <h2 class="section-title">What Owners Say</h2>
+                <p class="section-subtitle">Join thousands of happy vehicle owners</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"I was skeptical at first, but Yours To Rent has been amazing. My Ford Ranger earns me an extra R12,000 monthly while I'm at work. The insurance gives me complete peace of mind."</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Owner" class="testimonial-avatar">
+                            <div>
+                                <div class="testimonial-name">Sipho M.</div>
+                                <div class="testimonial-info">Johannesburg - 18 months</div>
+                            </div>
+                            <span class="testimonial-earnings">R12,000/mo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"As a single mom, the extra income from my Hyundai Tucson has been life-changing. I can now afford my daughter's school fees without stress. Thank you YTR!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Owner" class="testimonial-avatar">
+                            <div>
+                                <div class="testimonial-name">Lerato K.</div>
+                                <div class="testimonial-info">Pretoria - 2 years</div>
+                            </div>
+                            <span class="testimonial-earnings">R8,500/mo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"I have 3 vehicles listed and it's become my primary business. The platform is professional, the support is excellent, and the renters are always respectful."</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Owner" class="testimonial-avatar">
+                            <div>
+                                <div class="testimonial-name">Andre V.</div>
+                                <div class="testimonial-info">Cape Town - 3 years</div>
+                            </div>
+                            <span class="testimonial-earnings">R35,000/mo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="cta-section" data-aos="fade-up">
+                <h2 class="cta-title">Ready to Start Earning?</h2>
+                <p class="cta-text">List your vehicle for free and start earning today. It only takes 10 minutes to get started.</p>
+                <a href="register.html?type=owner" class="btn-cta"><i class="fas fa-rocket"></i> List Your Vehicle Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" class="footer-logo">
+                    <p class="footer-text">South Africa's premier peer-to-peer vehicle rental marketplace.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="browse.html">Browse Cars</a></li>
+                        <li><a href="list-your-car.html">List Your Car</a></li>
+
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5 class="footer-title">Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="partners.html">Partners</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5 class="footer-title">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="safety.html">Safety</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5 class="footer-title">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="cookies.html">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">&copy; 2026 Yours To Rent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        const vehicleType = document.getElementById('vehicleType');
+        const daysSlider = document.getElementById('daysSlider');
+        const daysValue = document.getElementById('daysValue');
+        const earningsResult = document.getElementById('earningsResult');
+        
+        function calculateEarnings() {
+            const dailyRate = parseInt(vehicleType.value);
+            const days = parseInt(daysSlider.value);
+            const earnings = dailyRate * days;
+            daysValue.textContent = days;
+            earningsResult.textContent = 'R' + earnings.toLocaleString();
+        }
+        
+        vehicleType.addEventListener('change', calculateEarnings);
+        daysSlider.addEventListener('input', calculateEarnings);
+    </script>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        let currentStep = 1;
+        const totalSteps = 5;
+        
+        // Initialize Dropzone
+        Dropzone.autoDiscover = false;
+        const dropzone = new Dropzone('#photoDropzone', {
+            url: '#',
+            maxFiles: 20,
+            maxFilesize: 5,
+            acceptedFiles: 'image/*',
+            autoProcessQueue: false,
+            addRemoveLinks: true
+        });
+        
+        // Initialize noUiSlider
+        const slider = document.getElementById('daysSlider');
+        noUiSlider.create(slider, {
+            start: [15],
+            connect: [true, false],
+            step: 1,
+            range: {
+                'min': 5,
+                'max': 30
+            }
+        });
+        
+        slider.noUiSlider.on('update', function(values) {
+            const days = Math.round(values[0]);
+            document.getElementById('selectedDays').textContent = days + ' days';
+            calculateEarnings(days);
+        });
+        
+        function calculateEarnings(days) {
+            const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 800;
+            const grossEarnings = dailyRate * days;
+            const netEarnings = grossEarnings * 0.85; // After 15% fee
+            document.getElementById('estimatedEarnings').textContent = 'R ' + netEarnings.toLocaleString();
+        }
+        
+        // Update price previews
+        document.getElementById('dailyRate').addEventListener('input', updatePricing);
+        document.getElementById('weeklyDiscount').addEventListener('input', updatePricing);
+        document.getElementById('monthlyDiscount').addEventListener('input', updatePricing);
+        
+        function updatePricing() {
+            const daily = parseFloat(document.getElementById('dailyRate').value) || 0;
+            const weeklyDiscount = parseFloat(document.getElementById('weeklyDiscount').value) || 0;
+            const monthlyDiscount = parseFloat(document.getElementById('monthlyDiscount').value) || 0;
+            
+            const weekly = daily * 7 * (1 - weeklyDiscount/100);
+            const monthly = daily * 30 * (1 - monthlyDiscount/100);
+            
+            document.getElementById('previewDaily').textContent = 'R ' + daily.toLocaleString();
+            document.getElementById('previewWeekly').textContent = 'R ' + Math.round(weekly).toLocaleString();
+            document.getElementById('previewMonthly').textContent = 'R ' + Math.round(monthly).toLocaleString();
+            
+            calculateEarnings(15);
+        }
+        
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+                
+                currentStep++;
+                
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                
+                updateButtons();
+                updateSummary();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                currentStep--;
+                
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
+                
+                updateButtons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function updateButtons() {
+            const prevBtn = document.querySelector('.btn-prev');
+            const nextBtn = document.querySelector('.btn-next');
+            const submitBtn = document.querySelector('.btn-submit');
+            
+            prevBtn.style.display = currentStep > 1 ? 'inline-flex' : 'none';
+            nextBtn.style.display = currentStep < totalSteps ? 'inline-flex' : 'none';
+            submitBtn.style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
+        }
+        
+        function updateSummary() {
+            if (currentStep === 5) {
+                const make = document.getElementById('make').value;
+                const model = document.getElementById('model').value;
+                document.getElementById('summaryMakeModel').textContent = `${make.toUpperCase()} ${model}`;
+                document.getElementById('summaryYear').textContent = document.getElementById('year').value;
+                document.getElementById('summaryType').textContent = document.getElementById('type').value;
+                document.getElementById('summaryTransmission').textContent = document.getElementById('transmission').value;
+                
+                const daily = parseFloat(document.getElementById('dailyRate').value) || 0;
+                const weeklyDiscount = parseFloat(document.getElementById('weeklyDiscount').value) || 0;
+                const monthlyDiscount = parseFloat(document.getElementById('monthlyDiscount').value) || 0;
+                const deposit = parseFloat(document.getElementById('deposit').value) || 0;
+                
+                document.getElementById('summaryDailyRate').textContent = 'R ' + daily.toLocaleString();
+                document.getElementById('summaryWeeklyRate').textContent = 'R ' + Math.round(daily * 7 * (1 - weeklyDiscount/100)).toLocaleString();
+                document.getElementById('summaryMonthlyRate').textContent = 'R ' + Math.round(daily * 30 * (1 - monthlyDiscount/100)).toLocaleString();
+                document.getElementById('summaryDeposit').textContent = 'R ' + deposit.toLocaleString();
+            }
+        }
+        
+        // Form submission
+        // Django handles the final form submission on step 5.
+    </script>
+</body>
+</html>

@@ -1,0 +1,1997 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Yours To Rent</title>
+    <meta name="description" content="Get in touch with Yours To Rent. We're here to help with any questions about renting or listing vehicles.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/ytr-logo-reference.png' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-enterprise-nav.css' %}">
+    
+    <style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* South Africa Map Styles */
+        .ytr-sa-map-section {
+            padding: 100px 0;
+            background: var(--ytr-bg-secondary);
+        }
+        
+        .ytr-sa-map-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .ytr-sa-map-svg {
+            width: 100%;
+            height: auto;
+        }
+        
+        .ytr-province-path {
+            fill: var(--ytr-bg-tertiary);
+            stroke: var(--ytr-gold);
+            stroke-width: 1.5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .ytr-province-path:hover {
+            fill: rgba(255, 215, 0, 0.3);
+            stroke-width: 2.5;
+        }
+        
+        .ytr-map-tooltip {
+            position: absolute;
+            background: var(--ytr-bg-card);
+            border: 1px solid var(--ytr-gold);
+            border-radius: 8px;
+            padding: 12px 16px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .ytr-map-tooltip.ytr-tooltip-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .ytr-map-tooltip-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ytr-gold);
+            margin-bottom: 4px;
+        }
+        
+        .ytr-map-tooltip-region {
+            font-size: 0.85rem;
+            color: var(--ytr-text-muted);
+        }
+        
+        .ytr-map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .ytr-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--ytr-text-muted);
+        }
+        
+        .ytr-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .ytr-legend-dot-active {
+            background: var(--ytr-gold);
+        }
+        
+        .ytr-legend-dot-coming {
+            background: var(--ytr-bg-tertiary);
+            border: 2px solid var(--ytr-gold);
+        }
+    </style>
+
+
+
+
+
+
+
+
+    
+    <style>
+        .contact-hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(20,20,20,0.95) 100%), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920') center/cover;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+        }
+        
+        .contact-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            height: 100%;
+            transition: all 0.4s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 60px rgba(255,165,0,0.15);
+        }
+        
+        .contact-card .icon-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .contact-card .icon-box i {
+            font-size: 32px;
+            color: #000;
+        }
+        
+        .contact-form-section {
+            background: var(--dark-bg);
+            padding: 100px 0;
+        }
+        
+        .contact-form {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 50px;
+        }
+        
+        .form-floating > .form-control {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            height: 60px;
+        }
+        
+        .form-floating > .form-control:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(255,165,0,0.2);
+        }
+        
+        .form-floating > label {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .form-floating > textarea.form-control {
+            height: 150px;
+        }
+        
+        .map-section {
+            height: 500px;
+            position: relative;
+        }
+        
+        .map-section iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(100%) invert(92%) contrast(83%);
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            background: rgba(0,0,0,0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            z-index: 10;
+        }
+        
+        .faq-accordion .accordion-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px !important;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .faq-accordion .accordion-button {
+            background: transparent;
+            color: #fff;
+            font-weight: 600;
+            padding: 25px 30px;
+        }
+        
+        .faq-accordion .accordion-button:not(.collapsed) {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+        }
+        
+        .faq-accordion .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+        
+        .faq-accordion .accordion-body {
+            color: rgba(255,255,255,0.7);
+            padding: 0 30px 25px;
+        }
+        
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #000;
+            transform: translateY(-5px);
+        }
+        
+        .office-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .office-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+        }
+        
+        .office-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .office-card .content {
+            padding: 30px;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-orange: #E8722A;
+            --primary-red: #C41E3A;
+            --dark-bg: #0A0A0B;
+            --dark-card: #111113;
+            --dark-border: #1E1E22;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A, #C41E3A);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); line-height: 1.6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 4px; }
+        
+        .navbar-ytr { background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--dark-border); padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-secondary) !important; font-weight: 500; padding: 8px 18px !important; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-gold) !important; }
+        .btn-nav-primary { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 24px; border-radius: 8px; }
+        .btn-nav-outline { border: 1px solid var(--primary-gold); color: var(--primary-gold); background: transparent; padding: 10px 24px; border-radius: 8px; }
+        
+        /* Hero */
+        .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920') center/cover no-repeat; opacity: 0.1; }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; color: #22c55e; margin-bottom: 25px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
+        .hero-title .gradient-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 550px; }
+        .hero-cta { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 50px; }
+        .btn-hero { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        .btn-hero-outline { background: transparent; border: 2px solid var(--dark-border); color: var(--text-primary); }
+        .btn-hero-outline:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+        
+        /* Earnings Calculator */
+        .earnings-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 24px; padding: 40px; }
+        .earnings-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .earnings-title i { color: var(--primary-gold); }
+        .earnings-field { margin-bottom: 25px; }
+        .earnings-label { display: block; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .earnings-select { width: 100%; background: var(--dark-bg); border: 1px solid var(--dark-border); border-radius: 12px; padding: 14px 16px; color: var(--text-primary); font-size: 1rem; cursor: pointer; }
+        .earnings-select:focus { outline: none; border-color: var(--primary-gold); }
+        .earnings-slider { width: 100%; margin: 15px 0; }
+        .days-display { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
+        .earnings-result { background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); border-radius: 16px; padding: 25px; text-align: center; margin-top: 20px; }
+        .earnings-amount { font-size: 3rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .earnings-period { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 15px; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        
+        /* Why List */
+        .why-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 40px 30px; height: 100%; transition: all 0.4s; }
+        .why-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.1); }
+        .why-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin-bottom: 25px; transition: all 0.4s; }
+        .why-card:hover .why-icon { background: var(--gradient-gold); color: #000; }
+        .why-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+        .why-text { color: var(--text-secondary); }
+        
+        /* Requirements */
+        .requirements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .requirement-item { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 16px; padding: 25px; display: flex; gap: 20px; transition: all 0.3s; }
+        .requirement-item:hover { border-color: var(--primary-gold); }
+        .requirement-icon { width: 50px; height: 50px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.3rem; flex-shrink: 0; }
+        .requirement-title { font-weight: 600; margin-bottom: 5px; }
+        .requirement-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* Testimonials */
+        .testimonial-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 35px; height: 100%; }
+        .testimonial-stars { color: var(--primary-gold); margin-bottom: 20px; }
+        .testimonial-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 15px; }
+        .testimonial-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-gold); }
+        .testimonial-name { font-weight: 600; }
+        .testimonial-info { font-size: 0.85rem; color: var(--text-muted); }
+        .testimonial-earnings { background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-left: auto; }
+        
+        /* Protection */
+        .protection-section { background: var(--dark-card); border-radius: 30px; padding: 60px; }
+        .protection-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .protection-item { text-align: center; }
+        .protection-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin: 0 auto 15px; }
+        .protection-title { font-weight: 600; margin-bottom: 8px; }
+        .protection-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* CTA */
+        .cta-section { background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, rgba(232, 114, 42, 0.1) 100%); border-radius: 30px; padding: 80px; text-align: center; position: relative; overflow: hidden; }
+        .cta-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 20px; }
+        .cta-text { color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn-cta { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 50px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        
+        .footer { background: var(--dark-bg); padding: 80px 0 30px; border-top: 1px solid var(--dark-border); margin-top: 100px; }
+        .footer-logo { height: 50px; margin-bottom: 20px; }
+        .footer-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; max-width: 300px; }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 45px; height: 45px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s; }
+        .footer-social a:hover { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .footer-title { font-weight: 700; margin-bottom: 25px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .footer-bottom { border-top: 1px solid var(--dark-border); padding-top: 30px; margin-top: 60px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-copyright { color: var(--text-muted); font-size: 0.9rem; }
+        
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3rem; }
+            .requirements-grid { grid-template-columns: 1fr; }
+            .protection-grid { grid-template-columns: repeat(2, 1fr); }
+            .cta-section { padding: 50px 30px; }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .protection-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<!-- =========================================================
+YTR ENTERPRISE NAV + HERO SYSTEM v4.0 (FULLY RESPONSIVE)
+PASTE ONCE • MOBILE-FIRST • ENTERPRISE SAFE
+========================================================= -->
+
+<style>
+/* ================= RESET & SAFETY ================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  background: #000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ================= NAVBAR ================= */
+.ytrE-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 88px;
+  z-index: 100000;
+  background: rgba(0,0,0,0.97);
+  border-bottom: 1px solid rgba(255,69,0,0.4);
+  backdrop-filter: blur(14px);
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink { height: 64px; }
+
+.ytrE-nav-inner {
+  max-width: 1480px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ytrE-logo img {
+  height: 44px;
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink .ytrE-logo img { height: 34px; }
+
+/* ================= DESKTOP LINKS ================= */
+.ytrE-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+.ytrE-links a {
+  position: relative;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+.ytrE-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg,#ff4500,#ff7a18);
+  transition: width .25s ease;
+}
+.ytrE-links a:hover::after { width: 100%; }
+
+/* ================= ACTIONS ================= */
+.ytrE-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ytrE-login {
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.ytrE-signup {
+  padding: 7px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#ff4500,#ff7a18);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+/* ================= BURGER ================= */
+.ytrE-burger {
+  display: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ================= MEGA MENU ================= */
+.ytrE-mega {
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: #0b0b0b;
+  display: none;
+}
+.ytrE-mega.show { display: block; }
+
+.ytrE-mega-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 32px;
+}
+.ytrE-mega h6 {
+  margin: 0 0 12px;
+  color: #ff7a18;
+  font-size: 14px;
+}
+.ytrE-mega a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* ================= MOBILE DRAWER ================= */
+.ytrE-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(88%, 380px);
+  background: #050505;
+  z-index: 200000;
+  transform: translateX(-100%);
+  transition: transform .35s ease;
+  padding: 90px 22px 30px;
+}
+.ytrE-drawer.open { transform: translateX(0); }
+
+.ytrE-drawer a {
+  display: block;
+  padding: 14px 0;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ================= HERO ================= */
+.ytrE-hero {
+  padding-top: 140px;
+  padding-bottom: 120px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,69,0,0.18), transparent 45%),
+    radial-gradient(circle at 88% 20%, rgba(255,122,24,0.15), transparent 45%),
+    #000;
+}
+.ytrE-hero-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 56px;
+  align-items: center;
+}
+.ytrE-hero-img img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 60px 140px rgba(0,0,0,0.9));
+}
+.ytrE-hero h1 {
+  color: #fff;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.12;
+  margin: 0;
+}
+.ytrE-hero p {
+  margin-top: 18px;
+  max-width: 560px;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.6;
+}
+
+/* ================= STATS ================= */
+.ytrE-stats {
+  margin-top: 38px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px;
+}
+.ytrE-stat {
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .ytrE-links, .ytrE-actions { display: none; }
+  .ytrE-burger { display: block; }
+}
+
+@media (max-width: 900px) {
+  .ytrE-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .ytrE-hero p { margin-left: auto; margin-right: auto; }
+  .ytrE-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+</style>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="ytrE-nav" id="ytrENav">
+  <div class="ytrE-nav-inner">
+    <a href="{% url 'home' %}" class="ytrE-logo d-flex align-items-center gap-2">
+      <img src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" width="132" height="44" decoding="async">
+    </a>
+
+    <div class="ytrE-links">
+      <a href="{% url 'browse' %}?commercial=1" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="{% url 'how_it_works' %}">How It Works</a>
+      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'add_listing' %}">List Vehicle</a>
+      <a href="{% url 'about' %}">Company</a>
+      <a href="{% url 'contact' %}">Support</a>
+    </div>
+
+    <div class="ytrE-actions">
+      {% if user.is_authenticated %}
+      <a href="{% url 'owner_dashboard' %}" class="ytrE-login">Dashboard</a>
+      <a href="{% url 'logout' %}" class="ytrE-signup">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="ytrE-login">Login</a>
+      <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
+      {% endif %}
+    </div>
+
+    <div class="ytrE-burger" id="ytrEBurger">☰</div>
+  </div>
+
+  <!-- Mega Menu -->
+  <div class="ytrE-mega" id="ytrEMega">
+    <div class="ytrE-mega-inner">
+      <div>
+        <h6>By Category</h6>
+        <a>Sedan</a><a>SUV</a><a>Luxury</a><a>Economy</a>
+      </div>
+      <div>
+        <h6>More</h6>
+        <a>Bakkie</a><a>Van</a><a>Commercial</a>
+      </div>
+      <div>
+        <h6>Services</h6>
+        <a>License Test</a><a>Corporate</a>
+      </div>
+      <div>
+        <h6>Featured</h6>
+        <a>BMW 3 Series</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= MOBILE DRAWER ================= -->
+<div class="ytrE-drawer" id="ytrEDrawer">
+<a href="{% url 'home' %}">Homepage</a>
+  <a href="{% url 'browse' %}?commercial=1">Browse Vehicles</a>
+  <a href="{% url 'how_it_works' %}">How It Works</a>
+  <a href="{% url 'services' %}">Services</a>
+  <a href="{% url 'add_listing' %}">List Vehicle</a>
+  <a href="{% url 'about' %}">Company</a>
+  <a href="{% url 'contact' %}">Support</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'owner_dashboard' %}">Dashboard</a>
+  <a href="{% url 'logout' %}">Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'register' %}">Sign Up</a>
+  {% endif %}
+</div>
+
+<script>
+/* ================= JS ================= */
+const nav = document.getElementById('ytrENav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) nav.classList.add('shrink');
+  else nav.classList.remove('shrink');
+});
+
+const mega = document.getElementById('ytrEMega');
+const browse = document.getElementById('ytrEBrowse');
+browse && browse.addEventListener('mouseenter',()=>mega.classList.add('show'));
+nav.addEventListener('mouseleave',()=>mega.classList.remove('show'));
+
+const burger = document.getElementById('ytrEBurger');
+const drawer = document.getElementById('ytrEDrawer');
+burger.addEventListener('click',()=>{
+  drawer.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+});
+</script>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <span class="badge-pill" data-aos="fade-up">Get In Touch</span>
+                    <h1 class="display-3 fw-bold text-white mt-3" data-aos="fade-up" data-aos-delay="100">
+                        We're Here to <span class="gradient-text">Help</span>
+                    </h1>
+                    <p class="lead text-white-50 mt-4" data-aos="fade-up" data-aos-delay="200">
+                        Have questions about renting or listing your vehicle? Our dedicated support team 
+                        is available 24/7 to assist you with anything you need.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="contact-form">
+                        <h2 class="text-white mb-4">Send Us a Message</h2>
+                        <p class="text-white-50 mb-5">Fill out the form below and we'll get back to you within 24 hours.</p>
+                        
+                        <form id="contactForm" method="POST" action="{% url 'contact' %}">
+                            {% csrf_token %}
+                            {% if messages %}
+                            <div class="mb-3">
+                                {% for message in messages %}
+                                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name" required>
+                                        <label for="firstName">First Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name" required>
+                                        <label for="lastName">Last Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                        <label for="email">Email Address</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">
+                                        <label for="phone">Phone Number</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating" style="background: #0a0a0a;">
+                                        <select class="form-control" style="background: #0a0a0a;" id="subject" name="subject" required>
+                                            <option value="">Select a topic</option>
+                                            <option value="general">General Inquiry</option>
+                                            <option value="rental">Rental Questions</option>
+                                            <option value="listing">Listing My Vehicle</option>
+                                            <option value="support">Technical Support</option>
+                                            <option value="billing">Billing & Payments</option>
+                                            <option value="partnership">Partnership Opportunities</option>
+                                        </select>
+                                        <label for="subject">Subject</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="message" name="message" placeholder="Message" style="height: 150px" required></textarea>
+                                        <label for="message">Your Message</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                                        <label class="form-check-label text-white-50" for="newsletter">
+                                            Subscribe to our newsletter for updates and offers
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <h3 class="text-white mb-4">Frequently Asked Questions</h3>
+                    <div class="accordion faq-accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How do I rent a vehicle?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Simply browse our available vehicles, select your dates, complete verification, and book. 
+                                    You can pick up the vehicle from the owner or have it delivered to your location.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    How do I list my vehicle?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Create an account, add your vehicle details and photos, set your pricing and availability, 
+                                    and start earning. Our team will verify your listing within 24 hours.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    What payment methods do you accept?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We accept all major credit cards, debit cards, EFT transfers, and mobile payment options 
+                                    including SnapScan and Zapper. All payments are processed securely.
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h4 class="text-white mb-4">Connect With Us</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <!-- Global Footprint Section - South Africa Map -->
+    <section class="ytr-sa-map-section">
+        <div class="ytr-section-container">
+            <div class="ytr-section-header" data-aos="fade-up">
+                <span class="ytr-section-badge">Global Footprint</span>
+                <h2 class="ytr-section-title">Our <span class="ytr-text-gradient">Presence</span> in South Africa</h2>
+                <p class="ytr-section-subtitle">Hover over provinces to see our coverage areas</p>
+            </div>
+            
+            <div class="ytr-sa-map-wrapper" data-aos="fade-up">
+                <svg viewBox="0 0 800 700" class="ytr-sa-map-svg" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Limpopo -->
+                    <path class="ytr-province-path" data-name="Limpopo" data-region="Polokwane, Tzaneen, Makhado" d="M450,80 L550,60 L620,100 L650,150 L620,200 L550,220 L480,200 L420,160 L430,120 Z"/>
+                    
+                    <!-- Mpumalanga -->
+                    <path class="ytr-province-path" data-name="Mpumalanga" data-region="Nelspruit, Mbombela, Witbank" d="M550,220 L620,200 L680,250 L660,320 L580,340 L520,300 L530,250 Z"/>
+                    
+                    <!-- Gauteng -->
+                    <path class="ytr-province-path" data-name="Gauteng" data-region="Johannesburg, Pretoria, Sandton" d="M420,220 L480,200 L530,250 L520,300 L460,320 L400,290 L400,250 Z"/>
+                    
+                    <!-- North West -->
+                    <path class="ytr-province-path" data-name="North West" data-region="Rustenburg, Potchefstroom, Mahikeng" d="M280,200 L400,180 L420,220 L400,290 L340,320 L260,300 L240,250 Z"/>
+                    
+                    <!-- Free State -->
+                    <path class="ytr-province-path" data-name="Free State" data-region="Bloemfontein, Welkom, Bethlehem" d="M340,320 L460,320 L520,380 L500,460 L400,500 L300,460 L280,380 Z"/>
+                    
+                    <!-- KwaZulu-Natal -->
+                    <path class="ytr-province-path" data-name="KwaZulu-Natal" data-region="Durban, Pietermaritzburg, Umhlanga" d="M520,380 L580,340 L660,380 L680,450 L620,520 L540,540 L480,500 L500,460 Z"/>
+                    
+                    <!-- Eastern Cape -->
+                    <path class="ytr-province-path" data-name="Eastern Cape" data-region="Port Elizabeth, East London, Mthatha" d="M300,460 L400,500 L480,500 L540,540 L500,620 L380,640 L280,600 L240,520 Z"/>
+                    
+                    <!-- Western Cape -->
+                    <path class="ytr-province-path" data-name="Western Cape" data-region="Cape Town, Stellenbosch, Paarl" d="M100,480 L200,440 L280,460 L300,540 L280,600 L200,640 L100,600 L60,540 Z"/>
+                    
+                    <!-- Northern Cape -->
+                    <path class="ytr-province-path" data-name="Northern Cape" data-region="Kimberley, Upington, Springbok" d="M60,280 L240,250 L280,300 L280,380 L200,440 L100,480 L40,400 L20,340 Z"/>
+                </svg>
+                
+                <!-- Tooltip -->
+                <div class="ytr-map-tooltip">
+                    <div class="ytr-map-tooltip-title"></div>
+                    <div class="ytr-map-tooltip-region"></div>
+                </div>
+            </div>
+            
+            <div class="ytr-map-legend" data-aos="fade-up">
+                <div class="ytr-legend-item">
+                    <span class="ytr-legend-dot ytr-legend-dot-active"></span>
+                    <span>Currently Active</span>
+                </div>
+                <div class="ytr-legend-item">
+                    <span class="ytr-legend-dot ytr-legend-dot-coming"></span>
+                    <span>Future Expansion</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+    <!-- CTA Section -->
+    <section class="cta-section section-padding"><br><br><br><br>
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;>
+            <div class="cta-content" data-aos="fade-up">
+                <div class="cta-box">
+                    <h2><span class="gradient-text">Ready to Start Your Journey</span>?</h2>
+                    <p>Join thousands of South Africans who are already experiencing the freedom of peer-to-peer vehicle rental</p>
+                    <div class="cta-buttons">
+                        <a href="browse.html" class="btn btn-gradient btn-lg">
+                            <i class="fas fa-car"></i> Browse Vehicles
+                        </a>
+                        <a href="list-vehicle.html" class="btn btn-outline-gold btn-lg">
+                            <i class="fas fa-plus-circle"></i> List Your Vehicle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<br><br><br><br>
+
+    <!-- Footer -->
+    <footer class="ytr-footer-section">
+        <div class="ytr-section-container">
+            <div class="ytr-footer-grid">
+                <div class="ytr-footer-brand">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" class="ytr-footer-logo">
+                    <p class="ytr-footer-tagline">South Africa's Premier Vehicle Marketplace. Your Fleet. Your Services. Your Terms.</p>
+                    <div class="ytr-footer-social">
+                        <a href="#" class="ytr-social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="ytr-social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="ytr-social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="ytr-social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="ytr-footer-links">
+                    <h4 class="ytr-footer-heading">Quick Links</h4>
+                    <a href="browse.html">Browse Vehicles</a>
+                    <a href="list-vehicle.html">List Your Vehicle</a>
+                    <a href="how-it-works.html">How It Works</a>
+                    <a href="about.html">About Us</a>
+                </div>
+                
+                <div class="ytr-footer-links">
+                    <h4 class="ytr-footer-heading">Support</h4>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contact.html">Contact Us</a>
+                    <a href="help.html">Help Center</a>
+                    <a href="feedback.html">Give Feedback</a>
+                </div>
+                
+                <div class="ytr-footer-links">
+                    <h4 class="ytr-footer-heading">Legal</h4>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="cookies.html">Cookie Policy</a>
+                </div>
+            </div>
+            
+            <div class="ytr-footer-bottom">
+                <p>&copy; 2026 Yours To Rent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="ytr-back-to-top" id="ytrBackToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- CDN Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/ytr-main-scripts.js"></script>
+
+
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        // Django handles contact form submission.
+        
+        function openChat() {
+            alert('Live chat feature coming soon!');
+        }
+    </script>	
+<style>
+
+.ytr-navigation-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--ytr-border);
+    z-index: 1000;
+    transition: var(--ytr-transition);
+}
+
+.ytr-navigation-bar.ytr-nav-scrolled {
+    padding: 10px 0;
+    box-shadow: var(--ytr-shadow-lg);
+}
+
+.ytr-nav-container {
+    max-width: var(--ytr-container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ytr-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ytr-nav-logo {
+    height: 50px;
+    width: auto;
+}
+
+.ytr-nav-tagline {
+    font-size: 0.75rem;
+    color: var(--ytr-text-muted);
+    max-width: 150px;
+    line-height: 1.4;
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .ytr-nav-tagline {
+        display: block;
+    }
+}
+
+.ytr-nav-links-wrapper {
+    display: none;
+    align-items: center;
+    gap: 35px;
+}
+
+@media (min-width: 992px) {
+    .ytr-nav-links-wrapper {
+        display: flex;
+    }
+}
+
+.ytr-nav-link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ytr-text-light);
+    position: relative;
+    padding: 5px 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ytr-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--ytr-gradient);
+    transition: var(--ytr-transition);
+}
+
+.ytr-nav-link:hover {
+    color: var(--ytr-gold);
+}
+
+.ytr-nav-link:hover::after {
+    width: 100%;
+}
+
+
+
+/* =====================================================
+   CSS VARIABLES & ROOT CONFIGURATION
+===================================================== */
+:root {
+    /* Primary Colors - Gold/Orange/Red Gradient Theme */
+    --ytr-gold: #FFD700;
+    --ytr-orange: #FF8C00;
+    --ytr-red: #DC143C;
+    --ytr-gradient: linear-gradient(135deg, #FFD700 0%, #FF8C00 50%, #DC143C 100%);
+    --ytr-gradient-hover: linear-gradient(135deg, #FFC700 0%, #FF7C00 50%, #CC1030 100%);
+    
+    /* Background Colors */
+    --ytr-bg-primary: #0a0a0a;
+    --ytr-bg-secondary: #111111;
+    --ytr-bg-tertiary: #1a1a1a;
+    --ytr-bg-card: #151515;
+    --ytr-bg-card-hover: #1f1f1f;
+    
+    /* Text Colors */
+    --ytr-text-white: #ffffff;
+    --ytr-text-light: #e5e5e5;
+    --ytr-text-muted: #9ca3af;
+    --ytr-text-dark: #6b7280;
+    
+    /* Border Colors */
+    --ytr-border: rgba(255, 255, 255, 0.1);
+    --ytr-border-hover: rgba(255, 215, 0, 0.3);
+    
+    /* Shadows */
+    --ytr-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --ytr-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --ytr-shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --ytr-shadow-glow: 0 0 30px rgba(255, 215, 0, 0.2);
+    
+    /* Typography */
+    --ytr-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --ytr-font-display: 'Playfair Display', Georgia, serif;
+    
+    /* Spacing */
+    --ytr-section-padding: 100px 0;
+    --ytr-container-width: 1400px;
+    
+    /* Transitions */
+    --ytr-transition: all 0.3s ease;
+    --ytr-transition-slow: all 0.5s ease;
+    
+    /* Border Radius */
+    --ytr-radius-sm: 8px;
+    --ytr-radius-md: 12px;
+    --ytr-radius-lg: 20px;
+    --ytr-radius-xl: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   RESET & BASE STYLES
+===================================================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--ytr-transition);
+}
+
+
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: inherit;
+}
+
+input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* =====================================================
+   PRELOADER
+===================================================== */
+.ytr-preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--ytr-bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.ytr-preloader-overlay.ytr-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.ytr-preloader-spinner {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.ytr-preloader-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top-color: var(--ytr-gold);
+    border-radius: 50%;
+    animation: ytr-spin 1s linear infinite;
+}
+
+@keyframes ytr-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes ytr-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* =====================================================
+   UTILITY CLASSES
+===================================================== */
+.ytr-section-container {
+    max-width: var(--ytr-container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.ytr-text-gradient {
+    background: var(--ytr-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ytr-section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.ytr-section-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ytr-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.ytr-section-title {
+    font-family: var(--ytr-font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--ytr-text-white);
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.ytr-section-subtitle {
+    font-size: 1.125rem;
+    color: var(--ytr-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+.ytr-hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    overflow: hidden;
+    background:black;
+}
+
+.ytr-hero-background {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60%;
+    height: 80%;
+    pointer-events: none;
+}
+
+.ytr-hero-vehicle-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left bottom;
+    opacity: 0.9;
+    filter: brightness(0.95);
+}
+
+@media (max-width: 991px) {
+    .ytr-hero-background {
+        width: 100%;
+        height: 50%;
+        opacity: 0.3;
+    }
+}
+
+.ytr-hero-content-wrapper {
+    position: relative;
+    z-index: 10;
+    max-width: var(--ytr-container-width);
+    margin: 0 auto;
+    padding: 60px 20px;
+    width: 100%;
+}
+
+.ytr-hero-text-section {
+    max-width: 700px;
+    margin-left: auto;
+}
+
+@media (max-width: 991px) {
+    .ytr-hero-text-section {
+        max-width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+}
+
+.ytr-hero-headline {
+    margin-bottom: 25px;
+}
+
+.ytr-headline-white, .ytr-headline-gradient {
+    display: block;
+    font-family: var(--ytr-font-display);
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.ytr-headline-white {
+    color: var(--ytr-text-white);
+}
+
+.ytr-headline-gradient {
+    background: var(--ytr-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@media (max-width: 768px) {
+    .ytr-headline-white, .ytr-headline-gradient {
+        font-size: 2.5rem;
+    }
+}
+
+.ytr-hero-description {
+    font-size: 1.125rem;
+    color: var(--ytr-text-muted);
+    margin-bottom: 35px;
+    line-height: 1.7;
+}
+
+.ytr-hero-cta-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 991px) {
+    .ytr-hero-cta-wrapper {
+        justify-content: center;
+    }
+}
+
+.ytr-cta-primary, .ytr-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border-radius: var(--ytr-radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--ytr-transition);
+}
+
+.ytr-cta-primary {
+    background: var(--ytr-gradient);
+    color: var(--ytr-bg-primary);
+}
+
+.ytr-cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--ytr-shadow-glow);
+}
+
+.ytr-cta-secondary {
+    background: transparent;
+    border: 2px solid var(--ytr-gold);
+    color: var(--ytr-gold);
+}
+
+.ytr-cta-secondary:hover {
+    background: var(--ytr-gold);
+    color: var(--ytr-bg-primary);
+}
+
+
+/* =====================================================
+   SA MAP GLOBAL FOOTPRINT STYLES
+===================================================== */
+.ytr-global-footprint-section {
+    padding: var(--ytr-section-padding);
+    background: var(--ytr-bg-secondary);
+}
+
+.ytr-sa-map-wrapper {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.ytr-sa-map-container {
+    position: relative;
+    background: var(--ytr-bg-card);
+    border: 1px solid var(--ytr-border);
+    border-radius: var(--ytr-radius-lg);
+    padding: 40px;
+    overflow: hidden;
+}
+
+.ytr-sa-map-svg {
+    width: 100%;
+    height: auto;
+}
+
+.ytr-province-path {
+    fill: var(--ytr-bg-tertiary);
+    stroke: var(--ytr-gold);
+    stroke-width: 1;
+    transition: var(--ytr-transition);
+    cursor: pointer;
+}
+
+.ytr-province-path:hover {
+    fill: rgba(255, 215, 0, 0.2);
+}
+
+.ytr-map-tooltip {
+    position: absolute;
+    background: var(--ytr-bg-primary);
+    border: 1px solid var(--ytr-gold);
+    border-radius: var(--ytr-radius-sm);
+    padding: 10px 15px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: var(--ytr-transition);
+    z-index: 100;
+}
+
+.ytr-map-tooltip.ytr-tooltip-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ytr-map-tooltip-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ytr-text-white);
+}
+
+.ytr-map-tooltip-region {
+    font-size: 0.8rem;
+    color: var(--ytr-gold);
+}
+
+.ytr-map-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.ytr-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--ytr-text-muted);
+}
+
+.ytr-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.ytr-legend-dot-active {
+    background: var(--ytr-gold);
+}
+
+.ytr-legend-dot-coming {
+    background: var(--ytr-text-dark);
+}
+
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+.ytr-footer-section {
+    padding: 80px 0 30px;
+    background: var(--ytr-bg-primary);
+    border-top: 1px solid var(--ytr-border);
+}
+
+.ytr-footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 991px) {
+    .ytr-footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .ytr-footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ytr-footer-brand {
+    max-width: 300px;
+}
+
+@media (max-width: 991px) {
+    .ytr-footer-brand {
+        max-width: 100%;
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 576px) {
+    .ytr-footer-brand {
+        grid-column: span 1;
+    }
+}
+
+.ytr-footer-logo {
+    height: 60px;
+    width: auto;
+    margin-bottom: 15px;
+}
+
+.ytr-footer-tagline {
+    font-size: 0.95rem;
+    color: var(--ytr-text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.ytr-footer-social {
+    display: flex;
+    gap: 12px;
+}
+
+.ytr-social-link {
+    width: 40px;
+    height: 40px;
+    background: var(--ytr-bg-card);
+    border: 1px solid var(--ytr-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ytr-text-muted);
+    transition: var(--ytr-transition);
+}
+
+.ytr-social-link:hover {
+    background: var(--ytr-gradient);
+    border-color: transparent;
+    color: var(--ytr-bg-primary);
+}
+.ytr-footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ytr-footer-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ytr-text-white);
+    margin-bottom: 10px;
+}
+
+.ytr-footer-links a {
+    font-size: 0.9rem;
+    color: var(--ytr-text-muted);
+}
+
+.ytr-footer-links a:hover {
+    color: var(--ytr-gold);
+}
+
+.ytr-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--ytr-border);
+    font-size: 0.85rem;
+    color: var(--ytr-text-dark);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+@media (max-width: 576px) {
+    .ytr-footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+
+
+.ytr-social-btn:hover {
+    border-color: var(--ytr-border-hover);
+    background: var(--ytr-bg-card-hover);
+}
+
+.ytr-auth-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.95rem;
+    color: var(--ytr-text-muted);
+}
+
+.ytr-auth-footer a {
+    color: var(--ytr-gold);
+    font-weight: 500;
+}
+
+/* =====================================================
+   BACK TO TOP BUTTON
+===================================================== */
+.ytr-back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--ytr-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ytr-bg-primary);
+    font-size: 1.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--ytr-transition);
+    z-index: 100;
+    box-shadow: var(--ytr-shadow-glow);
+}
+
+.ytr-back-to-top.ytr-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ytr-back-to-top:hover {
+    transform: translateY(-5px);
+}
+
+</style>
+</body>
+</html>

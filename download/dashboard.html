@@ -1,0 +1,978 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Yours To Rent</title>
+    <meta name="description" content="Manage your rentals, bookings, and earnings on Yours To Rent.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/ytr-logo-reference.png' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- FullCalendar -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        :root {
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            background: #0a0a0a;
+        }
+        
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+        
+        .sidebar-nav .nav-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 25px 10px;
+        }
+        
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+        
+        .sidebar-nav .nav-link i {
+            width: 24px;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .sidebar-nav .nav-link .badge {
+            margin-left: auto;
+            background: var(--primary-color);
+            color: #000;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px 30px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 400px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .top-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .notification-btn,
+        .message-btn {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-btn:hover,
+        .message-btn:hover {
+            background: rgba(255,165,0,0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .notification-btn .badge-dot,
+        .message-btn .badge-dot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 10px;
+            height: 10px;
+            background: #ff4444;
+            border-radius: 50%;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,165,0,0.3);
+        }
+        
+        .stat-card .icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card .icon i {
+            font-size: 24px;
+            color: #000;
+        }
+        
+        .stat-card h3 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card p {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 15px;
+        }
+        
+        .stat-card .trend {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .stat-card .trend.up {
+            color: #00c853;
+        }
+        
+        .stat-card .trend.down {
+            color: #ff4444;
+        }
+        
+        .dashboard-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .dashboard-card .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dashboard-card .card-header h4 {
+            color: #fff;
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .dashboard-card .card-body {
+            padding: 30px;
+        }
+        
+        .booking-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .booking-item:hover {
+            border-color: rgba(255,165,0,0.3);
+            transform: translateX(5px);
+        }
+        
+        .booking-item img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        
+        .booking-item .details {
+            flex: 1;
+        }
+        
+        .booking-item .details h5 {
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .booking-item .details p {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .booking-item .status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .booking-item .status.confirmed {
+            background: rgba(0,200,83,0.1);
+            color: #00c853;
+        }
+        
+        .booking-item .status.pending {
+            background: rgba(255,165,0,0.1);
+            color: #ffa500;
+        }
+        
+        .booking-item .status.completed {
+            background: rgba(100,100,255,0.1);
+            color: #6464ff;
+        }
+        
+        .vehicle-card-mini {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .vehicle-card-mini:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .vehicle-card-mini img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .vehicle-card-mini .content {
+            padding: 20px;
+        }
+        
+        .vehicle-card-mini h5 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .vehicle-card-mini .price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .quick-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover {
+            background: rgba(255,165,0,0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .quick-action-btn i {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        
+        .quick-action-btn span {
+            font-size: 14px;
+        }
+        
+        #earningsChart,
+        #bookingsChart {
+            max-height: 300px;
+        }
+        
+        .calendar-wrapper {
+            background: rgba(255,255,255,0.02);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .fc {
+            --fc-border-color: rgba(255,255,255,0.1);
+            --fc-button-bg-color: var(--primary-color);
+            --fc-button-border-color: var(--primary-color);
+            --fc-button-hover-bg-color: var(--secondary-color);
+            --fc-button-hover-border-color: var(--secondary-color);
+            --fc-today-bg-color: rgba(255,165,0,0.1);
+        }
+        
+        .fc .fc-toolbar-title {
+            color: #fff;
+        }
+        
+        .fc .fc-col-header-cell-cushion,
+        .fc .fc-daygrid-day-number {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-item .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .activity-item .icon.booking {
+            background: rgba(0,200,83,0.1);
+            color: #00c853;
+        }
+        
+        .activity-item .icon.message {
+            background: rgba(100,100,255,0.1);
+            color: #6464ff;
+        }
+        
+        .activity-item .icon.payment {
+            background: rgba(255,165,0,0.1);
+            color: #ffa500;
+        }
+        
+        .activity-item .content h6 {
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .activity-item .content p {
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        .activity-item .time {
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            margin-left: auto;
+        }
+        
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                width: 100%;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        {% include 'partials/account_sidebar.html' %}
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            {% include 'partials/account_topbar.html' %}
+
+            <!-- Stats Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3>R {{ total_earnings }}</h3>
+                        <p>Total Earnings</p>
+                        <div class="trend text-white-50 small">
+                            <span>From approved bookings on your listings</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3>{{ total_bookings }}</h3>
+                        <p>Total Bookings</p>
+                        <div class="trend text-white-50 small">
+                            <span>All-time on your vehicles</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h3>{{ listed_vehicles_count }}</h3>
+                        <p>Listed Vehicles</p>
+                        <div class="trend text-white-50 small">
+                            <span>Active listings you manage</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>—</h3>
+                        <p>Reviews</p>
+                        <div class="trend text-white-50 small">
+                            <span>Coming soon — no public ratings yet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="dashboard-card mb-4">
+                <div class="card-header">
+                    <h4>Quick Actions</h4>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions">
+                        <a href="{% url 'add_listing' %}" class="quick-action-btn">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>List Vehicle</span>
+                        </a>
+                        <a href="{% url 'listings' %}" class="quick-action-btn">
+                            <i class="fas fa-search"></i>
+                            <span>Find Rental</span>
+                        </a>
+                        <a href="{% url 'inbox' %}" class="quick-action-btn">
+                            <i class="fas fa-envelope"></i>
+                            <span>Messages</span>
+                        </a>
+                        <a href="{% url 'earnings' %}" class="quick-action-btn">
+                            <i class="fas fa-chart-line"></i>
+                            <span>View Earnings</span>
+                        </a>
+                        <a href="{% url 'profile' %}" class="quick-action-btn">
+                            <i class="fas fa-user-edit"></i>
+                            <span>Edit Profile</span>
+                        </a>
+                        <a href="{% url 'settings' %}" class="quick-action-btn">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="{% url 'help_center' %}" class="quick-action-btn">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Get Help</span>
+                        </a>
+                        <a href="{% url 'contact' %}" class="quick-action-btn">
+                            <i class="fas fa-gift"></i>
+                            <span>Contact team</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h4>Earnings Overview</h4>
+                            <select class="form-select form-select-sm" style="width: auto; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: #fff;">
+                                <option>This Year</option>
+                                <option>Last Year</option>
+                                <option>All Time</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="earningsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="dashboard-card h-100">
+                        <div class="card-header">
+                            <h4>Booking Status</h4>
+                        </div>
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <canvas id="bookingsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bookings & Calendar -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-6">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h4>Recent Bookings</h4>
+                            <a href="{% url 'my_bookings' %}" class="btn btn-sm btn-outline-light">View All</a>
+                        </div>
+                        <div class="card-body">
+                            {% for booking in recent_bookings %}
+                            <div class="booking-item">
+                                {% if booking.listing.primary_image_url %}<img src="{{ booking.listing.primary_image_url }}" alt="{{ booking.listing.title }}">{% else %}<div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="width:80px;height:56px;"><i class="fas fa-car text-white-50"></i></div>{% endif %}
+                                <div class="details">
+                                    <h5>{{ booking.listing.title }}</h5>
+                                    <p><i class="fas fa-calendar-alt me-2"></i>{{ booking.start_date }} - {{ booking.end_date }}</p>
+                                </div>
+                                {% if booking.approved %}
+                                <span class="status confirmed">Confirmed</span>
+                                {% else %}
+                                <span class="status pending">Pending</span>
+                                {% endif %}
+                            </div>
+                            {% empty %}
+                            <p class="text-white-50 mb-0">No bookings yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h4>Availability Calendar</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="calendar-wrapper" id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vehicles & Activity -->
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h4>My Vehicles</h4>
+                            <a href="{% url 'add_listing' %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus me-2"></i>Add Vehicle
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-4">
+                                {% for listing in listings %}
+                                <div class="col-md-4">
+                                    <div class="vehicle-card-mini">
+                                        {% if listing.primary_image_url %}<img src="{{ listing.primary_image_url }}" alt="{{ listing.title }}">{% else %}<div class="bg-secondary d-flex align-items-center justify-content-center" style="min-height:120px;"><i class="fas fa-car fa-2x text-white-50"></i></div>{% endif %}
+                                        <div class="content">
+                                            <h5>{{ listing.title }}</h5>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="price">R {{ listing.price_per_day }}/day</span>
+                                                {% if listing.available %}
+                                                <span class="badge bg-success">Active</span>
+                                                {% else %}
+                                                <span class="badge bg-warning text-dark">Paused</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p class="text-white-50 mb-0">No vehicles listed yet.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="dashboard-card h-100">
+                        <div class="card-header">
+                            <h4>Recent Activity</h4>
+                        </div>
+                        <div class="card-body">
+                            {% for act in recent_activity %}
+                            <div class="activity-item">
+                                <div class="icon {% if act.icon == 'envelope' %}message{% else %}booking{% endif %}">
+                                    <i class="fas fa-{{ act.icon }}"></i>
+                                </div>
+                                <div class="content">
+                                    <h6>{{ act.title }}</h6>
+                                    <p class="mb-0 small text-white-50">{{ act.detail }}</p>
+                                </div>
+                                <span class="time text-white-50 small">{{ act.time|date:"d M H:i" }}</span>
+                            </div>
+                            {% empty %}
+                            <p class="text-white-50 mb-0 small">No recent activity yet. Bookings and messages will appear here.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+        
+        const earningsChartValues = JSON.parse('{{ earnings_chart_values|escapejs }}');
+        const bookingStatusCounts = JSON.parse('{{ booking_status_counts|escapejs }}');
+        const calendarEvents = JSON.parse('{{ calendar_events|escapejs }}');
+
+        // Earnings Chart
+        const earningsCtx = document.getElementById('earningsChart').getContext('2d');
+        new Chart(earningsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Earnings (R)',
+                    data: earningsChartValues,
+                    borderColor: '#ffa500',
+                    backgroundColor: 'rgba(255,165,0,0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#ffa500',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255,255,255,0.05)'
+                        },
+                        ticks: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(255,255,255,0.05)'
+                        },
+                        ticks: {
+                            color: 'rgba(255,255,255,0.6)',
+                            callback: function(value) {
+                                return 'R ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Bookings Chart
+        const bookingsCtx = document.getElementById('bookingsChart').getContext('2d');
+        new Chart(bookingsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'Active', 'Pending', 'Cancelled'],
+                datasets: [{
+                    data: bookingStatusCounts,
+                    backgroundColor: ['#00c853', '#ffa500', '#6464ff', '#ff4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255,255,255,0.7)',
+                            padding: 20
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+        
+        // FullCalendar
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek'
+                },
+                events: calendarEvents,
+                height: 'auto'
+            });
+            calendar.render();
+        });
+    </script>
+</body>
+</html>
+
+

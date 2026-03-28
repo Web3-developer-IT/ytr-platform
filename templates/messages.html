@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | Yours To Rent</title>
+    <meta name="description" content="Communicate with renters and vehicle owners on Yours To Rent.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <style>
+        :root {
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            background: #0a0a0a;
+        }
+        
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+        
+        .sidebar-nav .nav-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 25px 10px;
+        }
+        
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+        
+        .sidebar-nav .nav-link i {
+            width: 24px;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .sidebar-nav .nav-link .badge {
+            margin-left: auto;
+            background: var(--primary-color);
+            color: #000;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            height: 100vh;
+        }
+        
+        .messages-wrapper {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .conversations-list {
+            width: 350px;
+            background: rgba(255,255,255,0.02);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .conversations-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .conversations-header h4 {
+            color: #fff;
+            margin: 0;
+        }
+        
+        .search-messages {
+            padding: 15px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .search-messages input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+        }
+        
+        .search-messages input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .search-messages .search-icon {
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .conversations-scroll {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .conversation-item:hover,
+        .conversation-item.active {
+            background: rgba(255,165,0,0.1);
+        }
+        
+        .conversation-item .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            position: relative;
+        }
+        
+        .conversation-item .online-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 14px;
+            height: 14px;
+            background: #00c853;
+            border: 2px solid #0a0a0a;
+            border-radius: 50%;
+        }
+        
+        .conversation-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .conversation-item .info h5 {
+            color: #fff;
+            margin: 0 0 5px;
+            font-size: 15px;
+        }
+        
+        .conversation-item .info p {
+            color: rgba(255,255,255,0.5);
+            margin: 0;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .conversation-item .meta {
+            text-align: right;
+        }
+        
+        .conversation-item .meta .time {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .conversation-item .meta .unread {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            background: var(--primary-color);
+            color: #000;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .chat-header .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .chat-header .user-info h5 {
+            color: #fff;
+            margin: 0;
+        }
+        
+        .chat-header .user-info p {
+            color: rgba(255,255,255,0.5);
+            margin: 0;
+            font-size: 13px;
+        }
+        
+        .chat-header .actions button {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            margin-left: 10px;
+        }
+        
+        .chat-header .actions button:hover {
+            background: rgba(255,165,0,0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        
+        .message-date {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .message-date span {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.5);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .message.sent {
+            flex-direction: row-reverse;
+        }
+        
+        .message .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 15px;
+        }
+        
+        .message .bubble {
+            max-width: 60%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+        }
+        
+        .message.received .bubble {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message.sent .bubble {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #000;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message .bubble .time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        .message.sent .bubble .time {
+            text-align: right;
+        }
+        
+        .chat-input {
+            padding: 20px 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .chat-input-wrapper .attach-btn {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+        }
+        
+        .chat-input-wrapper .attach-btn:hover {
+            background: rgba(255,165,0,0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .chat-input-wrapper input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+        }
+        
+        .chat-input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .chat-input-wrapper .send-btn {
+            width: 45px;
+            height: 45px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+        }
+        
+        .chat-input-wrapper .send-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .conversations-list {
+                width: 100%;
+                position: absolute;
+                z-index: 10;
+                background: #0a0a0a;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .conversations-list.active {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
+                </a>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="d-flex align-items-center">
+                    <img src="/placeholder.svg?height=60&width=60" alt="User" class="avatar me-3">
+                    <div>
+                        <h6 class="text-white mb-0">John Doe</h6>
+                        <small class="text-white-50">Premium Member</small>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-label">Main Menu</div>
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="my-bookings.html" class="nav-link">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>My Bookings</span>
+                </a>
+                <a href="my-vehicles.html" class="nav-link">
+                    <i class="fas fa-car"></i>
+                    <span>My Vehicles</span>
+                </a>
+                <a href="messages.html" class="nav-link active">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                    <span class="badge">5</span>
+                </a>
+                
+                <div class="nav-label">Finance</div>
+                <a href="earnings.html" class="nav-link">
+                    <i class="fas fa-wallet"></i>
+                    <span>Earnings</span>
+                </a>
+                <a href="transactions.html" class="nav-link">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transactions</span>
+                </a>
+                
+                <div class="nav-label">Account</div>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="messages-wrapper">
+                <!-- Conversations List -->
+                <div class="conversations-list" id="conversationsList">
+                    <div class="conversations-header">
+                        <h4>Messages</h4>
+                    </div>
+                    <div class="search-messages position-relative">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search conversations...">
+                    </div>
+                    <div class="conversations-scroll">
+                        <div class="conversation-item active">
+                            <div class="position-relative">
+                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                                <span class="online-badge"></span>
+                            </div>
+                            <div class="info">
+                                <h5>Sarah Johnson</h5>
+                                <p>Thanks! I'll be there at 10am to...</p>
+                            </div>
+                            <div class="meta">
+                                <div class="time">2m ago</div>
+                                <span class="unread">3</span>
+                            </div>
+                        </div>
+                        <div class="conversation-item">
+                            <div class="position-relative">
+                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                            </div>
+                            <div class="info">
+                                <h5>Michael Smith</h5>
+                                <p>Is the car available next weekend?</p>
+                            </div>
+                            <div class="meta">
+                                <div class="time">1h ago</div>
+                                <span class="unread">2</span>
+                            </div>
+                        </div>
+                        <div class="conversation-item">
+                            <div class="position-relative">
+                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                                <span class="online-badge"></span>
+                            </div>
+                            <div class="info">
+                                <h5>David Williams</h5>
+                                <p>Great experience with the BMW!</p>
+                            </div>
+                            <div class="meta">
+                                <div class="time">3h ago</div>
+                            </div>
+                        </div>
+                        <div class="conversation-item">
+                            <div class="position-relative">
+                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                            </div>
+                            <div class="info">
+                                <h5>Lisa Brown</h5>
+                                <p>I've sent you the pickup details</p>
+                            </div>
+                            <div class="meta">
+                                <div class="time">Yesterday</div>
+                            </div>
+                        </div>
+                        <div class="conversation-item">
+                            <div class="position-relative">
+                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                            </div>
+                            <div class="info">
+                                <h5>YTR Support</h5>
+                                <p>Your payout has been processed</p>
+                            </div>
+                            <div class="meta">
+                                <div class="time">2 days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <div class="chat-header">
+                        <div class="user-info">
+                            <button class="btn btn-outline-light d-lg-none me-3" onclick="document.getElementById('conversationsList').classList.toggle('active')">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <img src="/placeholder.svg?height=45&width=45" alt="Sarah Johnson">
+                            <div>
+                                <h5>Sarah Johnson</h5>
+                                <p><span class="text-success"><i class="fas fa-circle me-1" style="font-size: 8px;"></i></span>Online</p>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button><i class="fas fa-phone"></i></button>
+                            <button><i class="fas fa-video"></i></button>
+                            <button><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages">
+                        <div class="message-date">
+                            <span>Today</span>
+                        </div>
+                        
+                        <div class="message received">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <div class="bubble">
+                                <p>Hi John! I'm interested in renting your BMW X5 for next weekend. Is it available?</p>
+                                <span class="time">10:30 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message sent">
+                            <div class="bubble">
+                                <p>Hi Sarah! Yes, the BMW X5 is available next weekend. What dates were you thinking?</p>
+                                <span class="time">10:32 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message received">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <div class="bubble">
+                                <p>I'm looking at Friday January 24th to Sunday January 26th. Would that work?</p>
+                                <span class="time">10:35 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message sent">
+                            <div class="bubble">
+                                <p>Perfect! Those dates are open. The total would be R4,500 for 3 days. Would you like me to send you a booking request?</p>
+                                <span class="time">10:38 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message received">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <div class="bubble">
+                                <p>Yes please! That sounds great. Where would I pick it up from?</p>
+                                <span class="time">10:40 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message sent">
+                            <div class="bubble">
+                                <p>I'm based in Sandton. We can arrange pickup at the Sandton City parking area, or I can deliver it to you for an additional R200. Let me know what works best!</p>
+                                <span class="time">10:42 AM</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message received">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <div class="bubble">
+                                <p>Thanks! I'll be there at 10am to pick it up at Sandton City. Looking forward to it!</p>
+                                <span class="time">10:45 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <div class="chat-input-wrapper">
+                            <button class="attach-btn"><i class="fas fa-paperclip"></i></button>
+                            <input type="text" placeholder="Type a message...">
+                            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Toggle sidebar on mobile
+        document.querySelector('.sidebar-header').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Conversation item click
+        document.querySelectorAll('.conversation-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.conversation-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // On mobile, hide conversation list
+                if (window.innerWidth < 992) {
+                    document.getElementById('conversationsList').classList.remove('active');
+                }
+            });
+        });
+        
+        // Send message
+        document.querySelector('.send-btn').addEventListener('click', function() {
+            const input = document.querySelector('.chat-input input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatMessages = document.querySelector('.chat-messages');
+                const now = new Date();
+                const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                
+                const messageHtml = `
+                    <div class="message sent">
+                        <div class="bubble">
+                            <p>${message}</p>
+                            <span class="time">${time}</span>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.insertAdjacentHTML('beforeend', messageHtml);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                input.value = '';
+            }
+        });
+        
+        // Send on Enter
+        document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.send-btn').click();
+            }
+        });
+    </script>
+</body>
+</html>

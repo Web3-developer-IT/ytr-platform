@@ -1,0 +1,99 @@
+        const earningsChartValues = JSON.parse('{{ earnings_chart_values|escapejs }}');
+        const bookingStatusCounts = JSON.parse('{{ booking_status_counts|escapejs }}');
+        const calendarEvents = JSON.parse('{{ calendar_events|escapejs }}');
+
+        // Earnings Chart
+        const earningsCtx = document.getElementById('earningsChart').getContext('2d');
+        new Chart(earningsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Earnings (R)',
+                    data: earningsChartValues,
+                    borderColor: '#ffa500',
+                    backgroundColor: 'rgba(255,165,0,0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#ffa500',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255,255,255,0.05)'
+                        },
+                        ticks: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(255,255,255,0.05)'
+                        },
+                        ticks: {
+                            color: 'rgba(255,255,255,0.6)',
+                            callback: function(value) {
+                                return 'R ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Bookings Chart
+        const bookingsCtx = document.getElementById('bookingsChart').getContext('2d');
+        new Chart(bookingsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'Active', 'Pending', 'Cancelled'],
+                datasets: [{
+                    data: bookingStatusCounts,
+                    backgroundColor: ['#00c853', '#ffa500', '#6464ff', '#ff4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255,255,255,0.7)',
+                            padding: 20
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+        
+        // FullCalendar
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek'
+                },
+                events: calendarEvents,
+                height: 'auto'
+            });
+            calendar.render();
+        });

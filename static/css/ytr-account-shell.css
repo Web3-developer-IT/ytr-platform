@@ -1,0 +1,261 @@
+/* Shared account area — matches templates/dashboard.html sidebar + top bar */
+:root {
+  --sidebar-width: 280px;
+  --primary-color: #ffa500;
+  --secondary-color: #ff4500;
+}
+
+body.ytr-account-body {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.ytr-dashboard-wrapper,
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.ytr-dashboard-wrapper .sidebar,
+.dashboard-wrapper .sidebar {
+  width: var(--sidebar-width);
+  background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.ytr-dashboard-wrapper .sidebar-header,
+.dashboard-wrapper .sidebar-header {
+  padding: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ytr-dashboard-wrapper .sidebar-user,
+.dashboard-wrapper .sidebar-user {
+  padding: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ytr-dashboard-wrapper .sidebar-user .avatar,
+.dashboard-wrapper .sidebar-user .avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-color);
+}
+
+.ytr-dashboard-wrapper .sidebar-nav,
+.dashboard-wrapper .sidebar-nav {
+  padding: 20px 0;
+}
+
+.ytr-dashboard-wrapper .sidebar-nav .nav-label,
+.dashboard-wrapper .sidebar-nav .nav-label {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 15px 25px 10px;
+}
+
+.ytr-dashboard-wrapper .sidebar-nav .nav-link,
+.dashboard-wrapper .sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.ytr-dashboard-wrapper .sidebar-nav .nav-link:hover,
+.ytr-dashboard-wrapper .sidebar-nav .nav-link.active,
+.dashboard-wrapper .sidebar-nav .nav-link:hover,
+.dashboard-wrapper .sidebar-nav .nav-link.active {
+  background: rgba(255, 165, 0, 0.1);
+  color: var(--primary-color);
+  border-left-color: var(--primary-color);
+}
+
+.ytr-dashboard-wrapper .sidebar-nav .nav-link i,
+.dashboard-wrapper .sidebar-nav .nav-link i {
+  width: 24px;
+  margin-right: 15px;
+  font-size: 18px;
+}
+
+.ytr-dashboard-wrapper .sidebar-nav .nav-link .badge,
+.dashboard-wrapper .sidebar-nav .nav-link .badge {
+  margin-left: auto;
+  background: var(--primary-color);
+  color: #000;
+}
+
+.ytr-dashboard-wrapper .main-content,
+.dashboard-wrapper .main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  padding: 30px;
+  min-width: 0;
+}
+
+.ytr-account-top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 18px 22px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.ytr-account-top-bar .ytr-topbar-heading h1 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.ytr-account-top-bar .ytr-topbar-heading p {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ytr-account-top-bar .search-box {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 0;
+  max-width: 420px;
+}
+
+.ytr-account-top-bar .search-box input {
+  width: 100%;
+  padding: 14px 18px 14px 48px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+}
+
+.ytr-account-top-bar .search-box input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.ytr-account-top-bar .search-box i {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ytr-account-top-bar .top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.ytr-account-top-bar .notification-btn,
+.ytr-account-top-bar .message-btn {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.ytr-account-top-bar .notification-btn:hover,
+.ytr-account-top-bar .message-btn:hover {
+  background: rgba(255, 165, 0, 0.12);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.ytr-account-top-bar .notification-btn .badge-dot,
+.ytr-account-top-bar .message-btn .badge-dot {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 9px;
+  height: 9px;
+  background: #ff4444;
+  border-radius: 50%;
+}
+
+@media (max-width: 1200px) {
+  .ytr-dashboard-wrapper .sidebar,
+  .dashboard-wrapper .sidebar {
+    transform: translateX(-100%);
+  }
+  .ytr-dashboard-wrapper .sidebar.active,
+  .dashboard-wrapper .sidebar.active {
+    transform: translateX(0);
+  }
+  .ytr-dashboard-wrapper .main-content,
+  .dashboard-wrapper .main-content {
+    margin-left: 0;
+  }
+}
+
+/* Public login / register — matches account chrome (no sidebar) */
+.ytr-auth-public-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1040;
+  background: linear-gradient(135deg, #0a0a0a 0%, #141008 55%, #0c0a08 100%);
+  border-bottom: 1px solid rgba(255, 200, 80, 0.28);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+.ytr-auth-public-nav-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ytr-auth-public-brand img {
+  display: block;
+  height: 36px;
+  width: auto;
+}
+.ytr-auth-public-links {
+  display: flex;
+  align-items: center;
+  gap: 8px 20px;
+  flex-wrap: wrap;
+}
+.ytr-auth-public-links a {
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.ytr-auth-public-links a:hover {
+  color: #ffb84d;
+}
+.ytr-auth-public-cta .btn {
+  border-radius: 10px;
+  padding: 0.4rem 1rem;
+}

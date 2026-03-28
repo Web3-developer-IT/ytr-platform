@@ -1,0 +1,9 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{# Jazzmin provides admin/base.html; typography + premium overrides match /dashboard/. #}
+{% block extrastyle %}{{ block.super }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+{# ytr_admin.css is loaded via JAZZMIN_SETTINGS["custom_css"] #}
+{% endblock %}

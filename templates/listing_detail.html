@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ listing.title }} | Listing{% endblock %}
+
+{% block content %}
+
+<h1>{{ listing.title }}</h1>
+<p class="text-white-50">{{ listing.description }}</p>
+<p>Category: {{ listing.get_category_display }}</p>
+<p>Price per day: R{{ listing.price_per_day }}</p>
+{% if listing.price_per_hour %}
+<p>Price per hour: R{{ listing.price_per_hour }}</p>
+{% endif %}
+<p>Location: {{ listing.location }}</p>
+
+<h3 class="mt-4">Images</h3>
+{% for image in images %}
+<img src="{{ image.image.url }}" width="200" alt="{{ listing.title }}">
+{% empty %}
+<p class="text-white-50">No uploaded images yet.</p>
+{% endfor %}
+
+
+{% if user.is_authenticated %}
+
+<hr>
+
+<!-- CONTACT OWNER -->
+<h3>Contact Owner</h3>
+
+<a href="{% url 'conversation' listing.id listing.owner.id %}">
+<button>Message Owner</button>
+</a>
+
+<hr>
+
+
+<!-- BOOKING SYSTEM -->
+<h3>Book this listing</h3>
+
+<form method="post" action="{% url 'book_listing' listing.id %}">
+    {% csrf_token %}
+
+    <label>Start Date:</label>
+    <input type="date" name="start_date" required>
+
+    <label>End Date:</label>
+    <input type="date" name="end_date" required>
+
+    <button type="submit">Book Now</button>
+
+</form>
+
+{% else %}
+
+<p><a href="{% url 'login' %}">Login to book</a></p>
+
+{% endif %}
+
+{% endblock %}

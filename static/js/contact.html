@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Yours To Rent</title>
+    <meta name="description" content="Get in touch with Yours To Rent. We're here to help with any questions about renting or listing vehicles.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+
+
+
+
+
+  <!-- CDN Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/ytr-main-styles.css">
+    <style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* South Africa Map Styles */
+        .ytr-sa-map-section {
+            padding: 100px 0;
+            background: var(--ytr-bg-secondary);
+        }
+        
+        .ytr-sa-map-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .ytr-sa-map-svg {
+            width: 100%;
+            height: auto;
+        }
+        
+        .ytr-province-path {
+            fill: var(--ytr-bg-tertiary);
+            stroke: var(--ytr-gold);
+            stroke-width: 1.5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .ytr-province-path:hover {
+            fill: rgba(255, 215, 0, 0.3);
+            stroke-width: 2.5;
+        }
+        
+        .ytr-map-tooltip {
+            position: absolute;
+            background: var(--ytr-bg-card);
+            border: 1px solid var(--ytr-gold);
+            border-radius: 8px;
+            padding: 12px 16px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .ytr-map-tooltip.ytr-tooltip-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .ytr-map-tooltip-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ytr-gold);
+            margin-bottom: 4px;
+        }
+        
+        .ytr-map-tooltip-region {
+            font-size: 0.85rem;
+            color: var(--ytr-text-muted);
+        }
+        
+        .ytr-map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .ytr-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--ytr-text-muted);
+        }
+        
+        .ytr-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .ytr-legend-dot-active {
+            background: var(--ytr-gold);
+        }
+        
+        .ytr-legend-dot-coming {
+            background: var(--ytr-bg-tertiary);
+            border: 2px solid var(--ytr-gold);
+        }
+    </style>
+
+
+
+
+
+
+
+
+    
+    <style>
+        .contact-hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(20,20,20,0.95) 100%), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920') center/cover;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+        }
+        
+        .contact-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            height: 100%;
+            transition: all 0.4s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 60px rgba(255,165,0,0.15);
+        }
+        
+        .contact-card .icon-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .contact-card .icon-box i {
+            font-size: 32px;
+            color: #000;
+        }
+        
+        .contact-form-section {
+            background: var(--dark-bg);
+            padding: 100px 0;
+        }
+        
+        .contact-form {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 50px;
+        }
+        
+        .form-floating > .form-control {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            height: 60px;
+        }
+        
+        .form-floating > .form-control:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(255,165,0,0.2);
+        }
+        
+        .form-floating > label {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .form-floating > textarea.form-control {
+            height: 150px;
+        }
+        
+        .map-section {
+            height: 500px;
+            position: relative;
+        }
+        
+        .map-section iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(100%) invert(92%) contrast(83%);
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            background: rgba(0,0,0,0.95);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            z-index: 10;
+        }
+        
+        .faq-accordion .accordion-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px !important;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .faq-accordion .accordion-button {
+            background: transparent;
+            color: #fff;
+            font-weight: 600;
+            padding: 25px 30px;
+        }
+        
+        .faq-accordion .accordion-button:not(.collapsed) {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+        }
+        
+        .faq-accordion .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+        
+        .faq-accordion .accordion-body {
+            color: rgba(255,255,255,0.7);
+            padding: 0 30px 25px;
+        }
+        
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #000;
+            transform: translateY(-5px);
+        }
+        
+        .office-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .office-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+        }
+        
+        .office-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .office-card .content {
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="browse.html">Browse Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="how-it-works.html">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-buttons">
+                    <a href="login.html" class="btn btn-outline-light me-2">Sign In</a>
+                    <a href="signup.html" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <span class="badge-pill" data-aos="fade-up">Get In Touch</span>
+                    <h1 class="display-3 fw-bold text-white mt-3" data-aos="fade-up" data-aos-delay="100">
+                        We're Here to <span class="gradient-text">Help</span>
+                    </h1>
+                    <p class="lead text-white-50 mt-4" data-aos="fade-up" data-aos-delay="200">
+                        Have questions about renting or listing your vehicle? Our dedicated support team 
+                        is available 24/7 to assist you with anything you need.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="contact-form">
+                        <h2 class="text-white mb-4">Send Us a Message</h2>
+                        <p class="text-white-50 mb-5">Fill out the form below and we'll get back to you within 24 hours.</p>
+                        
+                        <form id="contactForm">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                                        <label for="firstName">First Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                                        <label for="lastName">Last Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" placeholder="Email" required>
+                                        <label for="email">Email Address</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="tel" class="form-control" id="phone" placeholder="Phone">
+                                        <label for="phone">Phone Number</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-floating" style="background: #0a0a0a;">
+                                        <select class="form-control" style="background: #0a0a0a;" id="subject" required>
+                                            <option value="">Select a topic</option>
+                                            <option value="general">General Inquiry</option>
+                                            <option value="rental">Rental Questions</option>
+                                            <option value="listing">Listing My Vehicle</option>
+                                            <option value="support">Technical Support</option>
+                                            <option value="billing">Billing & Payments</option>
+                                            <option value="partnership">Partnership Opportunities</option>
+                                        </select>
+                                        <label for="subject">Subject</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="message" placeholder="Message" style="height: 150px" required></textarea>
+                                        <label for="message">Your Message</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="newsletter">
+                                        <label class="form-check-label text-white-50" for="newsletter">
+                                            Subscribe to our newsletter for updates and offers
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <h3 class="text-white mb-4">Frequently Asked Questions</h3>
+                    <div class="accordion faq-accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How do I rent a vehicle?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Simply browse our available vehicles, select your dates, complete verification, and book. 
+                                    You can pick up the vehicle from the owner or have it delivered to your location.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    What insurance is included?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    All rentals include comprehensive insurance coverage through our partnership with leading insurers. 
+                                    This covers collision damage, theft, and third-party liability.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    How do I list my vehicle?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Create an account, add your vehicle details and photos, set your pricing and availability, 
+                                    and start earning. Our team will verify your listing within 24 hours.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    What payment methods do you accept?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We accept all major credit cards, debit cards, EFT transfers, and mobile payment options 
+                                    including SnapScan and Zapper. All payments are processed securely.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    What happens if there's an accident?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Contact our 24/7 emergency support line immediately. Our insurance coverage will handle claims, 
+                                    and we'll assist with towing, repairs, and alternative transportation if needed.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h4 class="text-white mb-4">Connect With Us</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <!-- Global Footprint Section - South Africa Map -->
+    <section class="ytr-sa-map-section">
+        <div class="ytr-section-container">
+            <div class="ytr-section-header" data-aos="fade-up">
+                <span class="ytr-section-badge">Global Footprint</span>
+                <h2 class="ytr-section-title">Our <span class="ytr-text-gradient">Presence</span> in South Africa</h2>
+                <p class="ytr-section-subtitle">Hover over provinces to see our coverage areas</p>
+            </div>
+            
+            <div class="ytr-sa-map-wrapper" data-aos="fade-up">
+                <svg viewBox="0 0 800 700" class="ytr-sa-map-svg" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Limpopo -->
+                    <path class="ytr-province-path" data-name="Limpopo" data-region="Polokwane, Tzaneen, Makhado" d="M450,80 L550,60 L620,100 L650,150 L620,200 L550,220 L480,200 L420,160 L430,120 Z"/>
+                    
+                    <!-- Mpumalanga -->
+                    <path class="ytr-province-path" data-name="Mpumalanga" data-region="Nelspruit, Mbombela, Witbank" d="M550,220 L620,200 L680,250 L660,320 L580,340 L520,300 L530,250 Z"/>
+                    
+                    <!-- Gauteng -->
+                    <path class="ytr-province-path" data-name="Gauteng" data-region="Johannesburg, Pretoria, Sandton" d="M420,220 L480,200 L530,250 L520,300 L460,320 L400,290 L400,250 Z"/>
+                    
+                    <!-- North West -->
+                    <path class="ytr-province-path" data-name="North West" data-region="Rustenburg, Potchefstroom, Mahikeng" d="M280,200 L400,180 L420,220 L400,290 L340,320 L260,300 L240,250 Z"/>
+                    
+                    <!-- Free State -->
+                    <path class="ytr-province-path" data-name="Free State" data-region="Bloemfontein, Welkom, Bethlehem" d="M340,320 L460,320 L520,380 L500,460 L400,500 L300,460 L280,380 Z"/>
+                    
+                    <!-- KwaZulu-Natal -->
+                    <path class="ytr-province-path" data-name="KwaZulu-Natal" data-region="Durban, Pietermaritzburg, Umhlanga" d="M520,380 L580,340 L660,380 L680,450 L620,520 L540,540 L480,500 L500,460 Z"/>
+                    
+                    <!-- Eastern Cape -->
+                    <path class="ytr-province-path" data-name="Eastern Cape" data-region="Port Elizabeth, East London, Mthatha" d="M300,460 L400,500 L480,500 L540,540 L500,620 L380,640 L280,600 L240,520 Z"/>
+                    
+                    <!-- Western Cape -->
+                    <path class="ytr-province-path" data-name="Western Cape" data-region="Cape Town, Stellenbosch, Paarl" d="M100,480 L200,440 L280,460 L300,540 L280,600 L200,640 L100,600 L60,540 Z"/>
+                    
+                    <!-- Northern Cape -->
+                    <path class="ytr-province-path" data-name="Northern Cape" data-region="Kimberley, Upington, Springbok" d="M60,280 L240,250 L280,300 L280,380 L200,440 L100,480 L40,400 L20,340 Z"/>
+                </svg>
+                
+                <!-- Tooltip -->
+                <div class="ytr-map-tooltip">
+                    <div class="ytr-map-tooltip-title"></div>
+                    <div class="ytr-map-tooltip-region"></div>
+                </div>
+            </div>
+            
+            <div class="ytr-map-legend" data-aos="fade-up">
+                <div class="ytr-legend-item">
+                    <span class="ytr-legend-dot ytr-legend-dot-active"></span>
+                    <span>Currently Active</span>
+                </div>
+                <div class="ytr-legend-item">
+                    <span class="ytr-legend-dot ytr-legend-dot-coming"></span>
+                    <span>Future Expansion</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="ytr-quick-links-section">
+        <div class="ytr-section-container">
+            <div class="ytr-section-header" data-aos="fade-up">
+                <h2 class="ytr-section-title">Quick <span class="ytr-text-gradient">Links</span></h2>
+            </div>
+            
+            <div class="ytr-quick-links-grid" data-aos="fade-up">
+                <a href="how-it-works.html" class="ytr-quick-link-card">
+                    <i class="fas fa-question-circle"></i>
+                    <span>How It Works</span>
+                </a>
+                <a href="list-vehicle.html" class="ytr-quick-link-card">
+                    <i class="fas fa-car"></i>
+                    <span>List Your Vehicle</span>
+                </a>
+                <a href="browse.html" class="ytr-quick-link-card">
+                    <i class="fas fa-search"></i>
+                    <span>Browse Vehicles</span>
+                </a>
+                <a href="faq.html" class="ytr-quick-link-card">
+                    <i class="fas fa-book"></i>
+                    <span>FAQ</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="ytr-footer-section">
+        <div class="ytr-section-container">
+            <div class="ytr-footer-grid">
+                <div class="ytr-footer-brand">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" class="ytr-footer-logo">
+                    <p class="ytr-footer-tagline">South Africa's Premier Vehicle Marketplace. Your Fleet. Your Services. Your Terms.</p>
+                    <div class="ytr-footer-social">
+                        <a href="#" class="ytr-social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="ytr-social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="ytr-social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="ytr-social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="ytr-footer-links">
+                    <h4 class="ytr-footer-heading">Quick Links</h4>
+                    <a href="browse.html">Browse Vehicles</a>
+                    <a href="list-vehicle.html">List Your Vehicle</a>
+                    <a href="how-it-works.html">How It Works</a>
+                    <a href="about.html">About Us</a>
+                </div>
+                
+                <div class="ytr-footer-links">
+                    <h4 class="ytr-footer-heading">Support</h4>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contact.html">Contact Us</a>
+                    <a href="help.html">Help Center</a>
+                    <a href="feedback.html">Give Feedback</a>
+                </div>
+                
+                <div class="ytr-footer-links">
+                    <h4 class="ytr-footer-heading">Legal</h4>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="cookies.html">Cookie Policy</a>
+                </div>
+            </div>
+            
+            <div class="ytr-footer-bottom">
+                <p>&copy; 2026 Yours To Rent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="ytr-back-to-top" id="ytrBackToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- CDN Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/ytr-main-scripts.js"></script>
+
+
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check me-2"></i>Message Sent!';
+            btn.classList.add('btn-success');
+            btn.classList.remove('btn-primary');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-primary');
+                this.reset();
+            }, 3000);
+        });
+        
+        function openChat() {
+            alert('Live chat feature coming soon!');
+        }
+    </script>
+</body>
+</html>

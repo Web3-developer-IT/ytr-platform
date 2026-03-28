@@ -1,0 +1,110 @@
+{% load static %}
+<style>
+.sidebar-nav .nav-link .badge {
+    margin-left: auto;
+    background: var(--primary-color, #ffa500);
+    color: #000;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+</style>
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" height="45" width="150" decoding="async">
+        </a>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="d-flex align-items-center">
+            {% if user_profile.avatar %}
+            <img class="avatar me-3 rounded-circle" src="{{ user_profile.avatar.url }}" alt="" style="width:48px;height:48px;object-fit:cover;border:2px solid rgba(255,165,0,0.5);">
+            {% else %}
+            <div class="avatar me-3 d-flex align-items-center justify-content-center rounded-circle text-white" style="width:48px;height:48px;min-width:48px;font-size:0.95rem;font-weight:800;background:linear-gradient(135deg,#ffa500,#ff4500);">
+                {% if user.first_name or user.last_name %}
+                    {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                {% else %}
+                    {{ user.username|slice:":2"|upper }}
+                {% endif %}
+            </div>
+            {% endif %}
+            <div>
+                <h6 class="text-white mb-0">{{ user.get_full_name|default:user.username }}</h6>
+                <small class="text-white-50">Member</small>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        <a href="{% url 'owner_dashboard' %}" class="nav-link{% if sidebar_active == 'dashboard' %} active{% endif %}">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="{% url 'my_bookings' %}" class="nav-link{% if sidebar_active == 'bookings' %} active{% endif %}">
+            <i class="fas fa-calendar-check"></i>
+            <span>My Bookings</span>
+            {% if sidebar_bookings_count %}
+            <span class="badge">{{ sidebar_bookings_count }}</span>
+            {% endif %}
+        </a>
+        <a href="{% url 'my_vehicles' %}" class="nav-link{% if sidebar_active == 'vehicles' %} active{% endif %}">
+            <i class="fas fa-car"></i>
+            <span>My Vehicles</span>
+        </a>
+        <a href="{% url 'inbox' %}" class="nav-link{% if sidebar_active == 'messages' %} active{% endif %}">
+            <i class="fas fa-envelope"></i>
+            <span>Messages</span>
+            {% if sidebar_message_count %}
+            <span class="badge">{{ sidebar_message_count }}</span>
+            {% endif %}
+        </a>
+
+        <div class="nav-label">Finance</div>
+        <a href="{% url 'earnings' %}" class="nav-link{% if sidebar_active == 'earnings' %} active{% endif %}">
+            <i class="fas fa-wallet"></i>
+            <span>Earnings</span>
+        </a>
+        <a href="{% url 'transactions' %}" class="nav-link{% if sidebar_active == 'transactions' %} active{% endif %}">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transactions</span>
+        </a>
+        <a href="{% url 'payouts' %}" class="nav-link{% if sidebar_active == 'payouts' %} active{% endif %}">
+            <i class="fas fa-credit-card"></i>
+            <span>Payouts</span>
+        </a>
+
+        <div class="nav-label">Account</div>
+        <a href="{% url 'profile' %}" class="nav-link{% if sidebar_active == 'profile' %} active{% endif %}">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+        <a href="{% url 'settings' %}" class="nav-link{% if sidebar_active == 'settings' %} active{% endif %}">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="{% url 'help_center' %}" class="nav-link{% if sidebar_active == 'help' %} active{% endif %}">
+            <i class="fas fa-question-circle"></i>
+            <span>Help Center</span>
+        </a>
+        <a href="{% url 'documents_center' %}" class="nav-link{% if sidebar_active == 'documents' %} active{% endif %}">
+            <i class="fas fa-shield-alt"></i>
+            <span>Verification & Alerts</span>
+            {% if sidebar_notification_count %}
+            <span class="badge">{{ sidebar_notification_count }}</span>
+            {% endif %}
+        </a>
+        {% if user.is_staff %}
+        <a href="/admin/" class="nav-link">
+            <i class="fas fa-user-shield"></i>
+            <span>Admin Control Panel</span>
+        </a>
+        {% endif %}
+        <a href="{% url 'logout' %}" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </nav>
+</aside>

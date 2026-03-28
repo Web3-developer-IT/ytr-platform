@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | Yours To Rent</title>
+    <meta name="description" content="Read the terms and conditions for using the Yours To Rent platform.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <style>
+        .legal-hero {
+            background: linear-gradient(135deg, rgba(255,165,0,0.1) 0%, rgba(255,69,0,0.05) 100%);
+            padding: 120px 0 60px;
+        }
+        
+        .legal-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        
+        .legal-content {
+            padding: 80px 0;
+        }
+        
+        .legal-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .legal-sidebar .nav-link {
+            color: rgba(255,255,255,0.6);
+            padding: 10px 20px;
+            border-left: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .legal-sidebar .nav-link:hover,
+        .legal-sidebar .nav-link.active {
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            background: rgba(255,165,0,0.05);
+        }
+        
+        .legal-section {
+            margin-bottom: 60px;
+        }
+        
+        .legal-section h2 {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .legal-section h3 {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin: 30px 0 15px;
+        }
+        
+        .legal-section p,
+        .legal-section li {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+        }
+        
+        .legal-section ul {
+            padding-left: 20px;
+        }
+        
+        .legal-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .legal-card {
+            background: rgba(255,165,0,0.05);
+            border: 1px solid rgba(255,165,0,0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .legal-card h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .legal-card p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="browse.html">Browse Vehicles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="how-it-works.html">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-3">
+                    <a href="login.html" class="btn btn-outline-light">Login</a>
+                    <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="legal-hero">
+        <div class="container">
+            <h1>Terms of Service</h1>
+            <p class="text-white-50 mb-0">Last updated: January 15, 2026</p>
+        </div>
+    </section>
+    
+    <!-- Content -->
+    <section class="legal-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 d-none d-lg-block">
+                    <nav class="legal-sidebar">
+                        <a href="#introduction" class="nav-link active">1. Introduction</a>
+                        <a href="#definitions" class="nav-link">2. Definitions</a>
+                        <a href="#account" class="nav-link">3. Account Registration</a>
+                        <a href="#platform" class="nav-link">4. Platform Usage</a>
+                        <a href="#renters" class="nav-link">5. Renter Terms</a>
+                        <a href="#hosts" class="nav-link">6. Host Terms</a>
+                        <a href="#payments" class="nav-link">7. Payments</a>
+                        <a href="#insurance" class="nav-link">8. Insurance</a>
+                        <a href="#cancellation" class="nav-link">9. Cancellation</a>
+                        <a href="#liability" class="nav-link">10. Liability</a>
+                        <a href="#disputes" class="nav-link">11. Disputes</a>
+                        <a href="#termination" class="nav-link">12. Termination</a>
+                        <a href="#changes" class="nav-link">13. Changes</a>
+                        <a href="#contact" class="nav-link">14. Contact</a>
+                    </nav>
+                </div>
+                <div class="col-lg-9">
+                    <div class="legal-section" id="introduction">
+                        <h2>1. Introduction</h2>
+                        <p>Welcome to Yours To Rent ("YTR", "we", "us", or "our"). These Terms of Service ("Terms") govern your access to and use of our website, mobile applications, and services (collectively, the "Platform").</p>
+                        <p>By accessing or using the Platform, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not access or use the Platform.</p>
+                        <div class="legal-card">
+                            <h4><i class="fas fa-info-circle me-2"></i>Important Notice</h4>
+                            <p>These Terms contain an arbitration clause and class action waiver that affects your rights regarding disputes with YTR. Please read Section 11 carefully.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="legal-section" id="definitions">
+                        <h2>2. Definitions</h2>
+                        <p>For the purposes of these Terms:</p>
+                        <ul>
+                            <li><strong>"Host"</strong> means a user who lists a vehicle for rent on the Platform.</li>
+                            <li><strong>"Renter"</strong> means a user who rents a vehicle through the Platform.</li>
+                            <li><strong>"Booking"</strong> means a reservation made by a Renter to rent a Host's vehicle.</li>
+                            <li><strong>"Vehicle"</strong> means any car, truck, SUV, motorcycle, or other motor vehicle listed on the Platform.</li>
+                            <li><strong>"Service Fee"</strong> means the fees charged by YTR for facilitating bookings.</li>
+                            <li><strong>"Protection Plan"</strong> means the insurance and damage coverage options available through the Platform.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="legal-section" id="account">
+                        <h2>3. Account Registration</h2>
+                        <h3>3.1 Eligibility</h3>
+                        <p>To use the Platform, you must:</p>
+                        <ul>
+                            <li>Be at least 21 years old (25 for certain vehicle categories)</li>
+                            <li>Hold a valid driver's license for at least 2 years</li>
+                            <li>Be a resident of South Africa</li>
+                            <li>Have a valid email address and phone number</li>
+                            <li>Not be prohibited from using the Platform under applicable laws</li>
+                        </ul>
+                        
+                        <h3>3.2 Account Security</h3>
+                        <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must immediately notify us of any unauthorized use of your account.</p>
+                        
+                        <h3>3.3 Verification</h3>
+                        <p>We may require you to verify your identity, driver's license, and other information before allowing you to use certain features of the Platform. You agree to provide accurate and complete information during registration and verification.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="platform">
+                        <h2>4. Platform Usage</h2>
+                        <h3>4.1 Role of YTR</h3>
+                        <p>YTR provides a peer-to-peer marketplace that connects Hosts with Renters. We are not a party to any rental agreement between Hosts and Renters. YTR does not own, control, or manage any vehicles listed on the Platform.</p>
+                        
+                        <h3>4.2 Prohibited Activities</h3>
+                        <p>You agree not to:</p>
+                        <ul>
+                            <li>Use the Platform for any unlawful purpose</li>
+                            <li>Provide false or misleading information</li>
+                            <li>Circumvent the Platform to complete transactions directly</li>
+                            <li>Harass, abuse, or harm other users</li>
+                            <li>Interfere with or disrupt the Platform</li>
+                            <li>Scrape or collect data from the Platform without permission</li>
+                            <li>Use the Platform in a manner that could damage our reputation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="legal-section" id="renters">
+                        <h2>5. Renter Terms</h2>
+                        <h3>5.1 Booking Process</h3>
+                        <p>When you book a vehicle, you agree to pay the rental amount plus applicable fees. Bookings are confirmed once payment is processed and the Host accepts your request.</p>
+                        
+                        <h3>5.2 Renter Responsibilities</h3>
+                        <p>As a Renter, you agree to:</p>
+                        <ul>
+                            <li>Use the vehicle responsibly and in accordance with all applicable laws</li>
+                            <li>Return the vehicle on time and in the same condition</li>
+                            <li>Not smoke in the vehicle unless permitted</li>
+                            <li>Not allow unauthorized drivers to operate the vehicle</li>
+                            <li>Not use the vehicle for racing, off-road driving, or illegal activities</li>
+                            <li>Report any damage or incidents immediately</li>
+                            <li>Refuel the vehicle to the same level as pickup</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="legal-section" id="hosts">
+                        <h2>6. Host Terms</h2>
+                        <h3>6.1 Listing Requirements</h3>
+                        <p>To list a vehicle, it must:</p>
+                        <ul>
+                            <li>Be registered in South Africa</li>
+                            <li>Have valid registration and roadworthy certification</li>
+                            <li>Be in good mechanical condition</li>
+                            <li>Meet our minimum safety and quality standards</li>
+                            <li>Be owned by you or you must have permission to rent it</li>
+                        </ul>
+                        
+                        <h3>6.2 Host Responsibilities</h3>
+                        <p>As a Host, you agree to:</p>
+                        <ul>
+                            <li>Provide accurate information about your vehicle</li>
+                            <li>Maintain your vehicle in safe, roadworthy condition</li>
+                            <li>Respond to booking requests promptly</li>
+                            <li>Make the vehicle available as advertised</li>
+                            <li>Notify us of any issues or incidents</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="legal-section" id="payments">
+                        <h2>7. Payments</h2>
+                        <h3>7.1 Service Fees</h3>
+                        <p>YTR charges service fees to facilitate bookings:</p>
+                        <ul>
+                            <li><strong>Renter Service Fee:</strong> 10-15% of the booking total</li>
+                            <li><strong>Host Service Fee:</strong> 10% of the rental amount</li>
+                        </ul>
+                        
+                        <h3>7.2 Payout Schedule</h3>
+                        <p>Hosts receive payouts within 3-5 business days after the rental begins, minus applicable fees. Payouts are made via EFT to your registered bank account.</p>
+                        
+                        <h3>7.3 Security Deposits</h3>
+                        <p>A security deposit may be required and held during the rental period. The deposit is released within 5 business days after the rental ends, minus any deductions for damage or violations.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="insurance">
+                        <h2>8. Insurance & Protection</h2>
+                        <p>All bookings include basic third-party liability coverage. Additional Protection Plans are available for purchase and provide enhanced coverage including collision damage waiver, theft protection, and personal accident insurance.</p>
+                        <p>Full details of coverage are available on our <a href="insurance.html" class="text-gradient">Insurance page</a>.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="cancellation">
+                        <h2>9. Cancellation Policy</h2>
+                        <h3>9.1 Renter Cancellations</h3>
+                        <ul>
+                            <li><strong>7+ days before:</strong> Full refund minus service fee</li>
+                            <li><strong>3-7 days before:</strong> 75% refund</li>
+                            <li><strong>1-3 days before:</strong> 50% refund</li>
+                            <li><strong>Less than 24 hours:</strong> No refund</li>
+                        </ul>
+                        
+                        <h3>9.2 Host Cancellations</h3>
+                        <p>Hosts who cancel bookings may be subject to penalties including account restrictions and cancellation fees. Repeated cancellations may result in account suspension.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="liability">
+                        <h2>10. Limitation of Liability</h2>
+                        <p>To the maximum extent permitted by law, YTR shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Platform. Our total liability shall not exceed the amount of fees you paid to us in the 12 months preceding the claim.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="disputes">
+                        <h2>11. Dispute Resolution</h2>
+                        <p>Any disputes arising from these Terms or your use of the Platform shall be resolved through binding arbitration in accordance with the rules of the Arbitration Foundation of Southern Africa (AFSA). You agree to waive your right to participate in class action lawsuits.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="termination">
+                        <h2>12. Termination</h2>
+                        <p>We may suspend or terminate your account at any time for violations of these Terms or for any other reason at our discretion. You may close your account at any time by contacting us. Upon termination, you remain liable for any obligations incurred prior to termination.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="changes">
+                        <h2>13. Changes to Terms</h2>
+                        <p>We may update these Terms from time to time. We will notify you of material changes by email or through the Platform. Your continued use of the Platform after changes become effective constitutes acceptance of the updated Terms.</p>
+                    </div>
+                    
+                    <div class="legal-section" id="contact">
+                        <h2>14. Contact Information</h2>
+                        <p>If you have questions about these Terms, please contact us:</p>
+                        <ul>
+                            <li><strong>Email:</strong> legal@yourstorent.co.za</li>
+                            <li><strong>Phone:</strong> 0800 YTR HELP (0800 987 4357)</li>
+                            <li><strong>Address:</strong> 123 Main Road, Cape Town, 8001, South Africa</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-5" style="background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="50" class="mb-4">
+                    <p class="text-white-50">South Africa's premier peer-to-peer vehicle rental platform.</p>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-4">Company</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="about.html" class="text-white-50 text-decoration-none">About</a></li>
+                        <li class="mb-2"><a href="careers.html" class="text-white-50 text-decoration-none">Careers</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-white-50 text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-4">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="terms.html" class="text-white-50 text-decoration-none">Terms</a></li>
+                        <li class="mb-2"><a href="privacy.html" class="text-white-50 text-decoration-none">Privacy</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-4">Support</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="faq.html" class="text-white-50 text-decoration-none">FAQ</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-white-50 text-decoration-none">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <p class="text-white-50 text-center mb-0">&copy; 2026 Yours To Rent. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sidebar active state on scroll
+        document.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.legal-section');
+            const navLinks = document.querySelectorAll('.legal-sidebar .nav-link');
+            
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    navLinks[index].classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+/* Shared premium sections for account/dashboard pages */
+.ytr-premium-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 48px;
+}
+.ytr-premium-glass {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  background-clip: padding-box;
+}
+.ytr-premium-gold {
+  color: #e8b84a;
+}
+.ytr-premium-section-title {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.ytr-premium-muted {
+  color: rgba(255,255,255,0.58);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+.ytr-premium-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+@media (max-width: 992px) {
+  .ytr-premium-grid-3 { grid-template-columns: 1fr; }
+}
+.ytr-premium-icon-card {
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.35);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.ytr-premium-icon-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232, 184, 74, 0.35);
+}
+.ytr-premium-icon-card i {
+  font-size: 1.5rem;
+  color: #e8b84a;
+  margin-bottom: 12px;
+  display: block;
+  margin: 0 auto 12px;
+}

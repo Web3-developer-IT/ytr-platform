@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Yours To Rent{% endblock %} | Yours To Rent</title>
+    {% block meta_description %}
+    <meta name="description" content="South Africa's premier vehicle marketplace — rent and list vehicles on your terms.">
+    {% endblock %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-enterprise-nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-public-shell.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="ytr-public-body">
+{% if messages %}
+<div class="position-fixed top-0 start-50 translate-middle-x mt-3 px-3" style="z-index: 300000;">
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} shadow mb-2 py-2 px-3 small">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% include 'partials/public_nav_enterprise.html' %}
+{% block public_content %}{% endblock %}
+{% include 'partials/public_footer.html' %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

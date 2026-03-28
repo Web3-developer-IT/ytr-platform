@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback | Yours To Rent</title>
+    <meta name="description" content="Share your feedback with Yours To Rent. Help us improve our vehicle rental platform.">
+    
+    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gold: #ffd700;
+            --primary-orange: #ff8c00;
+            --primary-red: #dc143c;
+            --gradient-brand: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #dc143c 100%);
+            --bg-dark: #0a0a0a;
+            --bg-dark-2: #111111;
+            --bg-dark-3: #1a1a1a;
+            --bg-dark-4: #222222;
+            --text-white: #ffffff;
+            --text-light: #e0e0e0;
+            --text-muted: #888888;
+            --border-dark: rgba(255, 255, 255, 0.1);
+            --border-gold: rgba(255, 215, 0, 0.3);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            padding: 15px 0;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+        }
+
+        .navbar-brand .logo {
+            height: 50px;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-white) !important;
+            font-weight: 500;
+            padding: 10px 16px !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-gold) !important;
+        }
+
+        .btn-gradient {
+            background: var(--gradient-brand);
+            color: var(--bg-dark) !important;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            color: var(--text-white) !important;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 22px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+        }
+
+        .page-header {
+            padding: 150px 0 80px;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-white);
+        }
+
+        .gradient-text {
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .feedback-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .feedback-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .feedback-intro h2 {
+            font-size: 2rem;
+            color: var(--text-white);
+            margin-bottom: 16px;
+        }
+
+        .feedback-channels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 992px) {
+            .feedback-channels {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .feedback-channels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .channel-card {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .channel-card:hover, .channel-card.active {
+            border-color: var(--primary-gold);
+            transform: translateY(-5px);
+        }
+
+        .channel-card.active {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .channel-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-brand);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .channel-icon i {
+            font-size: 1.5rem;
+            color: var(--bg-dark);
+        }
+
+        .channel-card h4 {
+            font-size: 1rem;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+
+        .channel-card p {
+            font-size: 0.813rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        .feedback-form-wrapper {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-xl);
+            padding: 50px;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-title h3 {
+            font-size: 1.75rem;
+            color: var(--text-white);
+            margin-bottom: 12px;
+        }
+
+        .rating-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .rating-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .star-rating i {
+            font-size: 2.5rem;
+            color: var(--bg-dark-4);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .star-rating i:hover,
+        .star-rating i.active {
+            color: var(--primary-gold);
+            transform: scale(1.1);
+        }
+
+        .rating-text {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: var(--primary-gold);
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control, .form-select {
+            background: var(--bg-dark-4);
+            border: 1px solid var(--border-dark);
+            color: var(--text-white);
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: var(--bg-dark-4);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            color: var(--text-white);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border-dark);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-gold);
+        }
+
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .file-upload p {
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .file-upload small {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn-lg {
+            padding: 16px 48px;
+            font-size: 1.1rem;
+        }
+
+        .recent-feedback {
+            margin-top: 100px;
+        }
+
+        .recent-feedback h3 {
+            font-size: 1.75rem;
+            color: var(--text-white);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .feedback-card {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .feedback-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feedback-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .feedback-author-info h5 {
+            font-size: 0.95rem;
+            color: var(--text-white);
+            margin-bottom: 4px;
+        }
+
+        .feedback-author-info span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .feedback-rating {
+            color: var(--primary-gold);
+        }
+
+        .feedback-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .feedback-tag {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--primary-gold);
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .footer {
+            background: var(--bg-dark-2);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .footer-brand .logo {
+            height: 50px;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        .footer h5 {
+            color: var(--text-white);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-dark);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast-notification {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-md);
+            padding: 16px 24px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast-success i { color: #10b981; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" class="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\");"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="browse.html">Browse Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="how-it-works.html">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="list-vehicle.html">List Your Vehicle</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="login.html" class="btn btn-outline-light btn-sm">Login</a>
+                    <a href="signup.html" class="btn btn-gradient btn-sm">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 data-aos="fade-up">Share Your <span class="gradient-text">Feedback</span></h1>
+            <p data-aos="fade-up" data-aos-delay="100">Your opinion matters. Help us build the best vehicle rental experience in South Africa.</p>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="feedback-container">
+                <div class="feedback-intro" data-aos="fade-up">
+                    <h2>What Would You Like to <span class="gradient-text">Share</span>?</h2>
+                    <p style="color: var(--text-muted);">Select a category below to help us direct your feedback to the right team.</p>
+                </div>
+
+                <div class="feedback-channels" data-aos="fade-up" data-aos-delay="100">
+                    <div class="channel-card active" data-type="general">
+                        <div class="channel-icon">
+                            <i class="fas fa-comment-alt"></i>
+                        </div>
+                        <h4>General Feedback</h4>
+                        <p>Share your overall experience</p>
+                    </div>
+                    <div class="channel-card" data-type="suggestion">
+                        <div class="channel-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h4>Suggestion</h4>
+                        <p>Ideas to improve our platform</p>
+                    </div>
+                    <div class="channel-card" data-type="issue">
+                        <div class="channel-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h4>Report Issue</h4>
+                        <p>Let us know about problems</p>
+                    </div>
+                    <div class="channel-card" data-type="compliment">
+                        <div class="channel-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Compliment</h4>
+                        <p>Share what you love</p>
+                    </div>
+                </div>
+
+                <div class="feedback-form-wrapper" data-aos="fade-up" data-aos-delay="200">
+                    <div class="form-title">
+                        <h3>Tell Us What You <span class="gradient-text">Think</span></h3>
+                        <p style="color: var(--text-muted);">Your feedback helps us improve every day.</p>
+                    </div>
+
+                    <div class="rating-section">
+                        <p class="rating-label">How would you rate your overall experience?</p>
+                        <div class="star-rating" id="starRating">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <p class="rating-text" id="ratingText">Click to rate</p>
+                    </div>
+
+                    <form id="feedbackForm" method="POST" action="{% url 'feedback' %}">
+                        {% csrf_token %}
+                        {% if messages %}
+                        <div class="mb-3">
+                            {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Your Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number (Optional)</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Your phone number">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userType">You are a...</label>
+                                    <select class="form-select" id="userType" name="user_type">
+                                        <option value="">Select an option</option>
+                                        <option value="renter">Renter</option>
+                                        <option value="host">Vehicle Host</option>
+                                        <option value="both">Both Renter & Host</option>
+                                        <option value="visitor">Just Visiting</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Brief subject of your feedback" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Your Feedback *</label>
+                            <textarea class="form-control" id="message" name="message" rows="6" placeholder="Please share your thoughts, suggestions, or experiences with us..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Attach Screenshots (Optional)</label>
+                            <div class="file-upload" id="fileUpload">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop files here or click to browse</p>
+                                <small>Supports: JPG, PNG, PDF (Max 10MB)</small>
+                                <input type="file" id="fileInput" style="display: none;" accept=".jpg,.jpeg,.png,.pdf" multiple>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="contactMe" style="background: var(--bg-dark-4); border-color: var(--border-dark);">
+                                <label class="form-check-label" for="contactMe" style="color: var(--text-light); font-size: 0.9rem;">
+                                    I'd like to be contacted about my feedback
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="submit-section">
+                            <button type="submit" class="btn btn-gradient btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i> Submit Feedback
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Recent Feedback -->
+                {% if show_public_reviews %}
+                <div class="recent-feedback" data-aos="fade-up">
+                    <h3>Recent <span class="gradient-text">Community Feedback</span></h3>
+                    
+                    <div class="feedback-card">
+                        <div class="feedback-card-header">
+                            <div class="feedback-author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="User" class="feedback-avatar">
+                                <div class="feedback-author-info">
+                                    <h5>Michael van der Berg</h5>
+                                    <span>2 days ago</span>
+                                </div>
+                            </div>
+                            <div class="feedback-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p>"The platform is amazing! I rented a BMW for my business trip and everything was seamless. The host was professional and the car was in perfect condition. Highly recommend YTR!"</p>
+                        <span class="feedback-tag">Compliment</span>
+                    </div>
+
+                    <div class="feedback-card">
+                        <div class="feedback-card-header">
+                            <div class="feedback-author">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="User" class="feedback-avatar">
+                                <div class="feedback-author-info">
+                                    <h5>Lindiwe Nkosi</h5>
+                                    <span>5 days ago</span>
+                                </div>
+                            </div>
+                            <div class="feedback-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                        <p>"Great suggestion: It would be wonderful to have a feature that allows filtering vehicles by specific features like sunroof or parking sensors. Otherwise, loving the platform!"</p>
+                        <span class="feedback-tag">Suggestion</span>
+                    </div>
+
+                    <div class="feedback-card">
+                        <div class="feedback-card-header">
+                            <div class="feedback-author">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="User" class="feedback-avatar">
+                                <div class="feedback-author-info">
+                                    <h5>David Pillay</h5>
+                                    <span>1 week ago</span>
+                                </div>
+                            </div>
+                            <div class="feedback-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p>"As a host, I've made over R40,000 in the last two months. The platform handles everything professionally. Customer support is responsive and helpful. Thank you YTR team!"</p>
+                        <span class="feedback-tag">Compliment</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="footer-brand">
+                        <img src="/static/images/ytr-logo-reference.svg" alt="YTR" class="logo">
+                        <p>Your Fleet. Your Services. Your Terms.</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="partners.html">Partners</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="insurance.html">Insurance</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Connect</h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-facebook me-2"></i>Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter me-2"></i>Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram me-2"></i>Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Yours To Rent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Channel Selection
+        const channels = document.querySelectorAll('.channel-card');
+        channels.forEach(channel => {
+            channel.addEventListener('click', function() {
+                channels.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Star Rating
+        const stars = document.querySelectorAll('#starRating i');
+        const ratingText = document.getElementById('ratingText');
+        const ratingTexts = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+        let selectedRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.getAttribute('data-rating'));
+                updateStars(selectedRating);
+                ratingText.textContent = ratingTexts[selectedRating];
+            });
+
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                updateStars(rating);
+            });
+
+            star.addEventListener('mouseout', function() {
+                updateStars(selectedRating);
+            });
+        });
+
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('far');
+                    star.classList.add('fas', 'active');
+                } else {
+                    star.classList.remove('fas', 'active');
+                    star.classList.add('far');
+                }
+            });
+        }
+
+        // File Upload
+        const fileUpload = document.getElementById('fileUpload');
+        const fileInput = document.getElementById('fileInput');
+
+        fileUpload.addEventListener('click', () => fileInput.click());
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.style.borderColor = 'var(--primary-gold)';
+        });
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.style.borderColor = 'var(--border-dark)';
+        });
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.style.borderColor = 'var(--border-dark)';
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+        fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                fileUpload.innerHTML = `
+                    <i class="fas fa-check-circle" style="color: var(--primary-gold);"></i>
+                    <p style="color: var(--text-white);">${files.length} file(s) selected</p>
+                    <small>Click to change</small>
+                `;
+            }
+        }
+
+        // Persist selected star rating into a hidden form input.
+        const ratingInput = document.createElement('input');
+        ratingInput.type = 'hidden';
+        ratingInput.name = 'rating';
+        ratingInput.id = 'ratingInput';
+        document.getElementById('feedbackForm').appendChild(ratingInput);
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                ratingInput.value = this.getAttribute('data-rating');
+            });
+        });
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast-notification toast-${type}`;
+            toast.innerHTML = `<i class="fas fa-check-circle"></i><span style="color: var(--text-white);">${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+        }
+    </script>
+</body>
+</html>

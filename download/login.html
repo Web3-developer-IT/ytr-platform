@@ -1,0 +1,441 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Yours To Rent</title>
+    <meta name="description" content="Login to your Yours To Rent account to manage your bookings and rentals.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+    
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        .auth-left {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.7) 100%),
+                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+        }
+        
+        .auth-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, transparent 50%);
+        }
+        
+        .auth-left-content {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+        }
+        
+        .auth-logo {
+            height: 60px;
+            margin-bottom: 40px;
+        }
+        
+        .auth-left h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .auth-left p {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+        
+        .auth-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .auth-feature {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .auth-feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .auth-feature-icon i {
+            color: var(--primary-gold);
+            font-size: 1.25rem;
+        }
+        
+        .auth-feature-text h4 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+        
+        .auth-feature-text p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        
+        .auth-right {
+            width: 500px;
+            background: var(--bg-dark-2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+        }
+        
+        .auth-form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .auth-form-header h2 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .auth-form-header p {
+            color: var(--text-muted);
+        }
+        
+        .social-auth {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-md);
+            color: var(--text-white);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        
+        .social-btn:hover {
+            border-color: var(--border-gold);
+            color: var(--text-white);
+        }
+        
+        .social-btn i {
+            font-size: 1.25rem;
+        }
+        
+        .social-btn.google i { color: #db4437; }
+        .social-btn.facebook i { color: #4267b2; }
+        .social-btn.apple i { color: #fff; }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-dark);
+        }
+        
+        .divider span {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form label {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .auth-form .form-control {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            color: var(--text-white);
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+        }
+        
+        .auth-form .form-control:focus {
+            background: var(--bg-dark-4);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
+        }
+        
+        .input-group-password {
+            position: relative;
+        }
+        
+        .input-group-password .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .form-check-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        .forgot-link {
+            font-size: 0.875rem;
+            color: var(--primary-gold);
+        }
+        
+        .auth-submit {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            margin-bottom: 24px;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .auth-footer a {
+            color: var(--primary-gold);
+            font-weight: 500;
+        }
+        
+        @media (max-width: 992px) {
+            .auth-left {
+                display: none;
+            }
+            
+            .auth-right {
+                width: 100%;
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    {% include 'partials/auth_public_nav.html' %}
+    <div class="auth-page">
+        <!-- Left Side - Branding -->
+        <div class="auth-left" data-aos="fade-right">
+            <div class="auth-left-content">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" class="auth-logo">
+                </a>
+                <h1>Welcome Back to <span class="gradient-text">Yours To Rent</span></h1>
+                <p>Access your account to manage bookings, track your vehicles, and explore new opportunities.</p>
+                
+                <div class="auth-features">
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="auth-feature-text">
+                            <h4>A great deal for Vehicles</h4>
+                            <p>Access to South Africa's largest rental fleet</p>
+                        </div>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="auth-feature-text">
+                            <h4>Secure & Affordable</h4>
+                            <p>Comprehensive availability	 on every rental</p>
+                        </div>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="auth-feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="auth-feature-text">
+                            <h4>24/7 Support</h4>
+                            <p>Round-the-clock assistance when you need it</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Side - Login Form -->
+        <div class="auth-right" data-aos="fade-left">
+            <div class="auth-form-header">
+                <a href="{% url 'home' %}" class="d-lg-none">
+                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" style="height: 50px; margin-bottom: 30px;">
+                </a>
+                <h2>Sign In</h2>
+                <p>Enter your credentials to access your account</p>
+            </div>
+            {% if messages %}
+            <div class="mb-3">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <!-- Social Auth — Google only when a Social Application exists (Admin → Social applications) -->
+            <div class="social-auth">
+                {% if google_oauth_enabled %}
+                <a href="{{ google_oauth_url }}" class="social-btn google">
+                    <i class="fab fa-google"></i>
+                    <span>Google</span>
+                </a>
+                {% else %}
+                <span class="social-btn google opacity-50" style="cursor:not-allowed;" title="Add a Google Social Application in Admin to enable">
+                    <i class="fab fa-google"></i>
+                    <span>Google</span>
+                </span>
+                {% endif %}
+                <span class="social-btn facebook opacity-50" style="cursor:not-allowed;" title="Coming soon">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </span>
+                <span class="social-btn apple opacity-50" style="cursor:not-allowed;" title="Coming soon">
+                    <i class="fab fa-apple"></i>
+                    <span>Apple</span>
+                </span>
+            </div>
+            
+            <div class="divider">
+                <span>or continue with email</span>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm" method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ login_next|default:'' }}">
+                <div class="form-group">
+                    <label for="email">Email or Username</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email or username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group-password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="remember">
+                        <label class="form-check-label" for="remember">Remember me</label>
+                    </div>
+                    <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-gradient auth-submit">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                Don't have an account? <a href="{% url 'register' %}">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Django handles login form submission.
+    </script>
+</body>
+</html>

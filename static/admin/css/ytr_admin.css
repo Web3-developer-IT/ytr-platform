@@ -1,0 +1,339 @@
+/* Yours To Rent — Jazzmin / AdminLTE aligned with owner /dashboard/ shell (Inter via admin/base_site.html) */
+
+:root {
+  --ytr-admin-bg: #0a0a0a;
+  --ytr-admin-panel: #111114;
+  --ytr-admin-border: rgba(255, 200, 80, 0.22);
+  --ytr-admin-gold: #ffa500;
+  --ytr-admin-gold-soft: rgba(255, 165, 0, 0.14);
+  --ytr-admin-text: rgba(255, 255, 255, 0.92);
+  --ytr-admin-muted: rgba(255, 255, 255, 0.55);
+}
+
+body,
+.wrapper {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  background: var(--ytr-admin-bg) !important;
+  color: var(--ytr-admin-text) !important;
+}
+
+/* --- Top bar: match dashboard gradient header --- */
+.main-header {
+  border-bottom: 1px solid var(--ytr-admin-border) !important;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1208 55%, #120c08 100%) !important;
+  min-height: 56px;
+}
+
+.main-header .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.main-header .form-control-navbar,
+.main-header .btn-navbar {
+  background: rgba(12, 12, 14, 0.85) !important;
+  border-color: var(--ytr-admin-border) !important;
+  color: var(--ytr-admin-text) !important;
+}
+
+.brand-link {
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+  border-bottom: none !important;
+}
+
+.brand-link .brand-image {
+  max-height: 36px !important;
+  opacity: 1 !important;
+}
+
+/* --- Sidebar: dashboard-style dark rail --- */
+.main-sidebar {
+  background: linear-gradient(180deg, #111111 0%, #0a0a0a 100%) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.sidebar-dark-warning .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-dark-warning .nav-sidebar > .nav-item > .nav-link:hover {
+  background: var(--ytr-admin-gold-soft) !important;
+  color: #ffd699 !important;
+  border-radius: 8px;
+}
+
+.nav-sidebar .nav-link {
+  border-radius: 8px;
+  margin: 2px 10px;
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.nav-sidebar .nav-header {
+  color: rgba(255, 255, 255, 0.38) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+/* --- Main canvas --- */
+.content-wrapper {
+  background: var(--ytr-admin-bg) !important;
+}
+
+.content-header,
+.border-bottom {
+  border-color: rgba(255, 200, 80, 0.12) !important;
+}
+
+.content-header h1,
+.content .h4 {
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.breadcrumb {
+  background: transparent !important;
+  margin-bottom: 0 !important;
+}
+
+.breadcrumb-item,
+.breadcrumb-item a {
+  color: var(--ytr-admin-muted) !important;
+}
+
+.breadcrumb-item.active {
+  color: rgba(255, 200, 120, 0.95) !important;
+}
+
+/* --- Cards & tables (control room) --- */
+.card {
+  background: rgba(20, 20, 24, 0.96) !important;
+  border: 1px solid var(--ytr-admin-border) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(255, 200, 80, 0.15) !important;
+  background: linear-gradient(90deg, rgba(255, 160, 60, 0.08), rgba(255, 80, 40, 0.05)) !important;
+  border-radius: 14px 14px 0 0 !important;
+}
+
+.card-header h5 {
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.ytr-admin-model-card .table a {
+  color: #ffd699 !important;
+}
+
+.table {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.table thead th {
+  border-bottom: 1px solid rgba(255, 200, 80, 0.2) !important;
+}
+
+.table td,
+.table th {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* --- Custom admin index (owner-style KPI strip) --- */
+.ytr-admin-dashboard .content {
+  padding-top: 0.5rem;
+}
+
+.ytr-admin-hero {
+  background: linear-gradient(145deg, rgba(18, 18, 22, 0.98) 0%, rgba(12, 12, 14, 0.99) 100%);
+  border: 1px solid var(--ytr-admin-border);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem 1.5rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+.ytr-admin-hero-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ytr-admin-kicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 180, 80, 0.85);
+  font-weight: 700;
+}
+
+.ytr-admin-hero-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.ytr-admin-hero-sub {
+  max-width: 42rem;
+  font-size: 0.9rem;
+}
+
+.ytr-admin-hero-actions .btn {
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.btn-ytr-gold {
+  background: linear-gradient(135deg, #ffb020 0%, #ff6b35 100%) !important;
+  border: none !important;
+  color: #111 !important;
+  box-shadow: 0 4px 18px rgba(255, 140, 40, 0.35);
+}
+
+.btn-ytr-gold:hover {
+  filter: brightness(1.06);
+  color: #111 !important;
+}
+
+.ytr-admin-stat-row {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+
+.ytr-admin-stat {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 200, 80, 0.14);
+  border-radius: 12px;
+  padding: 0.85rem 0.75rem;
+  text-align: center;
+  height: 100%;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.ytr-admin-stat:hover {
+  border-color: rgba(255, 200, 80, 0.35);
+  transform: translateY(-2px);
+}
+
+.ytr-admin-stat-accent {
+  border-color: rgba(80, 200, 120, 0.35);
+}
+
+.ytr-admin-stat-warn {
+  border-color: rgba(255, 100, 80, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 100, 80, 0.12);
+}
+
+.ytr-admin-stat-icon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--ytr-admin-gold-soft);
+  color: #ffc266;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.ytr-admin-stat-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.ytr-admin-stat-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ytr-admin-muted);
+  margin-top: 0.15rem;
+}
+
+.ytr-admin-recent {
+  background: rgba(20, 20, 24, 0.96);
+  border: 1px solid var(--ytr-admin-border);
+  border-radius: 14px;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.ytr-admin-recent h4 {
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+/* --- Forms --- */
+.form-control,
+select,
+.custom-select,
+textarea {
+  background: rgba(12, 12, 14, 0.92) !important;
+  border-color: rgba(255, 200, 80, 0.22) !important;
+  color: var(--ytr-admin-text) !important;
+  border-radius: 10px !important;
+}
+
+.form-row label,
+label {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.btn-warning {
+  color: #111 !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+}
+
+.btn-outline-light {
+  border-radius: 10px !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* --- Footer --- */
+.main-footer {
+  background: #080808 !important;
+  border-top: 1px solid rgba(255, 200, 80, 0.15) !important;
+  color: var(--ytr-admin-muted) !important;
+}
+
+/* --- Alerts --- */
+.alert {
+  border-radius: 12px !important;
+  border-width: 1px !important;
+}
+
+/* --- Login page (Jazzmin) --- */
+.login-page {
+  background: radial-gradient(ellipse at top, #1a1208 0%, #0a0a0a 55%) !important;
+}
+
+.login-box .card {
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+
+/* --- Legacy admin (non-Jazzmin) --- */
+#header {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1208 45%, #2a1808 100%);
+  border-bottom: 1px solid rgba(255, 200, 80, 0.35);
+}
+
+#site-name a:link,
+#site-name a:visited {
+  color: #ffe8b8;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+  background: linear-gradient(90deg, rgba(255, 180, 60, 0.2), rgba(255, 80, 40, 0.12));
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 200, 80, 0.25);
+}

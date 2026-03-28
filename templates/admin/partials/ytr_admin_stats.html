@@ -1,0 +1,65 @@
+{% load i18n %}
+<div class="ytr-admin-hero mb-4">
+  <div class="ytr-admin-hero-inner">
+    <div class="ytr-admin-hero-titles">
+      <p class="ytr-admin-kicker mb-1">{% trans "Control room" %}</p>
+      <h2 class="ytr-admin-hero-title mb-2">{% trans "Fleet & marketplace overview" %}</h2>
+      <p class="ytr-admin-hero-sub text-muted mb-0">
+        {% trans "Same brand language as the owner dashboard — quick counts and shortcuts to what operators touch daily." %}
+      </p>
+    </div>
+    <div class="ytr-admin-hero-actions">
+      <a href="/dashboard/" class="btn btn-ytr-gold btn-sm" target="_blank" rel="noopener">
+        <i class="fas fa-th-large mr-1"></i> {% trans "Owner dashboard" %}
+      </a>
+      <a href="/browse/?commercial=1" class="btn btn-outline-light btn-sm" target="_blank" rel="noopener">
+        <i class="fas fa-truck mr-1"></i> {% trans "Browse commercial" %}
+      </a>
+    </div>
+  </div>
+
+  <div class="row ytr-admin-stat-row">
+    <div class="col-6 col-md-4 col-xl-2 mb-3 mb-xl-0">
+      <div class="ytr-admin-stat">
+        <span class="ytr-admin-stat-icon"><i class="fas fa-car-side"></i></span>
+        <div class="ytr-admin-stat-value">{{ total_listings }}</div>
+        <div class="ytr-admin-stat-label">{% trans "Listings" %}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2 mb-3 mb-xl-0">
+      <div class="ytr-admin-stat ytr-admin-stat-accent">
+        <span class="ytr-admin-stat-icon"><i class="fas fa-check-circle"></i></span>
+        <div class="ytr-admin-stat-value">{{ available_listings }}</div>
+        <div class="ytr-admin-stat-label">{% trans "Live on site" %}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2 mb-3 mb-xl-0">
+      <div class="ytr-admin-stat">
+        <span class="ytr-admin-stat-icon"><i class="fas fa-truck-loading"></i></span>
+        <div class="ytr-admin-stat-value">{{ commercial_listings }}</div>
+        <div class="ytr-admin-stat-label">{% trans "Commercial / fleet" %}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2 mb-3 mb-xl-0">
+      <div class="ytr-admin-stat">
+        <span class="ytr-admin-stat-icon"><i class="fas fa-users"></i></span>
+        <div class="ytr-admin-stat-value">{{ total_users }}</div>
+        <div class="ytr-admin-stat-label">{% trans "Active users" %}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2 mb-3 mb-xl-0">
+      <div class="ytr-admin-stat">
+        <span class="ytr-admin-stat-icon"><i class="fas fa-calendar-check"></i></span>
+        <div class="ytr-admin-stat-value">{{ total_bookings }}</div>
+        <div class="ytr-admin-stat-label">{% trans "Bookings" %}</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2 mb-3 mb-xl-0">
+      <div class="ytr-admin-stat {% if pending_documents %}ytr-admin-stat-warn{% endif %}">
+        <span class="ytr-admin-stat-icon"><i class="fas fa-file-signature"></i></span>
+        <div class="ytr-admin-stat-value">{{ pending_documents }}</div>
+        <div class="ytr-admin-stat-label">{% trans "Docs pending" %}</div>
+      </div>
+    </div>
+  </div>
+</div>

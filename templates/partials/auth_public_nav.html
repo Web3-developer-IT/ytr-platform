@@ -1,0 +1,20 @@
+{% load static %}
+<header class="ytr-auth-public-nav" role="banner">
+  <div class="ytr-auth-public-nav-inner">
+    <a href="{% url 'home' %}" class="ytr-auth-public-brand">
+      <img src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" height="36" width="120" decoding="async">
+    </a>
+    <nav class="ytr-auth-public-links" aria-label="Account pages">
+      <a href="{% url 'browse' %}">Browse</a>
+      <a href="{% url 'help_center' %}">Help</a>
+      <a href="{% url 'contact' %}">Contact</a>
+    </nav>
+    <div class="ytr-auth-public-cta">
+      {% if request.resolver_match.url_name == 'login' %}
+        <a href="{% url 'register' %}" class="btn btn-sm btn-warning text-dark fw-bold">Create account</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-sm btn-outline-light">Sign in</a>
+      {% endif %}
+    </div>
+  </div>
+</header>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About | Yours To Rent{% endblock %}
+
+{% block content %}
+<section class="py-5 mb-5 rounded-4" style="background:linear-gradient(135deg,#151515,#242424);">
+    <div class="row align-items-center g-4 px-3">
+        <div class="col-lg-7">
+            <h1 class="display-5 fw-bold">About Yours To Rent</h1>
+            <p class="lead text-white-50 mb-0">A marketplace for vehicles, equipment, and tools where owners earn and renters book with confidence.</p>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+            <img src="{% static 'images/hero-vehicles.png' %}" class="img-fluid rounded-4" alt="Yours To Rent platform">
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mb-5">
+    <div class="col-md-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h4>Vision</h4><p class="text-white-50 mb-0">Enable trusted peer-to-peer and business-to-customer rentals at scale.</p></div></div>
+    <div class="col-md-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h4>Mission</h4><p class="text-white-50 mb-0">Give every owner tools to list, manage bookings, and grow repeat revenue.</p></div></div>
+    <div class="col-md-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h4>Trust</h4><p class="text-white-50 mb-0">Clear communication, transparent pricing, and account-based accountability.</p></div></div>
+</section>
+
+<section class="row text-center g-4 mb-5">
+    <div class="col-6 col-lg-3"><h2 class="text-warning">10K+</h2><p class="text-white-50 mb-0">Listings Target</p></div>
+    <div class="col-6 col-lg-3"><h2 class="text-warning">5K+</h2><p class="text-white-50 mb-0">Owners Target</p></div>
+    <div class="col-6 col-lg-3"><h2 class="text-warning">20K+</h2><p class="text-white-50 mb-0">Bookings Target</p></div>
+    <div class="col-6 col-lg-3"><h2 class="text-warning">50+</h2><p class="text-white-50 mb-0">Cities</p></div>
+</section>
+
+<section class="text-center p-5 rounded-4" style="background:#111;border:1px solid rgba(255,255,255,.08)">
+    <h3 class="mb-3">Start Renting Today</h3>
+    <p class="text-white-50">Join the growing rental network and launch your first listing.</p>
+    <a href="{% url 'listings' %}" class="btn btn-warning">Browse Listings</a>
+</section>
+{% endblock %}

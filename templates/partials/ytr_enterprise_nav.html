@@ -1,0 +1,90 @@
+{% load static %}
+<nav class="ytrE-nav" id="ytrENav">
+  <div class="ytrE-nav-inner">
+    <a href="{% url 'home' %}" class="ytrE-logo">
+      <img src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" width="132" height="44" decoding="async">
+      <span class="ytrE-tagline d-none d-xl-inline">South Africa&rsquo;s Premier Vehicle Marketplace</span>
+    </a>
+    <div class="ytrE-links">
+      <a href="{% url 'browse' %}" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="{% url 'how_it_works' %}">How It Works</a>
+      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'add_listing' %}">List Vehicle</a>
+      <a href="{% url 'about' %}">Company</a>
+      <a href="{% url 'contact' %}">Support</a>
+    </div>
+    <div class="ytrE-actions">
+      {% if user.is_authenticated %}
+      <a href="{% url 'owner_dashboard' %}" class="ytrE-login">Dashboard</a>
+      <a href="{% url 'logout' %}" class="ytrE-signup">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="ytrE-login">Login</a>
+      <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
+      {% endif %}
+    </div>
+    <div class="ytrE-burger" id="ytrEBurger" role="button" tabindex="0" aria-label="Open menu">☰</div>
+  </div>
+  <div class="ytrE-mega" id="ytrEMega">
+    <div class="ytrE-mega-inner">
+      <div>
+        <h6>By style</h6>
+        <a href="{% url 'browse' %}?style=Sedan">Sedan</a>
+        <a href="{% url 'browse' %}?style=SUV">SUV</a>
+        <a href="{% url 'browse' %}?style=Luxury">Luxury</a>
+      </div>
+      <div>
+        <h6>More</h6>
+        <a href="{% url 'browse' %}?style=Bakkie">Bakkie</a>
+        <a href="{% url 'browse' %}">All vehicles</a>
+      </div>
+      <div>
+        <h6>Help</h6>
+        <a href="{% url 'how_it_works' %}">How it works</a>
+        <a href="{% url 'help_center' %}">Help center</a>
+      </div>
+      <div>
+        <h6>Browse</h6>
+        <a href="{% url 'browse' %}">Open browse</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="ytrE-drawer" id="ytrEDrawer">
+  <a href="{% url 'browse' %}">Browse Vehicles</a>
+  <a href="{% url 'how_it_works' %}">How It Works</a>
+  <a href="{% url 'services' %}">Services</a>
+  <a href="{% url 'add_listing' %}">List Vehicle</a>
+  <a href="{% url 'about' %}">Company</a>
+  <a href="{% url 'contact' %}">Support</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'owner_dashboard' %}">Dashboard</a>
+  <a href="{% url 'logout' %}">Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'register' %}">Sign Up</a>
+  {% endif %}
+</div>
+<script>
+(function () {
+  var nav = document.getElementById('ytrENav');
+  if (!nav) return;
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 40) nav.classList.add('shrink');
+    else nav.classList.remove('shrink');
+  });
+  var mega = document.getElementById('ytrEMega');
+  var browse = document.getElementById('ytrEBrowse');
+  if (browse && mega) {
+    browse.addEventListener('mouseenter', function () { mega.classList.add('show'); });
+    nav.addEventListener('mouseleave', function () { mega.classList.remove('show'); });
+  }
+  var burger = document.getElementById('ytrEBurger');
+  var drawer = document.getElementById('ytrEDrawer');
+  if (burger && drawer) {
+    burger.addEventListener('click', function () {
+      drawer.classList.toggle('open');
+      document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    });
+  }
+})();
+</script>

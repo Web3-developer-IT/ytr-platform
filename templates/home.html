@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home | Yours To Rent{% endblock %}
+
+{% block content %}
+<section class="py-5 text-center rounded-4 mb-5" style="background: linear-gradient(120deg,#111,#1f3f7a);">
+    <h1 class="display-4 fw-bold">Rent Anything. Anytime.</h1>
+    <p class="lead text-white-50">Yours To Rent connects owners and renters with secure bookings and trusted communication.</p>
+    <a href="{% url 'listings' %}" class="btn btn-warning btn-lg mt-3">Explore Listings</a>
+</section>
+
+<section class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="p-4 rounded-4 h-100" style="background:#131313;border:1px solid rgba(255,255,255,.08)">
+            <h4>List Your Assets</h4>
+            <p class="text-white-50 mb-0">Turn idle vehicles and equipment into monthly income.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="p-4 rounded-4 h-100" style="background:#131313;border:1px solid rgba(255,255,255,.08)">
+            <h4>Secure Bookings</h4>
+            <p class="text-white-50 mb-0">Track booking requests and approve from your dashboard.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="p-4 rounded-4 h-100" style="background:#131313;border:1px solid rgba(255,255,255,.08)">
+            <h4>Built-In Messaging</h4>
+            <p class="text-white-50 mb-0">Communicate directly between renters and owners per listing.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3 mb-0">Popular Rentals</h2>
+        <a href="{% url 'listings' %}" class="btn btn-outline-light btn-sm">View all</a>
+    </div>
+    <div class="row g-4">
+        {% for listing in listings|slice:":6" %}
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 h-100" style="background:#111;border:1px solid rgba(255,255,255,.08)">
+                    <h5>{{ listing.title }}</h5>
+                    <p class="text-white-50 mb-2">{{ listing.location }}</p>
+                    <p class="text-warning fw-bold mb-3">R {{ listing.price_per_day }} / day</p>
+                    <a href="{% url 'listing_detail' listing.id %}" class="btn btn-outline-warning btn-sm">View details</a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-white-50">No listings yet. Be the first to <a href="{% url 'add_listing' %}">list a vehicle</a>.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

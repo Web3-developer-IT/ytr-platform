@@ -1,0 +1,133 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Services{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Yours To Rent services — license-test vehicles, events, corporate mobility, and fleet support. Built for South Africa.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<style>
+  .ytr-svc-hero {
+    margin-top: 88px;
+    padding: 72px 24px 48px;
+    background:
+      linear-gradient(180deg, rgba(5,5,8,0.97) 0%, rgba(10,10,14,0.92) 100%),
+      url("{% static 'images/hero-cars-reference.png' %}") center/cover no-repeat;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .ytr-svc-hero h1 {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
+    max-width: 900px;
+  }
+  .ytr-svc-card {
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03);
+    padding: 28px;
+    height: 100%;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .ytr-svc-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(232, 184, 74, 0.35);
+  }
+  .ytr-svc-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: rgba(232, 184, 74, 0.12);
+    border: 1px solid rgba(232, 184, 74, 0.25);
+    display: flex; align-items: center; justify-content: center;
+    color: #e8b84a;
+    font-size: 1.35rem;
+    margin-bottom: 18px;
+  }
+</style>
+{% endblock %}
+
+{% block public_content %}
+<section class="ytr-svc-hero">
+  <div class="container" style="max-width: 1140px;">
+    <p class="text-warning small fw-bold text-uppercase mb-2" data-aos="fade-up">Enterprise mobility</p>
+    <h1 class="text-white mb-3" data-aos="fade-up">Services designed around <span class="text-warning">real</span> South African journeys</h1>
+    <p class="text-white-50 lead mb-0" style="max-width: 720px;" data-aos="fade-up" data-aos-delay="60">
+      From learner-license preparation to corporate fleet coverage, every workflow is built on the same platform: verified users, structured bookings, and transparent records — not inflated marketing numbers.
+    </p>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container py-4" style="max-width: 1140px;">
+    <div class="row g-4 mb-5">
+      <div class="col-md-6 col-lg-4" data-aos="fade-up">
+        <div class="ytr-svc-card">
+          <div class="ytr-svc-icon"><i class="fas fa-id-card"></i></div>
+          <h3 class="h5 fw-bold text-white mb-2">License &amp; test readiness</h3>
+          <p class="text-white-50 small mb-3">Book compliant vehicles for tests and practice sessions. Hosts control availability; renters submit structured requests — no fake pass rates on this site.</p>
+          <a href="{% url 'browse' %}" class="text-warning text-decoration-none fw-semibold small">Browse suitable vehicles <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="40">
+        <div class="ytr-svc-card">
+          <div class="ytr-svc-icon"><i class="fas fa-ring"></i></div>
+          <h3 class="h5 fw-bold text-white mb-2">Weddings &amp; special events</h3>
+          <p class="text-white-50 small mb-3">Premium arrivals for weddings, graduations, and private events. Chauffeur partnerships and packaged pricing are <span class="text-warning">coming soon</span> as we onboard partners.</p>
+          <a href="{% url 'contact' %}" class="text-warning text-decoration-none fw-semibold small">Talk to us <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+        <div class="ytr-svc-card">
+          <div class="ytr-svc-icon"><i class="fas fa-briefcase"></i></div>
+          <h3 class="h5 fw-bold text-white mb-2">Corporate mobility</h3>
+          <p class="text-white-50 small mb-3">Centralised booking records for teams that need audit-friendly trails. Deeper SLA tooling and invoicing exports are on the roadmap — we label them honestly.</p>
+          <a href="{% url 'contact' %}" class="text-warning text-decoration-none fw-semibold small">Corporate enquiry <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up">
+        <div class="ytr-svc-card">
+          <div class="ytr-svc-icon"><i class="fas fa-truck-moving"></i></div>
+          <h3 class="h5 fw-bold text-white mb-2">Fleet &amp; logistics</h3>
+          <p class="text-white-50 small mb-3">List commercial vehicles and equipment where it fits your category. Advanced telematics integrations are <span class="text-warning">coming soon</span>.</p>
+          <a href="{% url 'add_listing' %}" class="text-warning text-decoration-none fw-semibold small">List an asset <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="40">
+        <div class="ytr-svc-card">
+          <div class="ytr-svc-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3 class="h5 fw-bold text-white mb-2">Verification &amp; trust</h3>
+          <p class="text-white-50 small mb-3">Document review helps keep the marketplace safe. Admins can verify uploads; users see status in their account — no fabricated review scores.</p>
+          <a href="{% url 'documents_center' %}" class="text-warning text-decoration-none fw-semibold small">Verification hub <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+        <div class="ytr-svc-card">
+          <div class="ytr-svc-icon"><i class="fas fa-headset"></i></div>
+          <h3 class="h5 fw-bold text-white mb-2">Concierge support</h3>
+          <p class="text-white-50 small mb-3">Dedicated pathways for high-touch bookings will roll out with enterprise contracts. Until then, reach our team through the standard contact channels.</p>
+          <a href="{% url 'help_center' %}" class="text-warning text-decoration-none fw-semibold small">Help center <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+      <h3 class="ytr-premium-section-title">Operational transparency</h3>
+      <p class="ytr-premium-muted mb-3">We do not display fabricated ratings, revenue, or market share. Anything not yet live — including card capture, automated payouts, and insurer APIs — is marked <span class="text-warning">coming soon</span> so your stakeholders see facts, not theatre.</p>
+      <p class="ytr-premium-muted mb-0">Administrators manage users, listings, documents, and platform notifications through Django Admin (see deployment notes). That control stays with your team at launch.</p>
+    </div>
+
+    <div class="text-center py-4" data-aos="fade-up">
+      <a href="{% url 'browse' %}" class="btn btn-lg btn-warning fw-bold text-dark me-2 mb-2">Browse marketplace</a>
+      <a href="{% url 'contact' %}" class="btn btn-lg btn-outline-light mb-2">Contact the team</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 700, once: true });</script>
+{% endblock %}

@@ -1,0 +1,254 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Book {{ listing.title }}{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Complete your booking request for {{ listing.title }} in {{ listing.location }}.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<style>
+  .ytr-book-hero {
+    position: relative;
+    min-height: 320px;
+    margin-top: 88px;
+    display: flex;
+    align-items: flex-end;
+    padding: 48px 24px 40px;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .ytr-book-hero__bg {
+    position: absolute;
+    inset: 0;
+    background: #111 center/cover no-repeat;
+    transform: scale(1.03);
+  }
+  .ytr-book-hero__veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5,5,8,0.2) 0%, rgba(5,5,8,0.92) 85%);
+  }
+  .ytr-book-hero__inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+  .ytr-book-hero h1 {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    margin: 0 0 8px;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+  }
+  .ytr-book-hero .meta { color: rgba(255,255,255,0.75); font-size: 0.98rem; }
+  .ytr-book-hero .meta i { color: #e8b84a; }
+  .ytr-book-card {
+    background: rgba(12,12,14,0.92);
+    border: 1px solid rgba(232, 184, 74, 0.35);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.55);
+  }
+  .ytr-book-sticky {
+    position: sticky;
+    top: 104px;
+  }
+  .ytr-estimate-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.95rem;
+  }
+  .ytr-estimate-total {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #e8b84a;
+  }
+</style>
+{% endblock %}
+
+{% block public_content %}
+<div class="ytr-book-hero">
+  <div class="ytr-book-hero__bg" style="background-image: url('{% if listing.primary_image_url %}{{ listing.primary_image_url }}{% else %}{% static 'images/hero-cars-reference.png' %}{% endif %}');"></div>
+  <div class="ytr-book-hero__veil"></div>
+  <div class="ytr-book-hero__inner">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '›';">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-warning text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'browse' %}" class="text-warning text-decoration-none">Browse</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'listing_detail' listing.id %}" class="text-warning text-decoration-none">{{ listing.title|truncatewords:8 }}</a></li>
+        <li class="breadcrumb-item active text-white-50" aria-current="page">Book</li>
+      </ol>
+    </nav>
+    <h1 data-aos="fade-up">Book {{ listing.title }}</h1>
+    <p class="meta mb-0" data-aos="fade-up" data-aos-delay="50">
+      <i class="fas fa-map-marker-alt me-1"></i>{{ listing.location }}
+      &nbsp;&middot;&nbsp;
+      <i class="fas fa-car me-1"></i>{{ listing.body_style }}
+      &nbsp;&middot;&nbsp;
+      R {{ listing.price_per_day }} / day
+    </p>
+  </div>
+</div>
+
+<section class="py-5">
+  <div class="container py-2" style="max-width: 1200px;">
+    <div class="row g-4">
+      <div class="col-lg-7 order-2 order-lg-1">
+        <div class="ytr-book-card mb-4" data-aos="fade-up">
+          <h2 class="h4 fw-bold mb-1">Trip details</h2>
+          <p class="text-white-50 small mb-4">Select your dates. The host will confirm or adjust based on availability.</p>
+          <form method="post" action="{% url 'book_listing' listing.id %}" id="ytrBookForm">
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small text-white-50">Pick-up date</label>
+                <input type="text" name="start_date" id="start_date" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="Select date" required autocomplete="off">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small text-white-50">Return date</label>
+                <input type="text" name="end_date" id="end_date" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="Select date" required autocomplete="off">
+              </div>
+            </div>
+            <div class="form-check mt-4 mb-3">
+              <input class="form-check-input" type="checkbox" value="1" id="ackRules" required>
+              <label class="form-check-label small text-white-50" for="ackRules">
+                I understand that pricing is based on the listing&rsquo;s daily rate and trip length, and that the host must approve this request before it is final.
+              </label>
+            </div>
+            <button type="submit" class="btn btn-lg w-100 fw-bold text-dark" style="background: linear-gradient(135deg,#ffd54a,#ff7a3d); border: none;">
+              <i class="fas fa-paper-plane me-2"></i>Submit booking request
+            </button>
+          </form>
+        </div>
+
+        <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+          <h3 class="ytr-premium-section-title">What happens next</h3>
+          <div class="ytr-premium-muted">
+            <p><strong class="text-white">1. Request</strong> — Your dates are saved as a booking request tied to this listing.</p>
+            <p><strong class="text-white">2. Host review</strong> — The host can approve or discuss changes via messages.</p>
+            <p><strong class="text-white">3. In-app messaging</strong> — Use <a href="{% url 'inbox' %}" class="text-warning text-decoration-none">Messages</a> to align on handover details.</p>
+            <p class="mb-0"><strong class="text-white">4. Payments &amp; payouts</strong> — Integrated card processing and automated payouts are <span class="text-warning">coming soon</span>; nothing is charged until those systems go live.</p>
+          </div>
+        </div>
+
+        <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+          <h3 class="ytr-premium-section-title">Driver &amp; verification</h3>
+          <p class="ytr-premium-muted mb-0">Bookings require verified profile documents where enforced by platform rules. If you are redirected to verification, upload documents under <a href="{% url 'documents_center' %}" class="text-warning text-decoration-none">Documents</a> before completing a rental.</p>
+        </div>
+
+        <div class="ytr-premium-grid-3 mb-4">
+          <div class="ytr-premium-icon-card text-center" data-aos="fade-up">
+            <i class="fas fa-shield-alt"></i>
+            <div class="fw-bold small">Structured requests</div>
+            <p class="ytr-premium-muted small mb-0 mt-2">Every trip is recorded in your account.</p>
+          </div>
+          <div class="ytr-premium-icon-card text-center" data-aos="fade-up" data-aos-delay="50">
+            <i class="fas fa-comments"></i>
+            <div class="fw-bold small">Host messaging</div>
+            <p class="ytr-premium-muted small mb-0 mt-2">Clarify pickup, keys, and return.</p>
+          </div>
+          <div class="ytr-premium-icon-card text-center" data-aos="fade-up" data-aos-delay="100">
+            <i class="fas fa-file-invoice"></i>
+            <div class="fw-bold small">Transparent totals</div>
+            <p class="ytr-premium-muted small mb-0 mt-2">Estimate below uses the listing&rsquo;s daily rate.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 order-1 order-lg-2">
+        <div class="ytr-book-card ytr-book-sticky" data-aos="fade-left">
+          <h3 class="h5 fw-bold mb-3">Listing summary</h3>
+          {% if listing.primary_image_url %}
+          <img src="{{ listing.primary_image_url }}" alt="" class="img-fluid rounded-3 mb-3 w-100" style="max-height: 200px; object-fit: cover;">
+          {% endif %}
+          <p class="small text-white-50 mb-3">{{ listing.description|truncatewords:32 }}</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge rounded-pill text-bg-dark border border-secondary">{{ listing.transmission }}</span>
+            <span class="badge rounded-pill text-bg-dark border border-secondary">{{ listing.fuel_type }}</span>
+            <span class="badge rounded-pill text-bg-dark border border-secondary">{{ listing.seats }} seats</span>
+            <span class="badge rounded-pill text-bg-dark border border-secondary">{{ listing.mileage_display }}</span>
+          </div>
+          <div class="ytr-estimate-line text-white-50">
+            <span>Daily rate</span>
+            <span class="text-white" id="rateVal">R {{ listing.price_per_day }}</span>
+          </div>
+          <div class="ytr-estimate-line text-white-50">
+            <span>Trip length</span>
+            <span class="text-white" id="daysVal">— days</span>
+          </div>
+          <div class="ytr-estimate-line border-0 pt-2">
+            <span class="fw-bold text-white">Estimated total</span>
+            <span class="ytr-estimate-total" id="totalVal">R 0</span>
+          </div>
+          <p class="small text-white-50 mt-3 mb-0 text-center">Estimate only; host approval may change dates or pricing.</p>
+          <hr class="border-secondary my-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px;">
+              <i class="fas fa-user text-white"></i>
+            </div>
+            <div>
+              <div class="small text-white-50">Hosted by</div>
+              <div class="fw-bold">{{ host_label }}</div>
+            </div>
+            <a href="{% url 'inbox' %}" class="btn btn-outline-warning btn-sm ms-auto">Message</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+(function () {
+  AOS.init({ duration: 700, once: true, offset: 24 });
+  var rate = parseFloat('{{ listing.price_per_day }}') || 0;
+  var startEl = document.getElementById('start_date');
+  var endEl = document.getElementById('end_date');
+  var daysVal = document.getElementById('daysVal');
+  var totalVal = document.getElementById('totalVal');
+  function parseYMD(s) {
+    if (!s) return null;
+    var p = s.split('-');
+    if (p.length !== 3) return null;
+    var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function sync() {
+    var sd = parseYMD(startEl && startEl.value);
+    var ed = parseYMD(endEl && endEl.value);
+    if (!sd || !ed) {
+      daysVal.textContent = '— days';
+      totalVal.textContent = 'R 0';
+      return;
+    }
+    var ms = ed - sd;
+    var days = Math.floor(ms / 86400000) + 1;
+    if (days < 1) days = 0;
+    daysVal.textContent = days + (days === 1 ? ' day' : ' days');
+    totalVal.textContent = 'R ' + Math.round(rate * days).toLocaleString();
+  }
+  if (typeof flatpickr !== 'undefined' && startEl && endEl) {
+    var fpEnd = flatpickr(endEl, { dateFormat: 'Y-m-d', minDate: 'today', onChange: function () { sync(); } });
+    flatpickr(startEl, {
+      dateFormat: 'Y-m-d',
+      minDate: 'today',
+      onChange: function () {
+        fpEnd.set('minDate', startEl.value || 'today');
+        sync();
+      }
+    });
+  }
+  startEl.addEventListener('change', sync);
+  endEl.addEventListener('change', sync);
+  startEl.addEventListener('input', sync);
+  endEl.addEventListener('input', sync);
+})();
+</script>
+{% endblock %}
