@@ -28,9 +28,9 @@ DEBUG = True
 import cloudinary
 
 cloudinary.config(
-    cloud_name = "your_cloud_name",
-    api_key = "your_api_key",
-    api_secret = "your_api_secret"
+    cloud_name = "dz0hjkwwm",
+    api_key = "124816738685834",
+    api_secret = "0FeZvy1_fO2xLp-Ekn4ZFSIhzOw"
 )
 
 
