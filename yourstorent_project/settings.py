@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+import cloudinary
+# import cloudinary.uploader
+# import cloudinary.api
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +28,7 @@ SECRET_KEY = 'django-insecure-^nomskov6exp@su@ponl_9ns021i4s5*$ywmsf=101zcfttv0+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-import cloudinary
+
 
 cloudinary.config(
     cloud_name = "dz0hjkwwm",
@@ -40,7 +43,7 @@ ALLOWED_HOSTS = [
     'testserver',
     'ytr-platform.onrender.com',
 ]
-ALLOWED_HOSTS = ['ytr-platform.onrender.com']
+ALLOWED_HOSTS = ['ytr-platform.onrender.com', '127.0.0.1']
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 

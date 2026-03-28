@@ -1,3 +1,5 @@
+@import url("ytr-responsive.css");
+
 /* Global readability + contrast (dark UI) */
 :root {
   --ytr-text-primary: #f3f4f6;

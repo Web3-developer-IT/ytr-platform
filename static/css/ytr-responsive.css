@@ -1,0 +1,251 @@
+/* YTR — global responsive layer (all viewports). Loaded via ytr-platform-contrast + ytr-account-shell. */
+
+/* --- Base: media + overflow --- */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* iOS safe areas (notched devices) — account shell only */
+@supports (padding: max(0px)) {
+  body.ytr-account-body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  .dashboard-wrapper .main-content,
+  .ytr-dashboard-wrapper .main-content,
+  body.ytr-account-body .main-content {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+}
+
+/* --- Mobile sidebar overlay --- */
+.ytr-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.58);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+@media (max-width: 1199.98px) {
+  body.ytr-sidebar-open .ytr-sidebar-backdrop {
+    display: block;
+  }
+
+  body.ytr-sidebar-open {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .dashboard-wrapper .sidebar,
+  .ytr-dashboard-wrapper .sidebar {
+    z-index: 1001;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.55);
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* --- Account shell: main column --- */
+@media (max-width: 1199.98px) {
+  .ytr-dashboard-wrapper .main-content,
+  .dashboard-wrapper .main-content {
+    padding: 20px 14px 32px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .ytr-dashboard-wrapper .main-content,
+  .dashboard-wrapper .main-content {
+    padding: 16px 12px 28px;
+  }
+
+  .ytr-account-top-bar {
+    flex-direction: column;
+    align-items: stretch !important;
+    padding: 14px 16px !important;
+    gap: 12px !important;
+  }
+
+  .ytr-account-top-bar .ytr-topbar-heading {
+    order: 1;
+    width: 100%;
+    text-align: left;
+  }
+
+  .ytr-account-top-bar .btn-outline-light.d-lg-none {
+    order: 0;
+    align-self: flex-start;
+  }
+
+  .ytr-account-top-bar .search-box {
+    order: 2;
+    max-width: none !important;
+    flex: 1 1 100% !important;
+  }
+
+  .ytr-account-top-bar .top-bar-actions {
+    order: 3;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .ytr-premium-wrap {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .ytr-account-top-bar .ytr-topbar-heading h1 {
+    font-size: 1.05rem !important;
+  }
+
+  .ytr-account-top-bar .notification-btn,
+  .ytr-account-top-bar .message-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* --- Dashboard (download/dashboard + templates/dashboard inline styles) --- */
+@media (max-width: 1199.98px) {
+  .dashboard-wrapper .main-content {
+    margin-left: 0 !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .dashboard-wrapper .quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .dashboard-wrapper .top-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+    padding: 14px 16px !important;
+  }
+
+  .dashboard-wrapper .search-box {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .dashboard-wrapper .stat-card {
+    padding: 20px !important;
+  }
+
+  .dashboard-wrapper .quick-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dashboard-wrapper .dashboard-card .card-body,
+  .dashboard-wrapper .dashboard-card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #calendar {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .dashboard-wrapper .stat-card h3 {
+    font-size: 1.35rem !important;
+  }
+
+  .dashboard-wrapper .activity-item {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-wrapper .activity-item .time {
+    margin-left: 0 !important;
+    width: 100%;
+    padding-top: 6px;
+  }
+}
+
+/* --- Public enterprise nav: small screens --- */
+@media (max-width: 1024px) {
+  .ytrE-nav {
+    height: auto;
+    min-height: 64px;
+  }
+  .ytrE-nav-inner {
+    flex-wrap: wrap;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+/* --- Browse / listings: horizontal scroll for spec rows --- */
+@media (max-width: 767.98px) {
+  .vehicle-specs,
+  .filter-row,
+  .browse-toolbar {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* --- Tables (transactions, admin-like) --- */
+.table-responsive,
+.ytr-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- Auth public nav --- */
+@media (max-width: 575.98px) {
+  .ytr-auth-public-nav-inner {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .ytr-auth-public-links {
+    gap: 10px 14px;
+    justify-content: center;
+  }
+}
+
+/* --- Jazzmin admin (optional polish) --- */
+@media (max-width: 767.98px) {
+  .content-wrapper .content-header h1 {
+    font-size: 1.15rem !important;
+  }
+
+  .ytr-admin-hero-inner {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .ytr-admin-stat-row .col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .ytr-admin-stat-row .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
