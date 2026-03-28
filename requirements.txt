@@ -13,3 +13,6 @@ cryptography>=42.0.0
 sqlparse==0.5.5
 tzdata==2025.3
 Django==6.0.2
+whitenoise==6.6.0
+cloudinary
+django-cloudinary-storage

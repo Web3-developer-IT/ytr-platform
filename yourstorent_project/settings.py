@@ -25,14 +25,26 @@ SECRET_KEY = 'django-insecure-^nomskov6exp@su@ponl_9ns021i4s5*$ywmsf=101zcfttv0+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+import cloudinary
+
+cloudinary.config(
+    cloud_name = "your_cloud_name",
+    api_key = "your_api_key",
+    api_secret = "your_api_secret"
+)
+
+
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'testserver',
     'ytr-platform.onrender.com',
 ]
+ALLOWED_HOSTS = ['ytr-platform.onrender.com']
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATIC_URL = '/static/'
 
 # Application definition
 
@@ -57,7 +69,11 @@ INSTALLED_APPS = [
     'users',
     'listings',
     'messaging',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -146,6 +162,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/dashboard/"
