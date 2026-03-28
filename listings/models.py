@@ -18,5 +18,8 @@ class Listing(models.Model):
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # ✅ CORRECT placement
+    image = models.ImageField(upload_to='listings/', blank=True, null=True)
+
     def __str__(self):
         return self.title
