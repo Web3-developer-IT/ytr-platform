@@ -92,12 +92,8 @@ WSGI_APPLICATION = 'yourstorent_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'yourstorent',
-        'USER': 'postgres',
-        'PASSWORD': '1LoveGod12#',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
