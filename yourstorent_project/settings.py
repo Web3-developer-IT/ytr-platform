@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
     'ytr-platform.onrender.com',
 ]
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Application definition
 
