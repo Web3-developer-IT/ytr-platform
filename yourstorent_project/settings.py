@@ -19,7 +19,15 @@ import cloudinary.api
 # import cloudinary.uploader
 # import cloudinary.api
 
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+if load_dotenv:
+    load_dotenv(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -39,13 +47,17 @@ cloudinary.config(
 )
 
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'testserver',
-    'ytr-platform.onrender.com',
-]
-ALLOWED_HOSTS = ['ytr-platform.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = list(
+    dict.fromkeys(
+        [
+            "127.0.0.1",
+            "localhost",
+            "testserver",
+            "ytr-platform.onrender.com",
+            *[h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()],
+        ]
+    )
+)
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -116,13 +128,54 @@ WSGI_APPLICATION = 'yourstorent_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+#
+# Supabase / Postgres: set DATABASE_URL or discrete SUPABASE_DB_* / DB_* vars in .env (never commit secrets).
+# Example DATABASE_URL:
+#   postgresql://postgres:YOUR_PASSWORD@db.PROJECT_REF.supabase.co:5432/postgres?sslmode=require
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+def _postgres_options_for_host(host: str) -> dict:
+    opts = {}
+    if host and "supabase.co" in host:
+        opts["sslmode"] = "require"
+    return opts
+
+
+_database_url = (os.environ.get("DATABASE_URL") or "").strip()
+
+if _database_url:
+    import dj_database_url
+
+    DATABASES = {
+        "default": dj_database_url.parse(_database_url, conn_max_age=600),
     }
-}
+    _engine = DATABASES["default"].get("ENGINE", "")
+    if "postgresql" in _engine:
+        _opts = DATABASES["default"].setdefault("OPTIONS", {})
+        _opts.setdefault("sslmode", "require")
+elif os.environ.get("SUPABASE_DB_HOST") or os.environ.get("DB_HOST"):
+    _host = (os.environ.get("SUPABASE_DB_HOST") or os.environ.get("DB_HOST") or "").strip()
+    _name = os.environ.get("SUPABASE_DB_NAME") or os.environ.get("DB_NAME") or "postgres"
+    _user = os.environ.get("SUPABASE_DB_USER") or os.environ.get("DB_USER") or "postgres"
+    _password = os.environ.get("SUPABASE_DB_PASSWORD") or os.environ.get("DB_PASSWORD") or ""
+    _port = os.environ.get("SUPABASE_DB_PORT") or os.environ.get("DB_PORT") or "5432"
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": _name,
+            "USER": _user,
+            "PASSWORD": _password,
+            "HOST": _host,
+            "PORT": _port,
+            "OPTIONS": _postgres_options_for_host(_host),
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
@@ -166,7 +219,6 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
