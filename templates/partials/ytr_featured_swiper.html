@@ -1,0 +1,110 @@
+{% load static %}
+<div class="swiper-wrapper">
+    {% for listing in featured_listings %}
+    <div class="swiper-slide">
+        <div class="vehicle-card">
+            <div class="vehicle-image">
+                {% if listing.primary_image_url %}
+                <img src="{{ listing.primary_image_url }}" alt="{{ listing.title }}" loading="lazy">
+                {% else %}
+                <img src="{{ ytr_default_vehicle_image }}" alt="{{ listing.title }}" loading="lazy">
+                {% endif %}
+                <div class="vehicle-badges">
+                    <span class="badge badge-featured">Live on YTR</span>
+                    <span class="badge badge-instant"><i class="fas fa-shield-alt"></i> Verified</span>
+                </div>
+                <button type="button" class="favorite-btn" aria-label="Save listing"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="vehicle-content">
+                <div class="vehicle-rating"><i class="fas fa-star"></i> Premium listing</div>
+                <h3 class="vehicle-title"><a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a></h3>
+                <div class="vehicle-specs">
+                    <span><i class="fas fa-cog"></i> {{ listing.transmission }}</span>
+                    <span><i class="fas fa-gas-pump"></i> {{ listing.fuel_type }}</span>
+                    <span><i class="fas fa-users"></i> {{ listing.seats }} Seats</span>
+                </div>
+                <div class="vehicle-location"><i class="fas fa-map-marker-alt"></i> {{ listing.location }}</div>
+                <div class="vehicle-footer">
+                    <div class="vehicle-price">
+                        <span class="price">R{{ listing.price_per_day|floatformat:0 }}</span>
+                        <span class="period">/day</span>
+                    </div>
+                    <a href="{% url 'listing_detail' listing.id %}" class="btn btn-gradient btn-sm">View &amp; book</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="swiper-slide">
+        <div class="vehicle-card">
+            <div class="vehicle-image">
+                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500" alt="BMW 3 Series">
+                <div class="vehicle-badges">
+                    <span class="badge badge-instant"><i class="fas fa-bolt"></i> Demo</span>
+                </div>
+                <button type="button" class="favorite-btn" aria-hidden="true"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="vehicle-content">
+                <div class="vehicle-rating"><i class="fas fa-star"></i> Showcase</div>
+                <h3 class="vehicle-title"><a href="{% url 'browse' %}">BMW 3 Series — sample</a></h3>
+                <div class="vehicle-specs">
+                    <span><i class="fas fa-cog"></i> Automatic</span>
+                    <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                    <span><i class="fas fa-users"></i> 5 Seats</span>
+                </div>
+                <div class="vehicle-location"><i class="fas fa-map-marker-alt"></i> Sandton, Johannesburg</div>
+                <div class="vehicle-footer">
+                    <div class="vehicle-price"><span class="price">From R850</span><span class="period">/day</span></div>
+                    <a href="{% url 'browse' %}" class="btn btn-gradient btn-sm">Browse live listings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-slide">
+        <div class="vehicle-card">
+            <div class="vehicle-image">
+                <img src="https://images.unsplash.com/photo-1606611013016-969c19ba27bb?w=500" alt="Mercedes-Benz">
+                <div class="vehicle-badges"><span class="badge badge-luxury"><i class="fas fa-crown"></i> Luxury</span></div>
+                <button type="button" class="favorite-btn" aria-hidden="true"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="vehicle-content">
+                <div class="vehicle-rating"><i class="fas fa-star"></i> Showcase</div>
+                <h3 class="vehicle-title"><a href="{% url 'browse' %}">Mercedes-Benz C-Class — sample</a></h3>
+                <div class="vehicle-specs">
+                    <span><i class="fas fa-cog"></i> Automatic</span>
+                    <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                    <span><i class="fas fa-users"></i> 5 Seats</span>
+                </div>
+                <div class="vehicle-location"><i class="fas fa-map-marker-alt"></i> Camps Bay, Cape Town</div>
+                <div class="vehicle-footer">
+                    <div class="vehicle-price"><span class="price">From R1,200</span><span class="period">/day</span></div>
+                    <a href="{% url 'browse' %}" class="btn btn-gradient btn-sm">Browse live listings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-slide">
+        <div class="vehicle-card">
+            <div class="vehicle-image">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500" alt="Ford Ranger">
+                <div class="vehicle-badges"><span class="badge badge-instant"><i class="fas fa-bolt"></i> Demo</span></div>
+                <button type="button" class="favorite-btn" aria-hidden="true"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="vehicle-content">
+                <div class="vehicle-rating"><i class="fas fa-star"></i> Showcase</div>
+                <h3 class="vehicle-title"><a href="{% url 'browse' %}">Ford Ranger Wildtrak — sample</a></h3>
+                <div class="vehicle-specs">
+                    <span><i class="fas fa-cog"></i> Automatic</span>
+                    <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                    <span><i class="fas fa-users"></i> 5 Seats</span>
+                </div>
+                <div class="vehicle-location"><i class="fas fa-map-marker-alt"></i> Pretoria</div>
+                <div class="vehicle-footer">
+                    <div class="vehicle-price"><span class="price">From R650</span><span class="period">/day</span></div>
+                    <a href="{% url 'listings' %}" class="btn btn-gradient btn-sm">Explore the fleet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

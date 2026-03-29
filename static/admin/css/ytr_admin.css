@@ -12,9 +12,26 @@
 
 body,
 .wrapper {
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  font-family: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
   background: var(--ytr-admin-bg) !important;
   color: var(--ytr-admin-text) !important;
+}
+
+/* Subtle page load: content fades in */
+@keyframes ytr-admin-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sidebar-dark-warning .nav-header {
+  font-family: "Plus Jakarta Sans", "Inter", sans-serif !important;
+  letter-spacing: 0.14em !important;
 }
 
 /* --- Top bar: match dashboard gradient header --- */
@@ -336,4 +353,120 @@ label {
   background: linear-gradient(90deg, rgba(255, 180, 60, 0.2), rgba(255, 80, 40, 0.12));
   color: #fff;
   border-bottom: 1px solid rgba(255, 200, 80, 0.25);
+}
+
+/* --- Premium motion & depth (aligned with main site gold / dark) --- */
+@keyframes ytr-admin-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 160, 60, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(255, 140, 40, 0.22);
+  }
+}
+
+.content-wrapper::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 10% -10%, rgba(255, 140, 40, 0.08), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(255, 80, 60, 0.06), transparent 45%);
+  z-index: 0;
+}
+
+.content-wrapper > .content {
+  position: relative;
+  z-index: 1;
+  animation: ytr-admin-fade-in 0.45s ease-out;
+}
+
+.main-sidebar .brand-link {
+  animation: ytr-admin-glow 6s ease-in-out infinite;
+}
+
+.card {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 180, 80, 0.12);
+}
+
+.table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 165, 0, 0.06) !important;
+}
+
+.btn-primary,
+.btn-success {
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(255, 140, 40, 0.25);
+}
+
+/* Changelist toolbar */
+.object-tools .btn,
+.object-tools a {
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+}
+
+/* Filter sidebar */
+#changelist-filter {
+  background: rgba(14, 14, 16, 0.95) !important;
+  border: 1px solid rgba(255, 200, 80, 0.15) !important;
+  border-radius: 12px !important;
+}
+
+#changelist-filter h2,
+#changelist-filter h3 {
+  color: rgba(255, 200, 120, 0.95) !important;
+  font-weight: 700 !important;
+}
+
+/* Pagination */
+.pagination .page-link {
+  background: rgba(20, 20, 24, 0.9) !important;
+  border-color: rgba(255, 200, 80, 0.2) !important;
+  color: #ffe8c8 !important;
+  border-radius: 8px !important;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #ffb020, #ff6b35) !important;
+  border: none !important;
+  color: #111 !important;
+  font-weight: 800 !important;
+}
+
+/* Jazzmin top shortcuts — closer to /dashboard/ nav affordances */
+.main-header .navbar-nav .nav-link {
+  border-radius: 8px;
+  margin: 0 1px;
+  padding: 0.45rem 0.65rem !important;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.main-header .navbar-nav .nav-link:hover {
+  background: rgba(255, 165, 0, 0.14) !important;
+  color: #ffe0b0 !important;
+}
+
+.main-header .navbar-nav .nav-link:active {
+  transform: scale(0.98);
+}
+
+/* Main area: subtle entrance (matches dashboard shell) */
+.content-wrapper > .content {
+  animation: ytr-admin-fade-in 0.45s ease-out;
 }

@@ -1617,22 +1617,22 @@ burger.addEventListener('click',()=>{
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-        
-        const vehicleType = document.getElementById('vehicleType');
-        const daysSlider = document.getElementById('daysSlider');
-        const daysValue = document.getElementById('daysValue');
-        const earningsResult = document.getElementById('earningsResult');
-        
-        function calculateEarnings() {
-            const dailyRate = parseInt(vehicleType.value);
-            const days = parseInt(daysSlider.value);
-            const earnings = dailyRate * days;
-            daysValue.textContent = days;
-            earningsResult.textContent = 'R' + earnings.toLocaleString();
-        }
-        
-        vehicleType.addEventListener('change', calculateEarnings);
-        daysSlider.addEventListener('input', calculateEarnings);
+        (function () {
+            const vehicleType = document.getElementById('vehicleType');
+            const daysSlider = document.getElementById('daysSlider');
+            const daysValue = document.getElementById('daysValue');
+            const earningsResult = document.getElementById('earningsResult');
+            if (!vehicleType || !daysSlider || !daysValue || !earningsResult) return;
+            function calculateEarnings() {
+                const dailyRate = parseInt(vehicleType.value, 10) || 0;
+                const days = parseInt(daysSlider.value, 10) || 0;
+                const earnings = dailyRate * days;
+                daysValue.textContent = days;
+                earningsResult.textContent = 'R' + earnings.toLocaleString();
+            }
+            vehicleType.addEventListener('change', calculateEarnings);
+            daysSlider.addEventListener('input', calculateEarnings);
+        })();
     </script>
 
     <!-- Scripts -->
@@ -1647,16 +1647,57 @@ burger.addEventListener('click',()=>{
         let currentStep = 1;
         const totalSteps = 5;
         
-        // Initialize Dropzone
+        // Initialize Dropzone — files must end up on <input name="images"> for Django multipart POST
         Dropzone.autoDiscover = false;
         const dropzone = new Dropzone('#photoDropzone', {
             url: '#',
+            paramName: 'images',
             maxFiles: 20,
             maxFilesize: 5,
             acceptedFiles: 'image/*',
             autoProcessQueue: false,
-            addRemoveLinks: true
+            addRemoveLinks: true,
+            clickable: true
         });
+
+        function syncDropzoneToFileInput() {
+            const fileInput = document.getElementById('listingImages');
+            if (!fileInput || typeof DataTransfer === 'undefined') return;
+            try {
+                const dt = new DataTransfer();
+                const dzFiles = dropzone.getAcceptedFiles();
+                if (dzFiles.length) {
+                    dzFiles.forEach(function (f) { dt.items.add(f); });
+                } else if (fileInput.files && fileInput.files.length) {
+                    for (let i = 0; i < fileInput.files.length; i++) {
+                        dt.items.add(fileInput.files[i]);
+                    }
+                }
+                fileInput.files = dt.files;
+            } catch (err) { /* keep manual file selection */ }
+        }
+
+        dropzone.on('addedfile', syncDropzoneToFileInput);
+        dropzone.on('removedfile', syncDropzoneToFileInput);
+
+        const listingImagesInput = document.getElementById('listingImages');
+        if (listingImagesInput) {
+            listingImagesInput.addEventListener('change', function () {
+                const files = listingImagesInput.files;
+                if (!files || !files.length) return;
+                dropzone.removeAllFiles(true);
+                Array.prototype.forEach.call(files, function (f) {
+                    try { dropzone.addFile(f); } catch (e) {}
+                });
+            });
+        }
+
+        const listingForm = document.getElementById('listingForm');
+        if (listingForm) {
+            listingForm.addEventListener('submit', function () {
+                syncDropzoneToFileInput();
+            });
+        }
         
         // Initialize noUiSlider
         const slider = document.getElementById('daysSlider');
@@ -1684,9 +1725,12 @@ burger.addEventListener('click',()=>{
         }
         
         // Update price previews
-        document.getElementById('dailyRate').addEventListener('input', updatePricing);
-        document.getElementById('weeklyDiscount').addEventListener('input', updatePricing);
-        document.getElementById('monthlyDiscount').addEventListener('input', updatePricing);
+        const drEl = document.getElementById('dailyRate');
+        const wdEl = document.getElementById('weeklyDiscount');
+        const mdEl = document.getElementById('monthlyDiscount');
+        if (drEl) drEl.addEventListener('input', updatePricing);
+        if (wdEl) wdEl.addEventListener('input', updatePricing);
+        if (mdEl) mdEl.addEventListener('input', updatePricing);
         
         function updatePricing() {
             const daily = parseFloat(document.getElementById('dailyRate').value) || 0;
@@ -1900,7 +1944,7 @@ burger.addEventListener('click',()=>{
                 </div>
             </div>
 
-            <form id="listingForm" method="POST" action="{% url 'add_listing' %}">
+            <form id="listingForm" method="POST" enctype="multipart/form-data" action="{% url 'add_listing' %}">
                 {% csrf_token %}
                 <!-- Step 1: Vehicle Details -->
                 <div class="form-step active" data-step="1">
@@ -1943,7 +1987,7 @@ burger.addEventListener('click',()=>{
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Year</label>
-                                            <select class="form-select" id="year" required>
+                                            <select class="form-select" id="year" name="year" required>
                                                 <option value="">Select Year</option>
                                                 <script>
                                                     for(let y = 2026; y >= 2010; y--) {
@@ -1972,7 +2016,7 @@ burger.addEventListener('click',()=>{
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Transmission</label>
-                                            <select class="form-select" id="transmission" required>
+                                            <select class="form-select" id="transmission" name="transmission" required>
                                                 <option value="">Select Transmission</option>
                                                 <option value="automatic">Automatic</option>
                                                 <option value="manual">Manual</option>
@@ -1982,7 +2026,7 @@ burger.addEventListener('click',()=>{
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Fuel Type</label>
-                                            <select class="form-select" id="fuel" required>
+                                            <select class="form-select" id="fuel" name="fuel" required>
                                                 <option value="">Select Fuel Type</option>
                                                 <option value="petrol">Petrol</option>
                                                 <option value="diesel">Diesel</option>
@@ -1994,7 +2038,7 @@ burger.addEventListener('click',()=>{
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Seats</label>
-                                            <select class="form-select" id="seats" required>
+                                            <select class="form-select" id="seats" name="seats" required>
                                                 <option value="">Select Seats</option>
                                                 <option value="2">2 Seats</option>
                                                 <option value="4">4 Seats</option>
@@ -2007,19 +2051,19 @@ burger.addEventListener('click',()=>{
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Mileage (km)</label>
-                                            <input type="number" class="form-control" id="mileage" placeholder="e.g. 45000" required>
+                                            <input type="number" class="form-control" id="mileage" name="mileage" min="0" placeholder="e.g. 45000" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>License Plate</label>
-                                            <input type="text" class="form-control" id="plate" placeholder="e.g. ABC 123 GP" required>
+                                            <input type="text" class="form-control" id="plate" name="plate" placeholder="e.g. ABC 123 GP" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>VIN Number</label>
-                                            <input type="text" class="form-control" id="vin" placeholder="Vehicle Identification Number" required>
+                                            <input type="text" class="form-control" id="vin" name="vin" placeholder="Vehicle Identification Number" required>
                                         </div>
                                     </div>
                                 </div>
@@ -2043,6 +2087,8 @@ burger.addEventListener('click',()=>{
                                         <p>or click to browse (Max 20 photos, 5MB each)</p>
                                     </div>
                                 </div>
+                                <p class="text-white-50 small mt-2 mb-1">Or select files for upload (sent with your listing):</p>
+                                <input type="file" class="form-control" id="listingImages" name="images" accept="image/*" multiple>
                                 
                                 <div class="mt-4">
                                     <h5 class="text-white mb-3">Photo Requirements:</h5>
@@ -2269,10 +2315,16 @@ burger.addEventListener('click',()=>{
                                 <p class="text-white-50 mb-5">Set competitive daily rates to attract more renters</p>
                                 
                                 <div class="row g-4">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Pickup location (city / area)</label>
+                                            <input type="text" class="form-control" id="location" name="location" placeholder="e.g. Johannesburg, Sandton" required>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Daily Rate (R)</label>
-                                            <input type="number" class="form-control" id="dailyRate" name="daily_rate" placeholder="e.g. 800" required>
+                                            <input type="number" class="form-control" id="dailyRate" name="daily_rate" placeholder="e.g. 800" required min="1" step="0.01">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -2730,156 +2782,22 @@ This supports owners who may have inherited a vehicle, share a vehicle, or do no
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-        
-        const vehicleType = document.getElementById('vehicleType');
-        const daysSlider = document.getElementById('daysSlider');
-        const daysValue = document.getElementById('daysValue');
-        const earningsResult = document.getElementById('earningsResult');
-        
-        function calculateEarnings() {
-            const dailyRate = parseInt(vehicleType.value);
-            const days = parseInt(daysSlider.value);
-            const earnings = dailyRate * days;
-            daysValue.textContent = days;
-            earningsResult.textContent = 'R' + earnings.toLocaleString();
-        }
-        
-        vehicleType.addEventListener('change', calculateEarnings);
-        daysSlider.addEventListener('input', calculateEarnings);
-    </script>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
-        
-        let currentStep = 1;
-        const totalSteps = 5;
-        
-        // Initialize Dropzone
-        Dropzone.autoDiscover = false;
-        const dropzone = new Dropzone('#photoDropzone', {
-            url: '#',
-            maxFiles: 20,
-            maxFilesize: 5,
-            acceptedFiles: 'image/*',
-            autoProcessQueue: false,
-            addRemoveLinks: true
-        });
-        
-        // Initialize noUiSlider
-        const slider = document.getElementById('daysSlider');
-        noUiSlider.create(slider, {
-            start: [15],
-            connect: [true, false],
-            step: 1,
-            range: {
-                'min': 5,
-                'max': 30
+        (function () {
+            const vehicleType = document.getElementById('vehicleType');
+            const daysSlider = document.getElementById('daysSlider');
+            const daysValue = document.getElementById('daysValue');
+            const earningsResult = document.getElementById('earningsResult');
+            if (!vehicleType || !daysSlider || !daysValue || !earningsResult) return;
+            function calculateEarnings() {
+                const dailyRate = parseInt(vehicleType.value, 10) || 0;
+                const days = parseInt(daysSlider.value, 10) || 0;
+                const earnings = dailyRate * days;
+                daysValue.textContent = days;
+                earningsResult.textContent = 'R' + earnings.toLocaleString();
             }
-        });
-        
-        slider.noUiSlider.on('update', function(values) {
-            const days = Math.round(values[0]);
-            document.getElementById('selectedDays').textContent = days + ' days';
-            calculateEarnings(days);
-        });
-        
-        function calculateEarnings(days) {
-            const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 800;
-            const grossEarnings = dailyRate * days;
-            const netEarnings = grossEarnings * 0.85; // After 15% fee
-            document.getElementById('estimatedEarnings').textContent = 'R ' + netEarnings.toLocaleString();
-        }
-        
-        // Update price previews
-        document.getElementById('dailyRate').addEventListener('input', updatePricing);
-        document.getElementById('weeklyDiscount').addEventListener('input', updatePricing);
-        document.getElementById('monthlyDiscount').addEventListener('input', updatePricing);
-        
-        function updatePricing() {
-            const daily = parseFloat(document.getElementById('dailyRate').value) || 0;
-            const weeklyDiscount = parseFloat(document.getElementById('weeklyDiscount').value) || 0;
-            const monthlyDiscount = parseFloat(document.getElementById('monthlyDiscount').value) || 0;
-            
-            const weekly = daily * 7 * (1 - weeklyDiscount/100);
-            const monthly = daily * 30 * (1 - monthlyDiscount/100);
-            
-            document.getElementById('previewDaily').textContent = 'R ' + daily.toLocaleString();
-            document.getElementById('previewWeekly').textContent = 'R ' + Math.round(weekly).toLocaleString();
-            document.getElementById('previewMonthly').textContent = 'R ' + Math.round(monthly).toLocaleString();
-            
-            calculateEarnings(15);
-        }
-        
-        function nextStep() {
-            if (currentStep < totalSteps) {
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
-                
-                currentStep++;
-                
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
-                
-                updateButtons();
-                updateSummary();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-        
-        function prevStep() {
-            if (currentStep > 1) {
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
-                
-                currentStep--;
-                
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
-                
-                updateButtons();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-        
-        function updateButtons() {
-            const prevBtn = document.querySelector('.btn-prev');
-            const nextBtn = document.querySelector('.btn-next');
-            const submitBtn = document.querySelector('.btn-submit');
-            
-            prevBtn.style.display = currentStep > 1 ? 'inline-flex' : 'none';
-            nextBtn.style.display = currentStep < totalSteps ? 'inline-flex' : 'none';
-            submitBtn.style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
-        }
-        
-        function updateSummary() {
-            if (currentStep === 5) {
-                const make = document.getElementById('make').value;
-                const model = document.getElementById('model').value;
-                document.getElementById('summaryMakeModel').textContent = `${make.toUpperCase()} ${model}`;
-                document.getElementById('summaryYear').textContent = document.getElementById('year').value;
-                document.getElementById('summaryType').textContent = document.getElementById('type').value;
-                document.getElementById('summaryTransmission').textContent = document.getElementById('transmission').value;
-                
-                const daily = parseFloat(document.getElementById('dailyRate').value) || 0;
-                const weeklyDiscount = parseFloat(document.getElementById('weeklyDiscount').value) || 0;
-                const monthlyDiscount = parseFloat(document.getElementById('monthlyDiscount').value) || 0;
-                const deposit = parseFloat(document.getElementById('deposit').value) || 0;
-                
-                document.getElementById('summaryDailyRate').textContent = 'R ' + daily.toLocaleString();
-                document.getElementById('summaryWeeklyRate').textContent = 'R ' + Math.round(daily * 7 * (1 - weeklyDiscount/100)).toLocaleString();
-                document.getElementById('summaryMonthlyRate').textContent = 'R ' + Math.round(daily * 30 * (1 - monthlyDiscount/100)).toLocaleString();
-                document.getElementById('summaryDeposit').textContent = 'R ' + deposit.toLocaleString();
-            }
-        }
-        
-        // Form submission
-        // Django handles the final form submission on step 5.
+            vehicleType.addEventListener('change', calculateEarnings);
+            daysSlider.addEventListener('input', calculateEarnings);
+        })();
     </script>
 </body>
 </html>

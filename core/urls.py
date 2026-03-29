@@ -20,6 +20,8 @@ urlpatterns = [
     path('feedback.html', views.feedback_page),
     path('faq/', views.faq_page, name='faq'),
     path('faq.html', views.faq_page),
+    path('solutions/fleet/', views.fleet_solutions, name='fleet_solutions'),
+    path('solutions/mobility/', views.mobility_hub, name='mobility_hub'),
     path('newsletter/subscribe/', views.newsletter_subscribe, name='newsletter_subscribe'),
 
     path('listings/', views.listings_page, name='listings'),

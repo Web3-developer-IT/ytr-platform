@@ -12,12 +12,13 @@ from django.utils import timezone
 
 from django.contrib.auth.models import User
 
-from .models import Listing
+from .models import Listing, ListingImage
 from bookings.models import Booking
 from messaging.models import Message
 from users.models import UserProfile, is_user_verified
 
 from .mail_utils import feedback_recipients, send_platform_mail
+from .demo_catalog import DEMO_BROWSE_CARDS
 
 # Launch focus: commercial / fleet body styles first; other verticals marked "coming soon" in UI.
 COMMERCIAL_BODY_STYLES = ("Commercial", "Van", "Truck", "Bakkie", "Fleet")
@@ -61,7 +62,7 @@ def account_sidebar_context(request, sidebar_active="", *, topbar_title=None, to
 
 
 def home(request):
-    base = _public_listings_qs()
+    base = _public_listings_qs().prefetch_related("images")
     commercial_list = list(
         base.filter(body_style__in=COMMERCIAL_BODY_STYLES).order_by("-created_at")[:8]
     )
@@ -229,7 +230,9 @@ def listings_page(request):
         "price_high": "-price_per_day",
         "recommended": "-created_at",
     }
-    listings = listings.order_by(order_map.get(sort, "-created_at"))
+    listings = (
+        listings.order_by(order_map.get(sort, "-created_at")).prefetch_related("images")
+    )
 
     paginator = Paginator(listings, 12)
     page = request.GET.get("page") or 1
@@ -253,6 +256,12 @@ def listings_page(request):
         window.update({1, 2, total_pages - 1, total_pages})
         page_numbers = sorted(x for x in window if 1 <= x <= total_pages)
 
+    # Curated showcase cards (no DB ids) — first page only when user is not narrowing results.
+    narrow_filters = bool(q or location or category or min_price or max_price or style)
+    demo_browse_supplement = (
+        DEMO_BROWSE_CARDS if page_obj.number == 1 and not narrow_filters else []
+    )
+
     return render(
         request,
         "download/browse.html",
@@ -268,13 +277,14 @@ def listings_page(request):
             "browse_style_counts": browse_style_counts,
             "commercial_focus": commercial_focus,
             "commercial_total": commercial_total,
+            "demo_browse_supplement": demo_browse_supplement,
         },
     )
 
 
 def listing_detail(request, listing_id):
     listing = get_object_or_404(
-        Listing,
+        Listing.objects.prefetch_related("images"),
         id=listing_id,
         available=True,
         verification_status=Listing.VERIFICATION_APPROVED,
@@ -479,33 +489,119 @@ def approve_booking(request, booking_id):
     return redirect('owner_dashboard')
 
 
+def _decimal(val, default="0"):
+    try:
+        return Decimal(str(val if val not in (None, "") else default))
+    except Exception:
+        return Decimal(default)
+
+
+def _body_style_from_vehicle_type(raw: str) -> str:
+    raw = (raw or "").strip().lower()
+    mapping = {
+        "sedan": "Sedan",
+        "suv": "SUV",
+        "hatchback": "Hatchback",
+        "coupe": "Coupe",
+        "convertible": "Convertible",
+        "pickup": "Bakkie",
+        "van": "Van",
+        "wagon": "Wagon",
+    }
+    return mapping.get(raw, raw.replace("-", " ").title() if raw else "Sedan")
+
+
 @login_required
 def add_listing(request):
-
-    if not request.user.is_staff and not is_user_verified(request.user):
+    require_docs = getattr(settings, "YTR_REQUIRE_VERIFICATION_TO_LIST", True)
+    if require_docs and not request.user.is_staff and not is_user_verified(request.user):
         messages.error(request, "Please complete document verification before listing your vehicle.")
         return redirect("documents_center")
 
     if request.method == "POST":
-        make = request.POST.get("make") or ""
-        model_name = request.POST.get("model") or ""
-        title = request.POST.get("title") or f"{make} {model_name}".strip() or "Untitled Listing"
-        description = request.POST.get("description") or f"{make} {model_name} listed on Yours To Rent."
-        raw_category = (request.POST.get("category") or request.POST.get("type") or "car").strip().lower()
+        make = (request.POST.get("make") or "").strip()
+        model_name = (request.POST.get("model") or "").strip()
+        year = (request.POST.get("year") or "").strip()
+        title = (request.POST.get("title") or "").strip()
+        if not title:
+            title = f"{make} {model_name}".strip() or "Untitled listing"
+        if year:
+            title = f"{title} ({year})".strip()
+
+        base_desc = (request.POST.get("description") or "").strip()
+        feature_vals = request.POST.getlist("features")
+        features_line = ", ".join(feature_vals) if feature_vals else ""
+        if base_desc:
+            description = base_desc
+            if features_line:
+                description = f"{description}\n\nFeatures: {features_line}"
+        else:
+            description = (
+                f"{make} {model_name} ({year}) listed on Yours To Rent."
+                + (f"\n\nFeatures: {features_line}" if features_line else "")
+            )
+
+        raw_category = (request.POST.get("category") or "car").strip().lower()
         category = raw_category if raw_category in {"car", "tool", "equipment"} else "car"
+
+        vtype = (request.POST.get("type") or "").strip().lower()
+        transmission = (request.POST.get("transmission") or "").strip().title() or "Automatic"
+        fuel_raw = (request.POST.get("fuel") or "").strip().lower()
+        fuel_map = {
+            "petrol": "Petrol",
+            "diesel": "Diesel",
+            "hybrid": "Hybrid",
+            "electric": "Electric",
+        }
+        fuel_type = fuel_map.get(fuel_raw, fuel_raw.title() or "Petrol")
+
+        seats_raw = request.POST.get("seats") or "5"
+        try:
+            seats = int(str(seats_raw).replace("+", "").split()[0])
+        except (ValueError, IndexError):
+            seats = 5
+        seats = max(1, min(seats, 16))
+
+        mileage_raw = request.POST.get("mileage") or "0"
+        try:
+            mileage_km = int(mileage_raw)
+        except ValueError:
+            mileage_km = 0
+        mileage_km = max(0, mileage_km)
+
         price_day = request.POST.get("price_day") or request.POST.get("daily_rate")
         price_hour = request.POST.get("price_hour")
-        location = request.POST.get("location") or request.POST.get("city") or "South Africa"
+        location = (request.POST.get("location") or request.POST.get("city") or "").strip() or "South Africa"
 
-        Listing.objects.create(
+        listing = Listing.objects.create(
             owner=request.user,
-            title=title,
+            title=title[:255],
             description=description,
             category=category,
-            price_per_day=price_day or 0,
-            price_per_hour=price_hour or None,
-            location=location
+            price_per_day=_decimal(price_day, "0"),
+            price_per_hour=_decimal(price_hour, "0") if (price_hour not in (None, "")) else None,
+            location=location[:255],
+            body_style=_body_style_from_vehicle_type(vtype),
+            transmission=transmission[:32],
+            fuel_type=fuel_type[:32],
+            seats=seats,
+            mileage_km=mileage_km,
+            verification_status=Listing.VERIFICATION_APPROVED,
         )
+
+        files = request.FILES.getlist("images")
+        for f in files[:20]:
+            ListingImage.objects.create(listing=listing, image=f)
+
+        if files:
+            listing.refresh_from_db()
+            first_img = listing.images.order_by("uploaded_at").first()
+            if first_img and first_img.image:
+                url = first_img.image.url
+                if url and len(url) <= 500:
+                    listing.hero_image_url = url
+                    listing.save(update_fields=["hero_image_url"])
+
         messages.success(request, "Vehicle listing submitted successfully.")
         return redirect("owner_dashboard")
 
@@ -778,3 +874,13 @@ def help_center_page(request):
 
 def faq_page(request):
     return render(request, "download/faq.html")
+
+
+def fleet_solutions(request):
+    """Enterprise & fleet — alternative procurement model to traditional leasing."""
+    return render(request, "solutions/fleet.html")
+
+
+def mobility_hub(request):
+    """Mobility hub — drivers, operators, and on-demand fleet narrative."""
+    return render(request, "solutions/mobility.html")

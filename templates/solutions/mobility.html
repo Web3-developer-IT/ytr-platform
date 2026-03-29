@@ -1,0 +1,32 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Mobility hub{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Drivers, operators, and hosts — build income on a mobility platform designed for South Africa.">
+{% endblock %}
+{% block public_content %}
+<main class="container py-5" style="max-width: 900px;">
+    <p class="text-warning text-uppercase small fw-bold mb-2">Mobility</p>
+    <h1 class="text-white display-6 fw-bold mb-4">Beyond one-size <span class="text-warning">ride-hailing</span></h1>
+    <p class="text-white-50 lead mb-4">
+        Yours To Rent focuses on asset-based mobility: real vehicles, real hosts, and structured bookings — not a race to the
+        bottom on per-minute fares. List your fleet, serve corporate and leisure travellers, and keep control of pricing.
+    </p>
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="p-4 rounded-4 border border-secondary bg-dark">
+                <h3 class="h5 text-white">Hosts</h3>
+                <p class="text-white-50 small mb-0">List vehicles, set rules, approve bookings — same tools as our owner dashboard.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4 rounded-4 border border-secondary bg-dark">
+                <h3 class="h5 text-white">Drivers &amp; teams</h3>
+                <p class="text-white-50 small mb-0">Book approved vehicles for shoots, site visits, and regional runs.</p>
+            </div>
+        </div>
+    </div>
+    <a href="{% url 'add_listing' %}" class="btn btn-warning btn-lg fw-bold text-dark">List a vehicle</a>
+    <a href="{% url 'browse' %}" class="btn btn-outline-light btn-lg ms-2">Browse marketplace</a>
+</main>
+{% endblock %}

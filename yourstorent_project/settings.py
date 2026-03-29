@@ -40,12 +40,38 @@ DEBUG = True
 
 
 
+# Cloudinary — use env in production; fallbacks keep local/dev working if .env is missing.
+CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "josh")
+CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "124816738685834")
+CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "0FeZvy1_fO2xLp-Ekn4ZFSIhzOw")
+
 cloudinary.config(
-    cloud_name = "dz0hjkwwm",
-    api_key = "124816738685834",
-    api_secret = "0FeZvy1_fO2xLp-Ekn4ZFSIhzOw"
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET,
 )
 
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
+    "API_KEY": CLOUDINARY_API_KEY,
+    "API_SECRET": CLOUDINARY_API_SECRET,
+}
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+# Browse/home cards when a listing has no photo yet (override via env for investor demos).
+YTR_DEFAULT_VEHICLE_IMAGE_URL = os.getenv(
+    "YTR_DEFAULT_VEHICLE_IMAGE_URL",
+    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=80",
+)
+
+# Extra rotating fallbacks if a listing has no upload and no hero (keeps cards populated on any host).
+YTR_IMAGE_FALLBACK_URLS = [
+    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1606611013016-969c19ba27bb?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
+]
 
 ALLOWED_HOSTS = list(
     dict.fromkeys(
@@ -90,8 +116,6 @@ INSTALLED_APPS = [
     'cloudinary_storage',
 ]
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -117,6 +141,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'users.context_processors.user_profile',
+                'core.context_processors.ytr_branding',
             ],
         },
     },
@@ -228,6 +253,11 @@ LOGOUT_REDIRECT_URL = "/"
 
 SITE_ID = 1
 
+# If False, owners may list before all verification documents are approved (staff always allowed).
+YTR_REQUIRE_VERIFICATION_TO_LIST = os.getenv(
+    "YTR_REQUIRE_VERIFICATION_TO_LIST", "true"
+).lower() in ("1", "true", "yes")
+
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
@@ -296,7 +326,11 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
         {"name": "Live site", "url": "/", "new_window": True},
         {"name": "Owner dashboard", "url": "/dashboard/", "new_window": True},
+        {"name": "Browse", "url": "/browse/", "new_window": True},
         {"name": "Browse commercial", "url": "/browse/?commercial=1", "new_window": True},
+        {"name": "Fleet solutions", "url": "/solutions/fleet/", "new_window": True},
+        {"name": "Mobility hub", "url": "/solutions/mobility/", "new_window": True},
+        {"name": "List a vehicle", "url": "/listing/add/", "new_window": True},
         {"name": "Verify documents", "url": "admin:users_userdocument_changelist"},
         {"name": "Notifications", "url": "admin:users_platformnotification_changelist"},
     ],
@@ -343,7 +377,7 @@ JAZZMIN_UI_TWEAKS = {
     "no_navbar_border": False,
     "sidebar_fixed": True,
     "sidebar": "sidebar-dark-warning",
-    "sidebar_nav_flat_style": True,
+    "sidebar_nav_flat_style": False,
     "sidebar_disable_expand": False,
     "button_classes": {
         "primary": "btn-primary",

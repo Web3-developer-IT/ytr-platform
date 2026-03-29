@@ -1,0 +1,23 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Fleet &amp; enterprise{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Replace rigid leasing with on-demand fleet access — Yours To Rent for enterprises, logistics, and field teams across South Africa.">
+{% endblock %}
+{% block public_content %}
+<main class="container py-5" style="max-width: 900px;">
+    <p class="text-warning text-uppercase small fw-bold mb-2">Enterprise</p>
+    <h1 class="text-white display-6 fw-bold mb-4">Fleet without the <span class="text-warning">lock-in</span></h1>
+    <p class="text-white-50 lead mb-4">
+        Procure vehicles by the day or week, consolidate billing, and scale capacity when projects spike — an alternative
+        to long-term leases and opaque rental counters built for how modern teams actually move.
+    </p>
+    <ul class="text-white-50 mb-5">
+        <li class="mb-2">Verified hosts, documented handovers, and transparent pricing per listing.</li>
+        <li class="mb-2">Commercial vans, bakkies, and trucks — aligned with our launch fleet vertical.</li>
+        <li class="mb-2">API-ready roadmap: connect your operations dashboard (coming soon).</li>
+    </ul>
+    <a href="{% url 'contact' %}" class="btn btn-warning btn-lg fw-bold text-dark">Talk to us</a>
+    <a href="{% url 'browse' %}?commercial=1" class="btn btn-outline-light btn-lg ms-2">Browse commercial</a>
+</main>
+{% endblock %}

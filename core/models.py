@@ -68,7 +68,8 @@ class Listing(models.Model):
 
 class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="listing_images/")
+    # Stored under vehicles/ in Cloudinary (and local media) for consistent investor-facing URLs.
+    image = models.ImageField(upload_to="vehicles/listings")
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
