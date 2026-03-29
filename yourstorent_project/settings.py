@@ -33,10 +33,13 @@ if load_dotenv:
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^nomskov6exp@su@ponl_9ns021i4s5*$ywmsf=101zcfttv0+'
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "django-insecure-^nomskov6exp@su@ponl_9ns021i4s5*$ywmsf=101zcfttv0+",
+)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# SECURITY WARNING: set DEBUG=False on Render/production (e.g. env DEBUG=False).
+DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
 
 
 
@@ -56,8 +59,6 @@ CLOUDINARY_STORAGE = {
     "API_KEY": CLOUDINARY_API_KEY,
     "API_SECRET": CLOUDINARY_API_SECRET,
 }
-
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Browse/home cards when a listing has no photo yet (override via env for investor demos).
 YTR_DEFAULT_VEHICLE_IMAGE_URL = os.getenv(
@@ -86,8 +87,23 @@ ALLOWED_HOSTS = list(
 )
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
-STATIC_URL = '/static/'
+# Media/user uploads (default storage set in STORAGES below — Cloudinary in production-style configs).
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Django 4.2+ / 5+ / 6+: explicit storage backends (Cloudinary media + WhiteNoise static for gunicorn/Render).
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        # Serves admin/Jazzmin/CSS/JS when DEBUG=False (no manifest = fewer collectstatic surprises).
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # Application definition
 
@@ -234,17 +250,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
+# Static/media roots and STORAGES are defined near the top of this file (WhiteNoise + collectstatic).
 
 TEMPLATES[0]['DIRS'] = [BASE_DIR / 'templates', BASE_DIR]
-
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 
 LOGIN_URL = "/login/"
@@ -282,7 +290,13 @@ SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = False
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if os.getenv("CSRF_TRUSTED_ORIGINS") else []
+_csrf_env = [x.strip() for x in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if x.strip()]
+_csrf_defaults = [
+    "https://ytr-platform.onrender.com",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+]
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(_csrf_defaults + _csrf_env))
 if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
