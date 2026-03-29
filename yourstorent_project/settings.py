@@ -29,6 +29,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if load_dotenv:
     load_dotenv(BASE_DIR / ".env")
 
+try:
+    import whitenoise  # noqa: F401
+    WHITENOISE_AVAILABLE = True
+except ImportError:
+    WHITENOISE_AVAILABLE = False
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -43,21 +49,34 @@ DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
 
 
 
-# Cloudinary — use env in production; fallbacks keep local/dev working if .env is missing.
-CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "josh")
-CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "124816738685834")
-CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "0FeZvy1_fO2xLp-Ekn4ZFSIhzOw")
+# Cloudinary — optional. Set CLOUDINARY_* in .env for hosted media; otherwise files use MEDIA_ROOT (local disk).
+# Previous repo defaults used cloud_name "josh" which is not a valid account and broke uploads (AuthorizationRequired).
+CLOUDINARY_CLOUD_NAME = (os.getenv("CLOUDINARY_CLOUD_NAME") or "").strip()
+CLOUDINARY_API_KEY = (os.getenv("CLOUDINARY_API_KEY") or "").strip()
+CLOUDINARY_API_SECRET = (os.getenv("CLOUDINARY_API_SECRET") or "").strip()
 
-cloudinary.config(
-    cloud_name=CLOUDINARY_CLOUD_NAME,
-    api_key=CLOUDINARY_API_KEY,
-    api_secret=CLOUDINARY_API_SECRET,
+_CLOUDINARY_PLACEHOLDER_NAMES = frozenset(
+    {"josh", "demo", "changeme", "placeholder", "your_cloud_name", "your-cloud-name", "sample"}
 )
 
+YTR_USE_CLOUDINARY = bool(
+    CLOUDINARY_CLOUD_NAME
+    and CLOUDINARY_API_KEY
+    and CLOUDINARY_API_SECRET
+    and CLOUDINARY_CLOUD_NAME.lower() not in _CLOUDINARY_PLACEHOLDER_NAMES
+)
+
+if YTR_USE_CLOUDINARY:
+    cloudinary.config(
+        cloud_name=CLOUDINARY_CLOUD_NAME,
+        api_key=CLOUDINARY_API_KEY,
+        api_secret=CLOUDINARY_API_SECRET,
+    )
+
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
-    "API_KEY": CLOUDINARY_API_KEY,
-    "API_SECRET": CLOUDINARY_API_SECRET,
+    "CLOUD_NAME": CLOUDINARY_CLOUD_NAME if YTR_USE_CLOUDINARY else "",
+    "API_KEY": CLOUDINARY_API_KEY if YTR_USE_CLOUDINARY else "",
+    "API_SECRET": CLOUDINARY_API_SECRET if YTR_USE_CLOUDINARY else "",
 }
 
 # Browse/home cards when a listing has no photo yet (override via env for investor demos).
@@ -95,13 +114,23 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Django 4.2+ / 5+ / 6+: explicit storage backends (Cloudinary media + WhiteNoise static for gunicorn/Render).
+_STATICFILES_BACKEND = (
+    "whitenoise.storage.CompressedStaticFilesStorage"
+    if WHITENOISE_AVAILABLE
+    else "django.contrib.staticfiles.storage.StaticFilesStorage"
+)
+_DEFAULT_FILE_STORAGE_BACKEND = (
+    "cloudinary_storage.storage.MediaCloudinaryStorage"
+    if YTR_USE_CLOUDINARY
+    else "django.core.files.storage.FileSystemStorage"
+)
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": _DEFAULT_FILE_STORAGE_BACKEND,
     },
     "staticfiles": {
-        # Serves admin/Jazzmin/CSS/JS when DEBUG=False (no manifest = fewer collectstatic surprises).
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        # WhiteNoise serves admin/Jazzmin/CSS/JS when DEBUG=False; install whitenoise (see requirements.txt).
+        "BACKEND": _STATICFILES_BACKEND,
     },
 }
 
@@ -134,6 +163,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    *(
+        ['whitenoise.middleware.WhiteNoiseMiddleware']
+        if WHITENOISE_AVAILABLE
+        else []
+    ),
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
