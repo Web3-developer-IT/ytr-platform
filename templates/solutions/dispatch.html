@@ -1,0 +1,40 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Dispatch console{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Dispatch console workflows for fleets, events, and field teams — assign vehicles, track readiness, and coordinate operations on Yours To Rent.">
+{% endblock %}
+{% block public_content %}
+<main class="container py-5" style="max-width: 980px;">
+    <p class="text-warning text-uppercase small fw-bold mb-2">Operations</p>
+    <h1 class="text-white display-6 fw-bold mb-3">Dispatch with <span class="text-warning">clarity</span></h1>
+    <p class="text-white-50 lead mb-4">
+        Build route-ready pools for projects, events, and branch operations. Track verified listings, assign by
+        location/body style, and keep hosts + teams aligned with message-first coordination.
+    </p>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Multi-vehicle requests</h3>
+                <p class="text-white-50 small mb-0">Bundle commercial units for campaigns or short-term projects.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Regional balancing</h3>
+                <p class="text-white-50 small mb-0">Source from cities where demand spikes and rebalance weekly.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Audit trail</h3>
+                <p class="text-white-50 small mb-0">Maintain clear records via booking timelines and admin control room.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'contact' %}?topic=dispatch" class="btn btn-warning btn-lg fw-bold text-dark">Plan dispatch rollout</a>
+    <a href="{% url 'browse' %}?commercial=1" class="btn btn-outline-light btn-lg ms-2">Browse dispatch-ready fleet</a>
+</main>
+{% endblock %}

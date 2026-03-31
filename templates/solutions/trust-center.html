@@ -1,0 +1,40 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Trust center{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Trust center for Yours To Rent: verification, document checks, secure messaging, and safety-first marketplace policies.">
+{% endblock %}
+{% block public_content %}
+<main class="container py-5" style="max-width: 980px;">
+    <p class="text-warning text-uppercase small fw-bold mb-2">Trust & safety</p>
+    <h1 class="text-white display-6 fw-bold mb-3">Marketplace trust by <span class="text-warning">design</span></h1>
+    <p class="text-white-50 lead mb-4">
+        Verified identity workflows, document reviews, controlled listing approvals, and thread-based communication
+        help protect both hosts and renters as the platform scales.
+    </p>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Verification first</h3>
+                <p class="text-white-50 small mb-0">Document checks and review states before sensitive actions.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Admin oversight</h3>
+                <p class="text-white-50 small mb-0">Operational queues for documents, listings, and booking approvals.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Messaging audit trail</h3>
+                <p class="text-white-50 small mb-0">Conversations are tied to listings for clear context and support.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'help_center' %}" class="btn btn-warning btn-lg fw-bold text-dark">Open help center</a>
+    <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg ms-2">Report a concern</a>
+</main>
+{% endblock %}

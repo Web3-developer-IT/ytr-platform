@@ -1,0 +1,46 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Partner network{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Join the Yours To Rent partner network — fleet operators, insurers, workshops, and finance collaborators powering trusted mobility in South Africa.">
+{% endblock %}
+{% block public_content %}
+<main class="container py-5" style="max-width: 980px;">
+    <p class="text-warning text-uppercase small fw-bold mb-2">Ecosystem</p>
+    <h1 class="text-white display-6 fw-bold mb-3">Partner network for <span class="text-warning">scale</span></h1>
+    <p class="text-white-50 lead mb-4">
+        Yours To Rent is expanding beyond pure listings into a connected network of operators and service partners
+        so fleet teams can launch faster with lower operational friction.
+    </p>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Insurance partners</h3>
+                <p class="text-white-50 small mb-0">Structured risk options for hosts and fleet clients (rollout roadmap).</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Service & maintenance</h3>
+                <p class="text-white-50 small mb-0">Workshop ecosystems to keep high-utilization vehicles on the road.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Corporate procurement</h3>
+                <p class="text-white-50 small mb-0">Centralized contacts and transparent rates for repeat enterprise demand.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
+                <h3 class="h5 text-white">Integration-first roadmap</h3>
+                <p class="text-white-50 small mb-0">Data-sharing patterns for dispatch, accounting, and fleet visibility.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'contact' %}?topic=partnership" class="btn btn-warning btn-lg fw-bold text-dark">Become a partner</a>
+    <a href="{% url 'fleet_solutions' %}" class="btn btn-outline-light btn-lg ms-2">Fleet overview</a>
+</main>
+{% endblock %}

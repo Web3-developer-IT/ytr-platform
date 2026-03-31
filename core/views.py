@@ -18,7 +18,6 @@ from messaging.models import Message
 from users.models import UserProfile, is_user_verified
 
 from .mail_utils import feedback_recipients, send_platform_mail
-from .demo_catalog import DEMO_BROWSE_CARDS
 
 # Launch focus: commercial / fleet body styles first; other verticals marked "coming soon" in UI.
 COMMERCIAL_BODY_STYLES = ("Commercial", "Van", "Truck", "Bakkie", "Fleet")
@@ -256,12 +255,6 @@ def listings_page(request):
         window.update({1, 2, total_pages - 1, total_pages})
         page_numbers = sorted(x for x in window if 1 <= x <= total_pages)
 
-    # Curated showcase cards (no DB ids) — first page only when user is not narrowing results.
-    narrow_filters = bool(q or location or category or min_price or max_price or style)
-    demo_browse_supplement = (
-        DEMO_BROWSE_CARDS if page_obj.number == 1 and not narrow_filters else []
-    )
-
     return render(
         request,
         "download/browse.html",
@@ -277,7 +270,6 @@ def listings_page(request):
             "browse_style_counts": browse_style_counts,
             "commercial_focus": commercial_focus,
             "commercial_total": commercial_total,
-            "demo_browse_supplement": demo_browse_supplement,
         },
     )
 
@@ -705,21 +697,32 @@ def my_bookings_page(request):
     )
     today = timezone.now().date()
     booking_rows = []
+    total_spend = 0
+    active_count = 0
+    pending_count = 0
+    completed_count = 0
+    next_trip_date = None
     for b in renter_bookings:
         days = max((b.end_date - b.start_date).days + 1, 1)
         total = (b.listing.price_per_day or Decimal("0")) * days
         if not b.approved:
             status = "upcoming"
             status_label = "Pending"
+            pending_count += 1
         elif b.end_date < today:
             status = "completed"
             status_label = "Completed"
+            completed_count += 1
         elif b.start_date > today:
             status = "upcoming"
             status_label = "Confirmed"
+            if next_trip_date is None or b.start_date < next_trip_date:
+                next_trip_date = b.start_date
         else:
             status = "active"
             status_label = "In progress"
+            active_count += 1
+        total_spend += int(total)
         booking_rows.append(
             {
                 "booking": b,
@@ -732,6 +735,14 @@ def my_bookings_page(request):
     ctx = {
         "booking_rows": booking_rows,
         "today": today,
+        "booking_summary": {
+            "total": len(booking_rows),
+            "active": active_count,
+            "pending": pending_count,
+            "completed": completed_count,
+            "total_spend": total_spend,
+            "next_trip_date": next_trip_date,
+        },
         "hero_title": 'My <span class="text-warning">Bookings</span>',
         "hero_subtitle": "Pending and confirmed trips tied to your account — no demo history.",
     }
@@ -884,3 +895,18 @@ def fleet_solutions(request):
 def mobility_hub(request):
     """Mobility hub — drivers, operators, and on-demand fleet narrative."""
     return render(request, "solutions/mobility.html")
+
+
+def dispatch_console(request):
+    """Dispatch-focused page for ops teams coordinating multiple vehicles."""
+    return render(request, "solutions/dispatch.html")
+
+
+def partner_network(request):
+    """Partner ecosystem page for insurers, workshops, and enterprise operators."""
+    return render(request, "solutions/partners.html")
+
+
+def trust_center(request):
+    """Trust, verification, and safety overview for enterprise and retail users."""
+    return render(request, "solutions/trust-center.html")

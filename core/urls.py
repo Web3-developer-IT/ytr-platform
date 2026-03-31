@@ -22,6 +22,9 @@ urlpatterns = [
     path('faq.html', views.faq_page),
     path('solutions/fleet/', views.fleet_solutions, name='fleet_solutions'),
     path('solutions/mobility/', views.mobility_hub, name='mobility_hub'),
+    path('solutions/dispatch/', views.dispatch_console, name='dispatch_console'),
+    path('solutions/partners/', views.partner_network, name='partner_network'),
+    path('solutions/trust-center/', views.trust_center, name='trust_center'),
     path('newsletter/subscribe/', views.newsletter_subscribe, name='newsletter_subscribe'),
 
     path('listings/', views.listings_page, name='listings'),

@@ -62,4 +62,88 @@
       </div>
     </div>
   </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <div class="ytr-admin-healthbar">
+        <span class="small">{% trans "Live listing availability" %}</span>
+        <div class="ytr-admin-healthbar-track">
+          <div class="ytr-admin-healthbar-fill" style="width: {{ availability_rate }}%;"></div>
+        </div>
+        <span class="small font-weight-bold">{{ availability_rate }}%</span>
+      </div>
+    </div>
+  </div>
+  <div class="ytr-admin-health-chips mt-3">
+    <span class="ytr-admin-chip {% if not debug_mode %}ok{% endif %}">
+      {% if debug_mode %}DEBUG ON{% else %}DEBUG OFF{% endif %}
+    </span>
+    <span class="ytr-admin-chip {% if cloudinary_enabled %}ok{% endif %}">
+      Media: {% if cloudinary_enabled %}Cloudinary{% else %}Local storage{% endif %}
+    </span>
+    <span class="ytr-admin-chip {% if whitenoise_enabled %}ok{% endif %}">
+      Static: {% if whitenoise_enabled %}WhiteNoise{% else %}Django staticfiles{% endif %}
+    </span>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-xl-4 col-md-6 mb-3">
+    <div class="ytr-admin-ops-card">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="mb-0">{% trans "Verification queue" %}</h6>
+        <a href="{% url 'admin:users_userdocument_changelist' %}?status=pending" class="small text-warning">{% trans "Open queue" %}</a>
+      </div>
+      {% for doc in pending_docs_qs %}
+      <div class="ytr-admin-ops-row">
+        <div>
+          <div class="font-weight-bold">{{ doc.user.get_full_name|default:doc.user.username }}</div>
+          <small class="text-muted">{{ doc.document_type }} &middot; {{ doc.submitted_at|timesince }} {% trans "ago" %}</small>
+        </div>
+        <a class="btn btn-xs btn-outline-light" href="{% url 'admin:users_userdocument_change' doc.id %}">{% trans "Review" %}</a>
+      </div>
+      {% empty %}
+      <p class="text-muted mb-0 small">{% trans "No documents waiting for review." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-md-6 mb-3">
+    <div class="ytr-admin-ops-card">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="mb-0">{% trans "Booking approvals" %}</h6>
+        <a href="{% url 'admin:bookings_booking_changelist' %}?approved__exact=0" class="small text-warning">{% trans "Open queue" %}</a>
+      </div>
+      {% for booking in pending_bookings_qs %}
+      <div class="ytr-admin-ops-row">
+        <div>
+          <div class="font-weight-bold">{{ booking.listing.title|truncatechars:32 }}</div>
+          <small class="text-muted">{{ booking.user.username }} &middot; {{ booking.start_date }} - {{ booking.end_date }}</small>
+        </div>
+        <a class="btn btn-xs btn-outline-light" href="{% url 'admin:bookings_booking_change' booking.id %}">{% trans "Approve" %}</a>
+      </div>
+      {% empty %}
+      <p class="text-muted mb-0 small">{% trans "No bookings need approval right now." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-md-12 mb-3">
+    <div class="ytr-admin-ops-card">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="mb-0">{% trans "Recently listed" %}</h6>
+        <a href="{% url 'admin:core_listing_changelist' %}" class="small text-warning">{% trans "All listings" %}</a>
+      </div>
+      {% for listing in recent_listings_qs %}
+      <div class="ytr-admin-ops-row">
+        <div>
+          <div class="font-weight-bold">{{ listing.title|truncatechars:34 }}</div>
+          <small class="text-muted">{{ listing.owner.username }} &middot; {{ listing.created_at|timesince }} {% trans "ago" %}</small>
+        </div>
+        <a class="btn btn-xs btn-outline-light" href="{% url 'admin:core_listing_change' listing.id %}">{% trans "Open" %}</a>
+      </div>
+      {% empty %}
+      <p class="text-muted mb-0 small">{% trans "No listings yet." %}</p>
+      {% endfor %}
+    </div>
+  </div>
 </div>

@@ -286,6 +286,124 @@ body,
   font-weight: 700 !important;
 }
 
+.ytr-admin-healthbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.2rem;
+}
+
+.ytr-admin-healthbar-track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.ytr-admin-healthbar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffb020 0%, #ff6b35 100%);
+}
+
+.ytr-admin-health-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ytr-admin-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(255, 100, 80, 0.14);
+  border: 1px solid rgba(255, 100, 80, 0.38);
+  color: #ffb4aa;
+}
+
+.ytr-admin-chip.ok {
+  background: rgba(80, 200, 120, 0.14);
+  border-color: rgba(80, 200, 120, 0.35);
+  color: #b6f0c8;
+}
+
+.ytr-admin-ops-card {
+  background: rgba(20, 20, 24, 0.96);
+  border: 1px solid var(--ytr-admin-border);
+  border-radius: 14px;
+  padding: 0.9rem;
+  height: 100%;
+}
+
+.ytr-admin-ops-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.ytr-admin-ops-row:first-of-type {
+  border-top: none;
+}
+
+.ytr-admin-quicklinks {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.ytr-admin-quicklink {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 200, 80, 0.18);
+  color: #ffe3ba !important;
+  text-decoration: none !important;
+  background: rgba(255, 255, 255, 0.02);
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.ytr-admin-quicklink:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 200, 80, 0.4);
+  background: rgba(255, 160, 60, 0.08);
+}
+
+.ytr-admin-playbook {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.ytr-admin-playbook li {
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.88rem;
+  line-height: 1.35;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.ytr-admin-playbook li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffb020, #ff6b35);
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+}
+
 /* --- Forms --- */
 .form-control,
 select,

@@ -73,6 +73,40 @@
     </div>
     <div class="col-lg-3 col-12">
         <div id="content-related">
+            <div class="module ytr-admin-recent mb-3">
+                <h4 class="mb-3">{% trans 'Quick operations' %}</h4>
+                <div class="ytr-admin-quicklinks">
+                    <a href="{% url 'admin:core_listing_add' %}" class="ytr-admin-quicklink">
+                        <i class="fas fa-plus-circle"></i> {% trans 'Add listing' %}
+                    </a>
+                    <a href="{% url 'admin:users_userdocument_changelist' %}?status=pending" class="ytr-admin-quicklink">
+                        <i class="fas fa-file-signature"></i> {% trans 'Review documents' %}
+                    </a>
+                    <a href="{% url 'admin:bookings_booking_changelist' %}?approved__exact=0" class="ytr-admin-quicklink">
+                        <i class="fas fa-calendar-check"></i> {% trans 'Approve bookings' %}
+                    </a>
+                    <a href="/solutions/dispatch/" target="_blank" rel="noopener" class="ytr-admin-quicklink">
+                        <i class="fas fa-route"></i> {% trans 'Open dispatch page' %}
+                    </a>
+                    <a href="/solutions/partners/" target="_blank" rel="noopener" class="ytr-admin-quicklink">
+                        <i class="fas fa-handshake"></i> {% trans 'Partner network' %}
+                    </a>
+                    <a href="/solutions/trust-center/" target="_blank" rel="noopener" class="ytr-admin-quicklink">
+                        <i class="fas fa-shield-alt"></i> {% trans 'Trust center' %}
+                    </a>
+                </div>
+            </div>
+
+            <div class="module ytr-admin-recent mb-3">
+                <h4 class="mb-3">{% trans 'Launch playbook' %}</h4>
+                <ul class="ytr-admin-playbook mb-0">
+                    <li>{% trans 'Verify pending user documents before approving high-value listings.' %}</li>
+                    <li>{% trans 'Approve waiting bookings twice daily to keep renter response times low.' %}</li>
+                    <li>{% trans 'Spot-check new listings: photos, location detail, and pricing confidence.' %}</li>
+                    <li>{% trans 'Use notifications for market-wide updates (downtime, campaigns, policy).' %}</li>
+                </ul>
+            </div>
+
             <div class="module ytr-admin-recent" id="recent-actions-module">
                 <h4 class="mb-3">{% trans 'Recent actions' %}</h4>
                 {% load log %}

@@ -54,12 +54,16 @@ def _pair_has_messages(user, listing, other):
 @login_required
 def inbox(request):
     if request.method == "POST":
-        listing_id = request.POST.get("listing_id")
-        other_id = request.POST.get("other_user_id")
+        listing_id = (request.POST.get("listing_id") or "").strip()
+        other_id = (request.POST.get("other_user_id") or "").strip()
         content = (request.POST.get("content") or "").strip()
+        if not listing_id or not other_id:
+            return redirect("inbox")
         listing = get_object_or_404(Listing, id=listing_id)
         other = get_object_or_404(User, id=other_id)
-        if content and other.id != request.user.id:
+        if other.id == request.user.id:
+            return redirect("inbox")
+        if content:
             Message.objects.create(
                 sender=request.user,
                 receiver=other,
@@ -77,19 +81,36 @@ def inbox(request):
     active_other_profile = None
     active_messages = []
 
-    if threads:
-        if listing_id and other_id:
-            active_listing = get_object_or_404(Listing, id=listing_id)
-            active_other = get_object_or_404(User, id=other_id)
-            if not _pair_has_messages(request.user, active_listing, active_other):
-                active_listing = threads[0]["listing"]
-                active_other = threads[0]["other"]
+    if listing_id and other_id:
+        active_listing = get_object_or_404(Listing, id=listing_id)
+        active_other = get_object_or_404(User, id=other_id)
+        # Never open a conversation with yourself.
+        if active_other.id == request.user.id:
+            active_listing = None
+            active_other = None
         else:
+            active_other_profile, _ = UserProfile.objects.get_or_create(user=active_other)
+            active_messages = list(
+                Message.objects.filter(
+                    listing=active_listing,
+                    sender__in=[request.user, active_other],
+                    receiver__in=[request.user, active_other],
+                ).order_by("created_at")
+            )
+            for m in active_messages:
+                m.sender_profile, _ = UserProfile.objects.get_or_create(user=m.sender)
+            Message.objects.filter(
+                receiver=request.user,
+                sender=active_other,
+                listing=active_listing,
+                read=False,
+            ).update(read=True)
+    elif threads:
+        # Default to latest existing thread if no explicit target was requested.
+        if not active_listing or not active_other:
             active_listing = threads[0]["listing"]
             active_other = threads[0]["other"]
-
         active_other_profile, _ = UserProfile.objects.get_or_create(user=active_other)
-
         active_messages = list(
             Message.objects.filter(
                 listing=active_listing,

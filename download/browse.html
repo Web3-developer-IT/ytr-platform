@@ -214,15 +214,6 @@
             overflow: hidden; transition: all 0.4s ease;
         }
         .vehicle-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.15); border-color: rgba(212, 168, 83, 0.3); }
-        .demo-showcase-section {
-            margin-top: 2.5rem; padding-top: 2rem;
-            border-top: 1px solid var(--dark-border);
-        }
-        .demo-showcase-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
-        .demo-showcase-head h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin: 0; }
-        .demo-showcase-head p { color: var(--text-secondary); font-size: 0.9rem; max-width: 42rem; margin: 0.35rem 0 0; }
-        .vehicle-card--demo { position: relative; border-style: dashed; border-color: rgba(212, 168, 83, 0.35); }
-        .vehicle-card--demo .vehicle-badge.demo { background: linear-gradient(135deg, #2a1f0a, #4a3208); color: #ffd699; border: 1px solid rgba(212, 168, 83, 0.5); }
         .vehicle-image { position: relative; height: 200px; overflow: hidden; }
         .vehicle-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .vehicle-card:hover .vehicle-image img { transform: scale(1.1); }
@@ -974,47 +965,6 @@ burger.addEventListener('click',()=>{
                     {% endfor %}
                 </div>
 
-                {% if demo_browse_supplement %}
-                <section class="demo-showcase-section" aria-label="Fleet showcase examples">
-                    <div class="demo-showcase-head" data-aos="fade-up">
-                        <div>
-                            <h3>Fleet &amp; mobility showcase</h3>
-                            <p>Example vehicles and indicative daily rates for demos and enterprise conversations. Live marketplace listings appear above; these cards highlight commercial-grade inventory patterns.</p>
-                        </div>
-                        <a href="{% url 'fleet_solutions' %}" class="btn btn-nav-outline btn-sm">Enterprise solutions</a>
-                    </div>
-                    <div class="vehicles-grid" id="demoShowcaseGrid">
-                        {% for demo in demo_browse_supplement %}
-                        <div class="vehicle-card vehicle-card--demo">
-                            <div class="vehicle-image">
-                                <img src="{{ demo.image|ytr_img }}" alt="{{ demo.title }}" loading="lazy" decoding="async">
-                                <div class="vehicle-badges">
-                                    <span class="vehicle-badge demo">Showcase</span>
-                                </div>
-                            </div>
-                            <div class="vehicle-content">
-                                <div class="vehicle-meta">
-                                    <span class="vehicle-category">{{ demo.body_style }}</span>
-                                    <span class="text-muted small">Demo pricing</span>
-                                </div>
-                                <h3 class="vehicle-title">{{ demo.title }}</h3>
-                                <div class="vehicle-location"><i class="fas fa-map-marker-alt"></i><span>{{ demo.location }}</span></div>
-                                <div class="vehicle-specs">
-                                    <div class="spec-item"><i class="fas fa-cog"></i> {{ demo.transmission }}</div>
-                                    <div class="spec-item"><i class="fas fa-gas-pump"></i> {{ demo.fuel_type }}</div>
-                                    <div class="spec-item"><i class="fas fa-user"></i> {{ demo.seats }} Seats</div>
-                                </div>
-                                <div class="vehicle-footer">
-                                    <div class="vehicle-price">R{{ demo.price_per_day|floatformat:0 }} <span>/day</span></div>
-                                    <a href="{% url 'contact' %}?topic=fleet" class="btn btn-book">Enquire</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </section>
-                {% endif %}
-                
                 {% if paginator.num_pages > 1 %}
                 <div class="pagination-wrapper">
                     <div class="pagination">

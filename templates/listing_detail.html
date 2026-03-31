@@ -28,9 +28,13 @@
 <!-- CONTACT OWNER -->
 <h3>Contact Owner</h3>
 
+{% if user.id != listing.owner.id %}
 <a href="{% url 'conversation' listing.id listing.owner.id %}">
 <button>Message Owner</button>
 </a>
+{% else %}
+<p class="text-white-50">This is your listing. Use <a href="{% url 'inbox' %}">Messages</a> to continue renter conversations.</p>
+{% endif %}
 
 <hr>
 
