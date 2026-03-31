@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+from urllib.parse import urlsplit
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -54,6 +55,20 @@ DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
 CLOUDINARY_CLOUD_NAME = (os.getenv("CLOUDINARY_CLOUD_NAME") or "").strip()
 CLOUDINARY_API_KEY = (os.getenv("CLOUDINARY_API_KEY") or "").strip()
 CLOUDINARY_API_SECRET = (os.getenv("CLOUDINARY_API_SECRET") or "").strip()
+CLOUDINARY_URL = (os.getenv("CLOUDINARY_URL") or "").strip()
+
+if CLOUDINARY_URL and not (CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET):
+    try:
+        parsed = urlsplit(CLOUDINARY_URL)
+        if parsed.scheme == "cloudinary" and "@" in parsed.netloc:
+            creds, cloud = parsed.netloc.rsplit("@", 1)
+            if ":" in creds:
+                key, secret = creds.split(":", 1)
+                CLOUDINARY_CLOUD_NAME = CLOUDINARY_CLOUD_NAME or cloud.strip()
+                CLOUDINARY_API_KEY = CLOUDINARY_API_KEY or key.strip()
+                CLOUDINARY_API_SECRET = CLOUDINARY_API_SECRET or secret.strip()
+    except Exception:
+        pass
 
 _CLOUDINARY_PLACEHOLDER_NAMES = frozenset(
     {"josh", "demo", "changeme", "placeholder", "your_cloud_name", "your-cloud-name", "sample"}

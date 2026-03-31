@@ -1,5 +1,6 @@
 {% extends "layouts/public_base.html" %}
 {% load static %}
+{% load ytr_images %}
 {% block title %}Book {{ listing.title }}{% endblock %}
 {% block meta_description %}
 <meta name="description" content="Complete your booking request for {{ listing.title }} in {{ listing.location }}.">
@@ -71,7 +72,7 @@
 
 {% block public_content %}
 <div class="ytr-book-hero">
-  <div class="ytr-book-hero__bg" style="background-image: url('{% if listing.primary_image_url %}{{ listing.primary_image_url }}{% else %}https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80{% endif %}');"></div>
+  <div class="ytr-book-hero__bg" style="background-image: url('{% if listing.primary_image_url %}{{ listing.primary_image_url|ytr_img }}{% else %}https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80{% endif %}');"></div>
   <div class="ytr-book-hero__veil"></div>
   <div class="ytr-book-hero__inner">
     <nav aria-label="breadcrumb" class="mb-3">
@@ -162,7 +163,7 @@
         <div class="ytr-book-card ytr-book-sticky" data-aos="fade-left">
           <h3 class="h5 fw-bold mb-3">Listing summary</h3>
           {% if listing.primary_image_url %}
-          <img src="{{ listing.primary_image_url }}" alt="" class="img-fluid rounded-3 mb-3 w-100" style="max-height: 200px; object-fit: cover;">
+          <img src="{{ listing.primary_image_url|ytr_img }}" alt="" class="img-fluid rounded-3 mb-3 w-100" style="max-height: 200px; object-fit: cover;">
           {% endif %}
           <p class="small text-white-50 mb-3">{{ listing.description|truncatewords:32 }}</p>
           <div class="d-flex flex-wrap gap-2 mb-3">

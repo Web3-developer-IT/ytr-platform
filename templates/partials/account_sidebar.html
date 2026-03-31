@@ -21,7 +21,7 @@
     <div class="sidebar-user">
         <div class="d-flex align-items-center">
             {% if user_profile.avatar %}
-            <img class="avatar me-3 rounded-circle" src="{{ user_profile.avatar.url }}" alt="" style="width:48px;height:48px;object-fit:cover;border:2px solid rgba(255,165,0,0.5);">
+            <img class="avatar me-3 rounded-circle" src="{{ user_profile.avatar.url }}" alt="" style="width:48px;height:48px;object-fit:cover;border:2px solid rgba(255,165,0,0.5);" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
             {% else %}
             <div class="avatar me-3 d-flex align-items-center justify-content-center rounded-circle text-white" style="width:48px;height:48px;min-width:48px;font-size:0.95rem;font-weight:800;background:linear-gradient(135deg,#ffa500,#ff4500);">
                 {% if user.first_name or user.last_name %}

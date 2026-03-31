@@ -2775,9 +2775,7 @@ burger.addEventListener('click',()=>{
   inset: 0;
   z-index: 0;
   background:
-    /* Keep local asset first, but always fall back to hosted image if missing on disk. */
     url("{% static 'images/hero-cars-reference.png' %}") center center / cover no-repeat,
-    url("https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80") center center / cover no-repeat,
     #050508;
   transform: scale(1.02);
   animation: ytrHeroKenBurns 32s ease-in-out infinite alternate;

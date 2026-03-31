@@ -1,4 +1,5 @@
 {% load static %}
+{% load ytr_images %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -773,7 +774,7 @@
                         <div class="card-body">
                             {% for booking in recent_bookings %}
                             <div class="booking-item">
-                                {% if booking.listing.primary_image_url %}<img src="{{ booking.listing.primary_image_url }}" alt="{{ booking.listing.title }}">{% else %}<div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="width:80px;height:56px;"><i class="fas fa-car text-white-50"></i></div>{% endif %}
+                                <img src="{% listing_card_image booking.listing %}" alt="{{ booking.listing.title }}" loading="lazy" decoding="async">
                                 <div class="details">
                                     <h5>{{ booking.listing.title }}</h5>
                                     <p><i class="fas fa-calendar-alt me-2"></i>{{ booking.start_date }} - {{ booking.end_date }}</p>
@@ -817,7 +818,7 @@
                                 {% for listing in listings %}
                                 <div class="col-md-4">
                                     <div class="vehicle-card-mini">
-                                        {% if listing.primary_image_url %}<img src="{{ listing.primary_image_url }}" alt="{{ listing.title }}">{% else %}<div class="bg-secondary d-flex align-items-center justify-content-center" style="min-height:120px;"><i class="fas fa-car fa-2x text-white-50"></i></div>{% endif %}
+                                        <img src="{% listing_card_image listing %}" alt="{{ listing.title }}" loading="lazy" decoding="async">
                                         <div class="content">
                                             <h5>{{ listing.title }}</h5>
                                             <div class="d-flex justify-content-between align-items-center">

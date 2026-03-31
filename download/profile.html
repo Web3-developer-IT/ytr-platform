@@ -366,7 +366,7 @@
                     <div class="col-md-auto mb-4 mb-md-0 text-center">
                         <div class="avatar-upload">
                             {% if profile.avatar %}
-                            <img src="{{ profile.avatar.url }}" alt="" class="profile-avatar">
+                            <img src="{{ profile.avatar.url }}" alt="" class="profile-avatar" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
                             {% else %}
                             <div class="profile-avatar d-inline-flex align-items-center justify-content-center bg-secondary text-white fw-bold fs-3" style="border-radius:50%;width:150px;height:150px;border:5px solid var(--primary-color);">
                                 {% if user.first_name or user.last_name %}

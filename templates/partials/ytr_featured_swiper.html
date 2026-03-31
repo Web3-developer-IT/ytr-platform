@@ -1,11 +1,12 @@
 {% load static %}
+{% load ytr_images %}
 <div class="swiper-wrapper">
     {% for listing in featured_listings %}
     <div class="swiper-slide">
         <div class="vehicle-card">
             <div class="vehicle-image">
                 {% if listing.primary_image_url %}
-                <img src="{{ listing.primary_image_url }}" alt="{{ listing.title }}" loading="lazy">
+                <img src="{{ listing.primary_image_url|ytr_img }}" alt="{{ listing.title }}" loading="lazy">
                 {% else %}
                 <img src="{{ ytr_default_vehicle_image }}" alt="{{ listing.title }}" loading="lazy">
                 {% endif %}
