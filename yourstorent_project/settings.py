@@ -94,20 +94,6 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": CLOUDINARY_API_SECRET if YTR_USE_CLOUDINARY else "",
 }
 
-# Browse/home cards when a listing has no photo yet (override via env for investor demos).
-YTR_DEFAULT_VEHICLE_IMAGE_URL = os.getenv(
-    "YTR_DEFAULT_VEHICLE_IMAGE_URL",
-    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=80",
-)
-
-# Extra rotating fallbacks if a listing has no upload and no hero (keeps cards populated on any host).
-YTR_IMAGE_FALLBACK_URLS = [
-    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1606611013016-969c19ba27bb?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
-]
-
 ALLOWED_HOSTS = list(
     dict.fromkeys(
         [
@@ -123,6 +109,15 @@ ALLOWED_HOSTS = list(
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Browse/home cards when a listing has no photo (bundled static asset; override via env).
+YTR_DEFAULT_VEHICLE_IMAGE_URL = os.getenv(
+    "YTR_DEFAULT_VEHICLE_IMAGE_URL",
+    f"{STATIC_URL}images/hero-cars-reference.png",
+)
+YTR_IMAGE_FALLBACK_URLS = [
+    f"{STATIC_URL}images/hero-cars-reference.png",
+]
 
 # Media/user uploads (default storage set in STORAGES below — Cloudinary in production-style configs).
 MEDIA_URL = "/media/"

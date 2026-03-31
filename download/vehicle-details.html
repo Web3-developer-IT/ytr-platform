@@ -773,7 +773,7 @@
         
         /* Hero */
         .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
-        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920') center/cover no-repeat; opacity: 0.1; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('/static/images/hero-cars-reference.png') center/cover no-repeat; opacity: 0.1; }
         .hero-content { position: relative; z-index: 1; }
         .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; color: #22c55e; margin-bottom: 25px; }
         .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
@@ -1220,11 +1220,7 @@ burger.addEventListener('click',()=>{
                     <!-- Gallery -->
                     <div class="vehicle-gallery" data-aos="fade-up">
                         <div class="gallery-main">
-                            {% if listing.primary_image_url %}
-                            <img src="{{ listing.primary_image_url|ytr_img }}" alt="{{ listing.title }}" id="mainImage">
-                            {% else %}
-                            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200" alt="{{ listing.title }}" id="mainImage">
-                            {% endif %}
+                            <img src="{% listing_card_image listing %}" alt="{{ listing.title }}" id="mainImage">
                             <div class="gallery-actions">
                                 <button type="button" class="gallery-btn" title="Share" onclick="if(navigator.share){navigator.share({title:'{{ listing.title|escapejs }}',url:window.location.href});}">
                                     <i class="fas fa-share-alt"></i>
@@ -1382,7 +1378,7 @@ burger.addEventListener('click',()=>{
                     <!-- Host Info -->
                     <div class="host-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="host-header">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Host" class="host-avatar">
+                            <img src="/static/images/ytr-logo-reference.svg" alt="Host" class="host-avatar">
                             <div class="host-info">
                                 <h4>{{ listing.owner.get_full_name|default:listing.owner.username }}</h4>
                                 <div class="host-badges">
@@ -1471,7 +1467,7 @@ burger.addEventListener('click',()=>{
                         <div class="review-card">
                             <div class="review-header">
                                 <div class="reviewer-info">
-                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Reviewer" class="reviewer-avatar">
+                                    <img src="/static/images/ytr-logo-reference.svg" alt="Reviewer" class="reviewer-avatar">
                                     <div>
                                         <div class="reviewer-name">Sarah Johnson</div>
                                         <div class="review-date">December 2025</div>
@@ -1491,7 +1487,7 @@ burger.addEventListener('click',()=>{
                         <div class="review-card">
                             <div class="review-header">
                                 <div class="reviewer-info">
-                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="Reviewer" class="reviewer-avatar">
+                                    <img src="/static/images/ytr-logo-reference.svg" alt="Reviewer" class="reviewer-avatar">
                                     <div>
                                         <div class="reviewer-name">David Molefe</div>
                                         <div class="review-date">November 2025</div>
@@ -1511,7 +1507,7 @@ burger.addEventListener('click',()=>{
                         <div class="review-card">
                             <div class="review-header">
                                 <div class="reviewer-info">
-                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Reviewer" class="reviewer-avatar">
+                                    <img src="/static/images/ytr-logo-reference.svg" alt="Reviewer" class="reviewer-avatar">
                                     <div>
                                         <div class="reviewer-name">Priya Naidoo</div>
                                         <div class="review-date">October 2025</div>
@@ -1602,11 +1598,7 @@ burger.addEventListener('click',()=>{
                     <div class="col-md-4 mb-4">
                         <div class="vehicle-card">
                             <div class="vehicle-image">
-                                {% if rel.primary_image_url %}
-                                <img src="{{ rel.primary_image_url|ytr_img }}" alt="{{ rel.title }}">
-                                {% else %}
-                                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600" alt="{{ rel.title }}">
-                                {% endif %}
+                                <img src="{% listing_card_image rel %}" alt="{{ rel.title }}">
                                 <div class="vehicle-badges">
                                     <span class="badge badge-featured">{{ rel.body_style }}</span>
                                 </div>

@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 from .models import Listing, ListingImage
+from .ytr_media import normalize_image_url
 from bookings.models import Booking
 from messaging.models import Message
 from users.models import UserProfile, is_user_verified
@@ -593,7 +594,7 @@ def add_listing(request):
             listing.refresh_from_db()
             first_img = listing.images.order_by("uploaded_at").first()
             if first_img and first_img.image:
-                url = first_img.image.url
+                url = normalize_image_url(first_img.image.url)
                 if url and len(url) <= 500:
                     listing.hero_image_url = url
                     listing.save(update_fields=["hero_image_url"])
@@ -936,6 +937,6 @@ def media_with_fallback(request, path):
         getattr(
             settings,
             "YTR_DEFAULT_VEHICLE_IMAGE_URL",
-            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=80",
+            "/static/images/hero-cars-reference.png",
         )
     )
