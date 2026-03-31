@@ -34,5 +34,5 @@ urlpatterns = [
 ]
 
 
-if settings.DEBUG:
+if settings.DEBUG or not getattr(settings, "YTR_USE_CLOUDINARY", False):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

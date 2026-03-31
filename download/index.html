@@ -8,7 +8,7 @@
     <meta name="description" content="South Africa's Premier Vehicle Rental Marketplace - From daily demands to dream drives.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'images/ytr-logo-reference.png' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2187,7 +2187,7 @@
   <!-- Preloader -->
     <div id="preloader">
         <div class="loader">
-            <img src="{% static 'images/ytr-logo-reference.png' %}" alt="YTR Logo" class="loader-logo">
+            <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="YTR Logo" class="loader-logo">
             <div class="loader-bar"></div>
         </div>
     </div>
@@ -2665,7 +2665,7 @@ html, body {
 <nav class="ytrE-nav" id="ytrENav">
   <div class="ytrE-nav-inner">
     <a href="{% url 'home' %}" class="ytrE-logo d-flex">
-      <img class="ytrE-logoImg" src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" width="132" height="44" decoding="async">
+      <img class="ytrE-logoImg" src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" width="132" height="44" decoding="async">
       <span class="ytrE-tagline d-none d-lg-inline">South Africa&rsquo;s Premier Vehicle Marketplace</span>
     </a>
 
@@ -2890,7 +2890,9 @@ burger.addEventListener('click',()=>{
   justify-content: center;
   font-size: 0.85rem;
 }
-.ytrRefHero__btn--filled .ytrRefHero__plus { background: rgba(0,0,0,0.15); }
+.ytrRefHero__btn--filled .ytrRefHero__plus {
+  background: rgba(0,0,0,0.15);
+}
 .ytrRefHero__right {
   width: 100%;
   max-width: 440px;
@@ -3842,7 +3844,7 @@ burger.addEventListener('click',()=>{
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <img src="{% static 'images/ytr-logo-reference.png' %}" alt="Yours To Rent" class="logo">
+                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" class="logo">
                     <p>Your Fleet. Your Services. Your Terms. South Africa's premier peer-to-peer vehicle rental marketplace.</p>
                     <div class="footer-social">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>

@@ -71,7 +71,7 @@
 
 {% block public_content %}
 <div class="ytr-book-hero">
-  <div class="ytr-book-hero__bg" style="background-image: url('{% if listing.primary_image_url %}{{ listing.primary_image_url }}{% else %}{% static 'images/hero-cars-reference.png' %}{% endif %}');"></div>
+  <div class="ytr-book-hero__bg" style="background-image: url('{% if listing.primary_image_url %}{{ listing.primary_image_url }}{% else %}https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80{% endif %}');"></div>
   <div class="ytr-book-hero__veil"></div>
   <div class="ytr-book-hero__inner">
     <nav aria-label="breadcrumb" class="mb-3">
