@@ -1,13 +1,17 @@
 from decimal import Decimal
 import json
+import mimetypes
 from datetime import datetime
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.files.storage import default_storage
 from django.db.models import Q, Count
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import FileResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
+from django.templatetags.static import static
 from django.utils import timezone
 
 from django.contrib.auth.models import User
@@ -910,3 +914,28 @@ def partner_network(request):
 def trust_center(request):
     """Trust, verification, and safety overview for enterprise and retail users."""
     return render(request, "solutions/trust-center.html")
+
+
+def media_with_fallback(request, path):
+    """
+    Serve MEDIA files when available, with safe fallback images when files are missing.
+    Helps keep avatars/listing photos visible on hosts with ephemeral disks.
+    """
+    rel_path = (path or "").lstrip("/")
+    try:
+        if rel_path and default_storage.exists(rel_path):
+            f = default_storage.open(rel_path, "rb")
+            ctype, _ = mimetypes.guess_type(rel_path)
+            return FileResponse(f, content_type=ctype or "application/octet-stream")
+    except Exception:
+        pass
+
+    if rel_path.startswith("profile_avatars/"):
+        return redirect(static("images/ytr-logo-reference.svg"))
+    return redirect(
+        getattr(
+            settings,
+            "YTR_DEFAULT_VEHICLE_IMAGE_URL",
+            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=80",
+        )
+    )

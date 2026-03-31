@@ -82,7 +82,7 @@
                            href="{% url 'inbox' %}?listing={{ t.listing.id }}&user={{ t.other.id }}">
                             <div class="avatar-wrap">
                                 {% if t.other_profile.avatar %}
-                                <img class="avatar-img" src="{{ t.other_profile.avatar.url }}" alt="">
+                                <img class="avatar-img" src="{{ t.other_profile.avatar.url }}" alt="" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
                                 {% else %}
                                 <div class="avatar-fallback">
                                     {% if t.other.first_name or t.other.last_name %}
@@ -115,7 +115,7 @@
                         <div class="who">
                             <div class="avatar-wrap">
                                 {% if active_other_profile.avatar %}
-                                <img class="avatar-img" src="{{ active_other_profile.avatar.url }}" alt="">
+                                <img class="avatar-img" src="{{ active_other_profile.avatar.url }}" alt="" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
                                 {% else %}
                                 <div class="avatar-fallback">
                                     {% if active_other.first_name or active_other.last_name %}
@@ -140,7 +140,7 @@
                             {% if m.sender_id != user.id %}
                             <div class="avatar-wrap">
                                 {% if m.sender_profile.avatar %}
-                                <img class="avatar-img" src="{{ m.sender_profile.avatar.url }}" alt="" style="width:36px;height:36px;">
+                                <img class="avatar-img" src="{{ m.sender_profile.avatar.url }}" alt="" style="width:36px;height:36px;" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
                                 {% else %}
                                 <div class="avatar-fallback" style="width:36px;height:36px;font-size:0.7rem;">
                                     {% if m.sender.first_name or m.sender.last_name %}

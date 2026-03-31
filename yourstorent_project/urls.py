@@ -9,6 +9,7 @@ admin.site.index_title = "Manage listings, users, documents & notifications"
 from django.conf.urls.static import static
 from django.views.static import serve
 import os
+from core import views as core_views
 
 
 urlpatterns = [
@@ -25,6 +26,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
 
     path("messages/", include("messaging.urls")),
+    re_path(r"^media/(?P<path>.*)$", core_views.media_with_fallback, name="media_with_fallback"),
 
     # Prototype asset compatibility for /download HTML references
     re_path(r"^css/(?P<path>.*)$", serve, {"document_root": os.path.join(settings.BASE_DIR, "static", "css")}),
