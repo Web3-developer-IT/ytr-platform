@@ -1,4 +1,5 @@
 {% load static %}
+{% load ytr_images %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1220,7 +1221,7 @@ burger.addEventListener('click',()=>{
                     <div class="vehicle-gallery" data-aos="fade-up">
                         <div class="gallery-main">
                             {% if listing.primary_image_url %}
-                            <img src="{{ listing.primary_image_url }}" alt="{{ listing.title }}" id="mainImage">
+                            <img src="{{ listing.primary_image_url|ytr_img }}" alt="{{ listing.title }}" id="mainImage">
                             {% else %}
                             <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200" alt="{{ listing.title }}" id="mainImage">
                             {% endif %}
@@ -1236,13 +1237,13 @@ burger.addEventListener('click',()=>{
                         <div class="gallery-thumbs">
                             {% if listing.images.count %}
                             {% for img in listing.images.all|slice:":5" %}
-                            <div class="gallery-thumb{% if forloop.first %} active{% endif %}" onclick="changeImage(this, '{{ img.image.url }}')">
-                                <img src="{{ img.image.url }}" alt="{{ listing.title }}">
+                            <div class="gallery-thumb{% if forloop.first %} active{% endif %}" onclick="changeImage(this, '{{ img.image.url|ytr_img }}')">
+                                <img src="{{ img.image.url|ytr_img }}" alt="{{ listing.title }}">
                             </div>
                             {% endfor %}
                             {% elif listing.primary_image_url %}
-                            <div class="gallery-thumb active" onclick="changeImage(this, '{{ listing.primary_image_url }}')">
-                                <img src="{{ listing.primary_image_url }}" alt="{{ listing.title }}">
+                            <div class="gallery-thumb active" onclick="changeImage(this, '{{ listing.primary_image_url|ytr_img }}')">
+                                <img src="{{ listing.primary_image_url|ytr_img }}" alt="{{ listing.title }}">
                             </div>
                             {% endif %}
                         </div>
@@ -1602,7 +1603,7 @@ burger.addEventListener('click',()=>{
                         <div class="vehicle-card">
                             <div class="vehicle-image">
                                 {% if rel.primary_image_url %}
-                                <img src="{{ rel.primary_image_url }}" alt="{{ rel.title }}">
+                                <img src="{{ rel.primary_image_url|ytr_img }}" alt="{{ rel.title }}">
                                 {% else %}
                                 <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600" alt="{{ rel.title }}">
                                 {% endif %}
