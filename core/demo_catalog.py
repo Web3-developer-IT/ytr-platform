@@ -1,6 +1,6 @@
 """
 Curated demo vehicle rows for browse/home when the marketplace is still filling up.
-Uses bundled static image paths under /static/images/.
+Uses stable HTTPS image URLs (same sources as seed_commercial_listings).
 """
 
 from decimal import Decimal
@@ -12,7 +12,7 @@ DEMO_BROWSE_CARDS = [
         "body_style": "Van",
         "location": "Johannesburg, Gauteng",
         "price_per_day": Decimal("1850.00"),
-        "image": "/static/images/hero-cars-reference.png",
+        "image": "https://images.unsplash.com/photo-1549923746-c502d488b3db?auto=format&fit=crop&w=1200&q=80",
         "transmission": "Automatic",
         "fuel_type": "Diesel",
         "seats": 3,
@@ -22,7 +22,7 @@ DEMO_BROWSE_CARDS = [
         "body_style": "Bakkie",
         "location": "Port Elizabeth, Eastern Cape",
         "price_per_day": Decimal("1450.00"),
-        "image": "/static/images/hero-cars-reference.png",
+        "image": "https://images.unsplash.com/photo-1559416523-3214c89f6d1e?auto=format&fit=crop&w=1200&q=80",
         "transmission": "Automatic",
         "fuel_type": "Diesel",
         "seats": 5,
@@ -32,7 +32,7 @@ DEMO_BROWSE_CARDS = [
         "body_style": "Bakkie",
         "location": "Stellenbosch, Western Cape",
         "price_per_day": Decimal("1650.00"),
-        "image": "/static/images/hero-cars-reference.png",
+        "image": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
         "transmission": "Automatic",
         "fuel_type": "Diesel",
         "seats": 5,
@@ -42,7 +42,7 @@ DEMO_BROWSE_CARDS = [
         "body_style": "Commercial",
         "location": "Durban, KwaZulu-Natal",
         "price_per_day": Decimal("3200.00"),
-        "image": "/static/images/hero-cars-reference.png",
+        "image": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
         "transmission": "Manual",
         "fuel_type": "Diesel",
         "seats": 3,
@@ -52,7 +52,7 @@ DEMO_BROWSE_CARDS = [
         "body_style": "Van",
         "location": "Cape Town, Western Cape",
         "price_per_day": Decimal("2100.00"),
-        "image": "/static/images/hero-cars-reference.png",
+        "image": "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
         "transmission": "Automatic",
         "fuel_type": "Diesel",
         "seats": 3,
@@ -62,7 +62,7 @@ DEMO_BROWSE_CARDS = [
         "body_style": "Truck",
         "location": "Pretoria, Gauteng",
         "price_per_day": Decimal("4500.00"),
-        "image": "/static/images/hero-cars-reference.png",
+        "image": "https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=1200&q=80",
         "transmission": "Automatic",
         "fuel_type": "Diesel",
         "seats": 2,

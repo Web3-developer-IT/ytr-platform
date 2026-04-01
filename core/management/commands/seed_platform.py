@@ -18,7 +18,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Petrol",
         "seats": 5,
         "mileage_km": 12000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?w=1200",
     },
     {
         "title": "BMW 3 Series 330i M Sport",
@@ -31,7 +31,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Petrol",
         "seats": 5,
         "mileage_km": 45000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200",
     },
     {
         "title": "Mercedes-Benz GLE 2022",
@@ -44,7 +44,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Diesel",
         "seats": 7,
         "mileage_km": 32000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1200",
     },
     {
         "title": "Ford Mustang GT",
@@ -57,7 +57,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Petrol",
         "seats": 4,
         "mileage_km": 28000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200",
     },
     {
         "title": "Toyota Hilux Legend 50",
@@ -70,7 +70,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Diesel",
         "seats": 5,
         "mileage_km": 65000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=1200",
     },
     {
         "title": "Volkswagen Polo TSI",
@@ -83,7 +83,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Petrol",
         "seats": 5,
         "mileage_km": 52000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200",
     },
     {
         "title": "Audi Q7 55 TFSI",
@@ -96,7 +96,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Petrol",
         "seats": 7,
         "mileage_km": 38000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1200",
     },
     {
         "title": "Range Rover Vogue",
@@ -109,7 +109,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Diesel",
         "seats": 5,
         "mileage_km": 25000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1542362567-b07e54358753?w=1200",
     },
     {
         "title": "Toyota Corolla Cross",
@@ -122,7 +122,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Hybrid",
         "seats": 5,
         "mileage_km": 18000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=1200",
     },
     {
         "title": "Ford Ranger Wildtrak",
@@ -135,7 +135,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Diesel",
         "seats": 5,
         "mileage_km": 42000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1200",
     },
     {
         "title": "Chevrolet Corvette C8",
@@ -148,7 +148,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Petrol",
         "seats": 2,
         "mileage_km": 8000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1200",
     },
     {
         "title": "Porsche 911 Carrera",
@@ -161,7 +161,7 @@ DEMO_LISTINGS = [
         "fuel_type": "Petrol",
         "seats": 2,
         "mileage_km": 15000,
-        "hero_image_url": "",
+        "hero_image_url": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1200",
     },
 ]
 

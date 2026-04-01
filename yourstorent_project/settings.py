@@ -110,13 +110,16 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-# Browse/home cards when a listing has no photo (bundled static asset; override via env).
+# Browse/home cards when a listing has no photo (curated Unsplash + rotating fallbacks; override via env).
 YTR_DEFAULT_VEHICLE_IMAGE_URL = os.getenv(
     "YTR_DEFAULT_VEHICLE_IMAGE_URL",
-    f"{STATIC_URL}images/hero-cars-reference.png",
+    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=80",
 )
 YTR_IMAGE_FALLBACK_URLS = [
-    f"{STATIC_URL}images/hero-cars-reference.png",
+    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1606611013016-969c19ba27bb?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
 ]
 
 # Media/user uploads (default storage set in STORAGES below — Cloudinary in production-style configs).

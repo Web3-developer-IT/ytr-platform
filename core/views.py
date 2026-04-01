@@ -937,6 +937,6 @@ def media_with_fallback(request, path):
         getattr(
             settings,
             "YTR_DEFAULT_VEHICLE_IMAGE_URL",
-            "/static/images/hero-cars-reference.png",
+            "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=80",
         )
     )

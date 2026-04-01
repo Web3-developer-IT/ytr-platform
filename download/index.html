@@ -2071,7 +2071,7 @@
         
         /* Hero */
         .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
-        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('/static/images/hero-cars-reference.png') center/cover no-repeat; opacity: 0.1; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920') center/cover no-repeat; opacity: 0.1; }
         .hero-content { position: relative; z-index: 1; }
         .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; color: #22c55e; margin-bottom: 25px; }
         .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
@@ -2776,6 +2776,7 @@ burger.addEventListener('click',()=>{
   z-index: 0;
   background:
     url("{% static 'images/hero-cars-reference.png' %}") center center / cover no-repeat,
+    url("https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80") center center / cover no-repeat,
     #050508;
   transform: scale(1.02);
   animation: ytrHeroKenBurns 32s ease-in-out infinite alternate;
@@ -3264,10 +3265,10 @@ burger.addEventListener('click',()=>{
             </div>
             
             <div class="categories-grid" data-aos="fade-up" data-aos-delay="200">
-                <!-- Sedan -->
-                <a href="browse.html?category=sedan" class="category-card coming-soon" data-coming-soon="true">
+                <!-- Sedan — four-door saloon -->
+                <a href="{% url 'browse' %}?style=Sedan" class="category-card coming-soon" data-coming-soon="true" aria-label="Sedan — 450+ vehicles from R350 per day, coming soon">
                     <div class="category-image">
-                        <img src="/static/images/hero-cars-reference.png" alt="Sedan">
+                        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="" role="presentation" loading="lazy" width="800" height="500">
                         <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
@@ -3281,10 +3282,10 @@ burger.addEventListener('click',()=>{
                     <div class="coming-soon-overlay">Coming soon</div>
                 </a>
                 
-                <!-- SUV - Featured -->
-                <a href="browse.html?category=suv" class="category-card featured">
+                <!-- SUV - Featured (large SUV / Fortuner-style — not a bakkie) -->
+                <a href="{% url 'browse' %}?style=SUV" class="category-card featured" aria-label="SUV — 380+ vehicles from R550 per day, popular">
                     <div class="category-image">
-                        <img src="/static/images/hero-cars-reference.png" alt="SUV">
+                        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="" role="presentation" loading="lazy" width="1200" height="675">
                         <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
@@ -3299,9 +3300,9 @@ burger.addEventListener('click',()=>{
                 </a>
                 
                 <!-- Luxury -->
-                <a href="browse.html?category=luxury" class="category-card coming-soon" data-coming-soon="true">
+                <a href="{% url 'browse' %}?style=Luxury" class="category-card coming-soon" data-coming-soon="true" aria-label="Luxury — 200+ vehicles from R1,500 per day, coming soon">
                     <div class="category-image">
-                        <img src="/static/images/hero-cars-reference.png" alt="Luxury">
+                        <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="" role="presentation" loading="lazy" width="800" height="500">
                         <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
@@ -3316,9 +3317,9 @@ burger.addEventListener('click',()=>{
                 </a>
                 
                 <!-- Economy -->
-                <a href="browse.html?category=economy" class="category-card coming-soon" data-coming-soon="true">
+                <a href="{% url 'browse' %}?style=Economy" class="category-card coming-soon" data-coming-soon="true" aria-label="Economy — 600+ vehicles from R250 per day, coming soon">
                     <div class="category-image">
-                        <img src="/static/images/hero-cars-reference.png" alt="Economy">
+                        <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="" role="presentation" loading="lazy" width="800" height="500">
                         <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
@@ -3332,10 +3333,10 @@ burger.addEventListener('click',()=>{
                     <div class="coming-soon-overlay">Coming soon</div>
                 </a>
                 
-                <!-- Bakkie -->
-                <a href="browse.html?category=bakkie" class="category-card coming-soon" data-coming-soon="true">
+                <!-- Bakkie (double-cab pickup) -->
+                <a href="{% url 'browse' %}?style=Bakkie" class="category-card coming-soon" data-coming-soon="true" aria-label="Bakkie — 180+ vehicles from R450 per day, coming soon">
                     <div class="category-image">
-                        <img src="/static/images/hero-cars-reference.png" alt="Bakkie">
+                        <img src="https://images.unsplash.com/photo-1559416523-3214c89f6d1e?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="" role="presentation" loading="lazy" width="800" height="500">
                         <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
@@ -3349,10 +3350,10 @@ burger.addEventListener('click',()=>{
                     <div class="coming-soon-overlay">Coming soon</div>
                 </a>
                 
-                <!-- Commercial -->
-                <a href="browse.html?category=commercial" class="category-card coming-soon" data-coming-soon="true">
+                <!-- Commercial (van / fleet) -->
+                <a href="{% url 'browse' %}?style=Commercial" class="category-card coming-soon" data-coming-soon="true" aria-label="Commercial — 120+ vehicles from R650 per day, coming soon">
                     <div class="category-image">
-                        <img src="/static/images/hero-cars-reference.png" alt="Commercial">
+                        <img src="https://images.unsplash.com/photo-1549923746-c502d488b3db?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="" role="presentation" loading="lazy" width="800" height="500">
                         <div class="category-overlay"></div>
                     </div>
                     <div class="category-content">
@@ -3362,23 +3363,6 @@ burger.addEventListener('click',()=>{
                         <h3>Commercial</h3>
                         <p>120+ vehicles</p>
                         <span class="category-price">From R650/day</span>
-                    </div>
-                    <div class="coming-soon-overlay">Coming soon</div>
-                </a>
-                
-                <!-- Classic -->
-                <a href="browse.html?category=classic" class="category-card coming-soon" data-coming-soon="true">
-                    <div class="category-image">
-                        <img src="/static/images/hero-cars-reference.png" alt="Classic">
-                        <div class="category-overlay"></div>
-                    </div>
-                    <div class="category-content">
-                        <div class="category-icon">
-                            <i class="fas fa-car-side"></i>
-                        </div>
-                        <h3>Classic</h3>
-                        <p>50+ vehicles</p>
-                        <span class="category-price">From R2,000/day</span>
                     </div>
                     <div class="coming-soon-overlay">Coming soon</div>
                 </a>
@@ -3643,7 +3627,7 @@ burger.addEventListener('click',()=>{
                             </div>
                             <p class="testimonial-text">"YTR made renting a car for my Cape Town trip so easy! The BMW I rented was in perfect condition and the host was incredibly friendly. Will definitely use again!"</p>
                             <div class="testimonial-author">
-                                <img src="/static/images/ytr-logo-reference.svg" alt="Avatar" class="testimonial-avatar">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Avatar" class="testimonial-avatar">
                                 <div class="testimonial-info">
                                     <h5>Michael Johnson</h5>
                                     <p>Johannesburg</p>
@@ -3663,7 +3647,7 @@ burger.addEventListener('click',()=>{
                             </div>
                             <p class="testimonial-text">"As a host, I've earned over R50,000 in the last 3 months just by listing my car when I'm not using it. The platform handles everything - payments, support. Highly recommend!"</p>
                             <div class="testimonial-author">
-                                <img src="/static/images/ytr-logo-reference.svg" alt="Avatar" class="testimonial-avatar">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Avatar" class="testimonial-avatar">
                                 <div class="testimonial-info">
                                     <h5>Sarah Williams</h5>
                                     <p>Cape Town</p>
@@ -3683,7 +3667,7 @@ burger.addEventListener('click',()=>{
                             </div>
                             <p class="testimonial-text">"Used the chauffeur service for my wedding and it was absolutely perfect. The driver was professional, the car was stunning, and everything went smoothly. Thank you YTR!"</p>
                             <div class="testimonial-author">
-                                <img src="/static/images/ytr-logo-reference.svg" alt="Avatar" class="testimonial-avatar">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="Avatar" class="testimonial-avatar">
                                 <div class="testimonial-info">
                                     <h5>David Nkosi</h5>
                                     <p>Durban</p>
@@ -3703,7 +3687,7 @@ burger.addEventListener('click',()=>{
                             </div>
                             <p class="testimonial-text">"The license test car rental saved my exam! Got a well-maintained vehicle that I was comfortable with. Passed my test first time. Amazing service and affordable too!"</p>
                             <div class="testimonial-author">
-                                <img src="/static/images/ytr-logo-reference.svg" alt="Avatar" class="testimonial-avatar">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Avatar" class="testimonial-avatar">
                                 <div class="testimonial-info">
                                     <h5>Thandi Mokoena</h5>
                                     <p>Pretoria</p>

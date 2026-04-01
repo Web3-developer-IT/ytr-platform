@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -82,13 +83,16 @@ def inbox(request):
     active_messages = []
 
     if listing_id and other_id:
-        active_listing = get_object_or_404(Listing, id=listing_id)
-        active_other = get_object_or_404(User, id=other_id)
-        # Never open a conversation with yourself.
-        if active_other.id == request.user.id:
+        active_listing = Listing.objects.filter(id=listing_id).first()
+        active_other = User.objects.filter(id=other_id).first()
+        if not active_listing or not active_other:
             active_listing = None
             active_other = None
-        else:
+        # Never open a conversation with yourself.
+        if active_other and active_other.id == request.user.id:
+            active_listing = None
+            active_other = None
+        elif active_listing and active_other:
             active_other_profile, _ = UserProfile.objects.get_or_create(user=active_other)
             active_messages = list(
                 Message.objects.filter(
@@ -148,4 +152,11 @@ def inbox(request):
 
 @login_required
 def conversation(request, listing_id, user_id):
+    if request.user.id == user_id:
+        messages.warning(request, "You cannot open a conversation with yourself.")
+        return redirect("inbox")
+    listing = Listing.objects.filter(id=listing_id).first()
+    if not listing:
+        messages.error(request, "That listing no longer exists.")
+        return redirect("inbox")
     return redirect(f"{reverse('inbox')}?listing={listing_id}&user={user_id}")
