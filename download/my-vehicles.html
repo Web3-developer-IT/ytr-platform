@@ -20,6 +20,13 @@
     .vehicle-image { width:100%; height:180px; object-fit:cover; border-radius:12px; }
     .muted { color: rgba(255,255,255,.62); }
     @media (max-width:1200px){ .sidebar{transform:translateX(-100%);transition:transform .3s} .sidebar.active{transform:translateX(0)} .main-content{margin-left:0} }
+    @media (max-width:768px){
+      .main-content{padding:16px 12px 24px;}
+      .vehicle-image{height:150px;}
+      .card-dark{padding:12px !important;}
+      .d-flex.gap-2.mt-3{flex-direction:column;}
+      .d-flex.gap-2.mt-3 .btn{width:100%;}
+    }
   </style>
 </head>
 <body class="ytr-account-body">

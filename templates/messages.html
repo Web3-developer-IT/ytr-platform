@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,8 +22,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="{% static \'css/style.css\' %}">
+    <link rel="stylesheet" href="{% static \'css/components.css\' %}">
     
     <style>
         :root {
@@ -461,7 +462,7 @@
             
             <div class="sidebar-user">
                 <div class="d-flex align-items-center">
-                    <img src="/placeholder.svg?height=60&width=60" alt="User" class="avatar me-3">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar me-3">
                     <div>
                         <h6 class="text-white mb-0">John Doe</h6>
                         <small class="text-white-50">Premium Member</small>
@@ -530,7 +531,7 @@
                     <div class="conversations-scroll">
                         <div class="conversation-item active">
                             <div class="position-relative">
-                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                                <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar">
                                 <span class="online-badge"></span>
                             </div>
                             <div class="info">
@@ -544,7 +545,7 @@
                         </div>
                         <div class="conversation-item">
                             <div class="position-relative">
-                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                                <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar">
                             </div>
                             <div class="info">
                                 <h5>Michael Smith</h5>
@@ -557,7 +558,7 @@
                         </div>
                         <div class="conversation-item">
                             <div class="position-relative">
-                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                                <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar">
                                 <span class="online-badge"></span>
                             </div>
                             <div class="info">
@@ -570,7 +571,7 @@
                         </div>
                         <div class="conversation-item">
                             <div class="position-relative">
-                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                                <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar">
                             </div>
                             <div class="info">
                                 <h5>Lisa Brown</h5>
@@ -582,7 +583,7 @@
                         </div>
                         <div class="conversation-item">
                             <div class="position-relative">
-                                <img src="/placeholder.svg?height=50&width=50" alt="User" class="avatar">
+                                <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar">
                             </div>
                             <div class="info">
                                 <h5>YTR Support</h5>
@@ -602,7 +603,7 @@
                             <button class="btn btn-outline-light d-lg-none me-3" onclick="document.getElementById('conversationsList').classList.toggle('active')">
                                 <i class="fas fa-arrow-left"></i>
                             </button>
-                            <img src="/placeholder.svg?height=45&width=45" alt="Sarah Johnson">
+                            <img src="/static/images/ytr-logo-reference.svg" alt="Sarah Johnson">
                             <div>
                                 <h5>Sarah Johnson</h5>
                                 <p><span class="text-success"><i class="fas fa-circle me-1" style="font-size: 8px;"></i></span>Online</p>
@@ -621,7 +622,7 @@
                         </div>
                         
                         <div class="message received">
-                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <img src="/static/images/ytr-logo-reference.svg" alt="Sarah" class="avatar">
                             <div class="bubble">
                                 <p>Hi John! I'm interested in renting your BMW X5 for next weekend. Is it available?</p>
                                 <span class="time">10:30 AM</span>
@@ -636,7 +637,7 @@
                         </div>
                         
                         <div class="message received">
-                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <img src="/static/images/ytr-logo-reference.svg" alt="Sarah" class="avatar">
                             <div class="bubble">
                                 <p>I'm looking at Friday January 24th to Sunday January 26th. Would that work?</p>
                                 <span class="time">10:35 AM</span>
@@ -651,7 +652,7 @@
                         </div>
                         
                         <div class="message received">
-                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <img src="/static/images/ytr-logo-reference.svg" alt="Sarah" class="avatar">
                             <div class="bubble">
                                 <p>Yes please! That sounds great. Where would I pick it up from?</p>
                                 <span class="time">10:40 AM</span>
@@ -666,7 +667,7 @@
                         </div>
                         
                         <div class="message received">
-                            <img src="/placeholder.svg?height=40&width=40" alt="Sarah" class="avatar">
+                            <img src="/static/images/ytr-logo-reference.svg" alt="Sarah" class="avatar">
                             <div class="bubble">
                                 <p>Thanks! I'll be there at 10am to pick it up at Sandton City. Looking forward to it!</p>
                                 <span class="time">10:45 AM</span>
@@ -688,7 +689,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{% static \'js/main.js\' %}"></script>
     <script>
         // Toggle sidebar on mobile
         document.querySelector('.sidebar-header').addEventListener('click', function() {

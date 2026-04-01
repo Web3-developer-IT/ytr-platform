@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +25,8 @@
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="{% static \'css/style.css\' %}">
+    <link rel="stylesheet" href="{% static \'css/components.css\' %}">
     
 <style>
 .ytr__Δ77_overlay {
@@ -1075,14 +1076,14 @@ burger.addEventListener('click',()=>{
             </div>
             
             <div class="team-gallery" data-aos="fade-up">
-                <img src="/placeholder.svg?height=200&width=300" alt="Team Meeting">
-                <img src="/placeholder.svg?height=200&width=300" alt="Office Celebration">
-                <img src="/placeholder.svg?height=200&width=300" alt="Team Building">
-                <img src="/placeholder.svg?height=200&width=300" alt="Office Space">
-                <img src="/placeholder.svg?height=200&width=300" alt="Collaboration">
-                <img src="/placeholder.svg?height=200&width=300" alt="Team Lunch">
-                <img src="/placeholder.svg?height=200&width=300" alt="Hackathon">
-                <img src="/placeholder.svg?height=200&width=300" alt="Company Retreat">
+                <img src="/static/images/hero-cars-reference.png" alt="Team Meeting">
+                <img src="/static/images/hero-cars-reference.png" alt="Office Celebration">
+                <img src="/static/images/hero-cars-reference.png" alt="Team Building">
+                <img src="/static/images/hero-cars-reference.png" alt="Office Space">
+                <img src="/static/images/hero-cars-reference.png" alt="Collaboration">
+                <img src="/static/images/hero-cars-reference.png" alt="Team Lunch">
+                <img src="/static/images/hero-cars-reference.png" alt="Hackathon">
+                <img src="/static/images/hero-cars-reference.png" alt="Company Retreat">
             </div>
         </div>
     </section>

@@ -313,6 +313,36 @@
                 margin-left: 0;
             }
         }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 14px 10px 24px;
+            }
+            .transactions-card .card-header {
+                padding: 14px 14px;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .transactions-table thead th,
+            .transactions-table tbody td {
+                padding: 12px 10px;
+            }
+            .transaction-type .icon {
+                width: 32px;
+                height: 32px;
+                margin-right: 8px;
+            }
+            .transaction-type strong {
+                font-size: 0.9rem;
+            }
+            .transaction-type small {
+                font-size: 0.75rem;
+            }
+            .status-badge {
+                font-size: 11px;
+                padding: 5px 9px;
+            }
+        }
     </style>
 </head>
 <body class="ytr-account-body">

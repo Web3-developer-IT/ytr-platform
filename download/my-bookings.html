@@ -27,6 +27,14 @@
     .booking-stat .label { color:rgba(255,255,255,.62); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; }
     .booking-stat .value { font-size:1.2rem; font-weight:800; color:#fff; }
     @media (max-width:1200px){ .sidebar{transform:translateX(-100%);transition:transform .3s} .sidebar.active{transform:translateX(0)} .main-content{margin-left:0} }
+    @media (max-width:768px){
+      .main-content{padding:0 14px 28px;}
+      .card-dark{padding:14px !important;}
+      .booking-image{height:140px;}
+      .booking-stat .value{font-size:1rem;}
+      .d-flex.gap-2.mt-3{flex-direction:column;}
+      .d-flex.gap-2.mt-3 .btn{width:100%;}
+    }
   </style>
 </head>
 <body class="ytr-account-body">

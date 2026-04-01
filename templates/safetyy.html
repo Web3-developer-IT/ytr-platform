@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +25,8 @@
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="{% static \'css/style.css\' %}">
+    <link rel="stylesheet" href="{% static \'css/components.css\' %}">
     
     <style>
         .trust-hero {
@@ -311,7 +312,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 text-center" data-aos="fade-left">
-                    <img src="/placeholder.svg?height=400&width=500" alt="Trust & Safety" class="img-fluid" style="max-height: 400px;">
+                    <img src="/static/images/hero-cars-reference.png" alt="Trust & Safety" class="img-fluid" style="max-height: 400px;">
                 </div>
             </div>
         </div>
@@ -433,7 +434,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left">
-                    <img src="/placeholder.svg?height=500&width=500" alt="Verification Process" class="img-fluid rounded-4">
+                    <img src="/static/images/hero-cars-reference.png" alt="Verification Process" class="img-fluid rounded-4">
                 </div>
             </div>
         </div>
@@ -637,9 +638,9 @@
             <div class="d-flex flex-wrap justify-content-between align-items-center">
                 <p class="text-white-50 mb-0">&copy; 2026 Yours To Rent. All rights reserved.</p>
                 <div class="d-flex gap-3">
-                    <img src="/placeholder.svg?height=30&width=50" alt="Visa" height="30">
-                    <img src="/placeholder.svg?height=30&width=50" alt="Mastercard" height="30">
-                    <img src="/placeholder.svg?height=30&width=50" alt="PayPal" height="30">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Visa" height="30">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Mastercard" height="30">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="PayPal" height="30">
                 </div>
             </div>
         </div>

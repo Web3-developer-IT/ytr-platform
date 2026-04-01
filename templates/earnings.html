@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +25,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="{% static \'css/style.css\' %}">
+    <link rel="stylesheet" href="{% static \'css/components.css\' %}">
     
     <style>
         :root {
@@ -335,7 +336,7 @@
             
             <div class="sidebar-user">
                 <div class="d-flex align-items-center">
-                    <img src="/placeholder.svg?height=60&width=60" alt="User" class="avatar me-3">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar me-3">
                     <div>
                         <h6 class="text-white mb-0">John Doe</h6>
                         <small class="text-white-50">Premium Member</small>
@@ -486,7 +487,7 @@
                                     <tr>
                                         <td>
                                             <div class="vehicle-info">
-                                                <img src="/placeholder.svg?height=40&width=60" alt="BMW X5">
+                                                <img src="/static/images/ytr-logo-reference.svg" alt="BMW X5">
                                                 <span>BMW X5 2024</span>
                                             </div>
                                         </td>
@@ -497,7 +498,7 @@
                                     <tr>
                                         <td>
                                             <div class="vehicle-info">
-                                                <img src="/placeholder.svg?height=40&width=60" alt="Mercedes">
+                                                <img src="/static/images/ytr-logo-reference.svg" alt="Mercedes">
                                                 <span>Mercedes C-Class</span>
                                             </div>
                                         </td>
@@ -508,7 +509,7 @@
                                     <tr>
                                         <td>
                                             <div class="vehicle-info">
-                                                <img src="/placeholder.svg?height=40&width=60" alt="Fortuner">
+                                                <img src="/static/images/ytr-logo-reference.svg" alt="Fortuner">
                                                 <span>Toyota Fortuner</span>
                                             </div>
                                         </td>
@@ -519,7 +520,7 @@
                                     <tr>
                                         <td>
                                             <div class="vehicle-info">
-                                                <img src="/placeholder.svg?height=40&width=60" alt="Audi">
+                                                <img src="/static/images/ytr-logo-reference.svg" alt="Audi">
                                                 <span>Audi A4</span>
                                             </div>
                                         </td>

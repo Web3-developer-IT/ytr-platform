@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +25,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="{% static \'css/style.css\' %}">
+    <link rel="stylesheet" href="{% static \'css/components.css\' %}">
     
     <style>
         :root {
@@ -327,7 +328,7 @@
             
             <div class="sidebar-user">
                 <div class="d-flex align-items-center">
-                    <img src="/placeholder.svg?height=60&width=60" alt="User" class="avatar me-3">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar me-3">
                     <div>
                         <h6 class="text-white mb-0">John Doe</h6>
                         <small class="text-white-50">Premium Member</small>
