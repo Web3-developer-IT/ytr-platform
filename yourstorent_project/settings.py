@@ -14,11 +14,16 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 from urllib.parse import urlsplit
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-# import cloudinary.uploader
-# import cloudinary.api
+
+try:
+    import cloudinary
+    import cloudinary.uploader
+    import cloudinary.api
+
+    CLOUDINARY_SDK_AVAILABLE = True
+except ImportError:
+    cloudinary = None  # type: ignore[assignment]
+    CLOUDINARY_SDK_AVAILABLE = False
 
 try:
     from dotenv import load_dotenv
@@ -75,13 +80,14 @@ _CLOUDINARY_PLACEHOLDER_NAMES = frozenset(
 )
 
 YTR_USE_CLOUDINARY = bool(
-    CLOUDINARY_CLOUD_NAME
+    CLOUDINARY_SDK_AVAILABLE
+    and CLOUDINARY_CLOUD_NAME
     and CLOUDINARY_API_KEY
     and CLOUDINARY_API_SECRET
     and CLOUDINARY_CLOUD_NAME.lower() not in _CLOUDINARY_PLACEHOLDER_NAMES
 )
 
-if YTR_USE_CLOUDINARY:
+if YTR_USE_CLOUDINARY and cloudinary is not None:
     cloudinary.config(
         cloud_name=CLOUDINARY_CLOUD_NAME,
         api_key=CLOUDINARY_API_KEY,
@@ -170,9 +176,9 @@ INSTALLED_APPS = [
     'users',
     'listings',
     'messaging',
-    'cloudinary',
-    'cloudinary_storage',
 ]
+if CLOUDINARY_SDK_AVAILABLE:
+    INSTALLED_APPS.extend(['cloudinary', 'cloudinary_storage'])
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
