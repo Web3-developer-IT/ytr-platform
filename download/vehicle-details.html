@@ -1549,6 +1549,11 @@ burger.addEventListener('click',()=>{
                                 <i class="fas fa-lock"></i> Request booking
                             </button>
                         </form>
+                        {% if user.id != listing.owner_id %}
+                        <a href="{% url 'conversation' listing.id listing.owner.id %}" class="btn btn-outline-light w-100 mt-2">
+                            <i class="fas fa-comment-dots me-2"></i>Message host
+                        </a>
+                        {% endif %}
                         {% else %}
                         <p class="text-white-50 small mb-3">Log in and complete verification to book this vehicle.</p>
                         <a href="{% url 'login' %}?next={{ request.path|urlencode }}" class="btn btn-gradient book-now-btn w-100"><i class="fas fa-sign-in-alt"></i> Log in to book</a>
@@ -1663,9 +1668,9 @@ burger.addEventListener('click',()=>{
                 <div class="col-lg-2 col-md-4 mb-4">
                     <h5 style="color: var(--text-white); margin-bottom: 20px;">Legal</h5>
                     <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="terms.html" style="color: var(--text-muted);">Terms of Service</a></li>
-                        <li style="margin-bottom: 10px;"><a href="privacy.html" style="color: var(--text-muted);">Privacy Policy</a></li>
-                        <li style="margin-bottom: 10px;"><a href="cookies.html" style="color: var(--text-muted);">Cookie Policy</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'terms' %}" style="color: var(--text-muted);">Terms of Service</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'privacy' %}" style="color: var(--text-muted);">Privacy Policy</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'cookies' %}" style="color: var(--text-muted);">Cookie Policy</a></li>
                     </ul>
                 </div>
                 

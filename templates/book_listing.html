@@ -192,7 +192,7 @@
               <div class="small text-white-50">Hosted by</div>
               <div class="fw-bold">{{ host_label }}</div>
             </div>
-            <a href="{% url 'inbox' %}" class="btn btn-outline-warning btn-sm ms-auto">Message</a>
+            <a href="{% url 'conversation' listing.id listing.owner.id %}" class="btn btn-outline-warning btn-sm ms-auto">Message host</a>
           </div>
         </div>
       </div>

@@ -1,45 +1,120 @@
-{% extends "base.html" %}
-{% block title %}Contact | Yours To Rent{% endblock %}
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Contact{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Contact Yours To Rent — support, partnerships, and general enquiries for South Africa.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+<style>
+  .ytr-contact-form .form-control,
+  .ytr-contact-form .form-select,
+  .ytr-contact-form textarea {
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+  }
+  .ytr-contact-form .form-floating > label { color: rgba(255,255,255,0.55); }
+  .ytr-contact-form .form-floating > .form-control:focus ~ label,
+  .ytr-contact-form .form-floating > .form-control:not(:placeholder-shown) ~ label { color: rgba(232,184,74,0.95); }
+</style>
+{% endblock %}
+{% block public_content %}
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Contact</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">We’re here to <span class="text-warning">help</span></h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        Questions about renting, listing, verification, or partnerships — send a message and the team will respond as soon as possible.
+      </p>
+    </div>
+  </section>
 
-{% block content %}
-<section class="mb-5">
-    <h1 class="display-5 fw-bold">Contact Us</h1>
-    <p class="text-white-50">Questions about listings, bookings, or account setup? Send us a message.</p>
-    </section>
-
-<section class="row g-4">
-    <div class="col-lg-7">
-        <div class="p-4 rounded-4" style="background:#121212;border:1px solid rgba(255,255,255,.08)">
-            <h4 class="mb-3">Send a Message</h4>
-            <form method="POST">
-                {% csrf_token %}
-                <div class="row g-3">
-                    <div class="col-md-6"><input class="form-control bg-dark text-white border-secondary" type="text" name="first_name" placeholder="First name" required></div>
-                    <div class="col-md-6"><input class="form-control bg-dark text-white border-secondary" type="text" name="last_name" placeholder="Last name" required></div>
-                    <div class="col-md-6"><input class="form-control bg-dark text-white border-secondary" type="email" name="email" placeholder="Email address" required></div>
-                    <div class="col-md-6"><input class="form-control bg-dark text-white border-secondary" type="tel" name="phone" placeholder="Phone number"></div>
-                    <div class="col-12"><input class="form-control bg-dark text-white border-secondary" type="text" name="subject" placeholder="Subject" required></div>
-                    <div class="col-12"><textarea class="form-control bg-dark text-white border-secondary" name="message" rows="6" placeholder="Your message" required></textarea></div>
-                    <div class="col-12"><button class="btn btn-warning" type="submit">Send Message</button></div>
-                            </div>
-                        </form>
-                    </div>
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-5">
+        <div class="col-lg-7" data-aos="fade-up">
+          <div class="ytr-premium-glass p-4 p-md-5 ytr-contact-form">
+            <h2 class="h4 text-white fw-bold mb-4">Send a message</h2>
+            <form method="post" action="{% url 'contact' %}">
+              {% csrf_token %}
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-floating mb-3 mb-md-0">
+                    <input type="text" class="form-control" id="c_fn" name="first_name" placeholder="First" required>
+                    <label for="c_fn">First name</label>
+                  </div>
                 </div>
-    <div class="col-lg-5">
-        <div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)">
-            <h4>Support</h4>
-            <p class="text-white-50">We normally respond within 24 hours.</p>
-            <ul class="text-white-50">
-                <li>Email: support@yours2rent.local</li>
-                <li>Phone: +27 00 000 0000</li>
-                <li>Hours: Mon-Fri, 08:00-18:00</li>
-            </ul>
-            <hr class="border-secondary">
-            <h5>Quick Links</h5>
-            <p class="mb-2"><a href="{% url 'how_it_works' %}" class="text-warning">How It Works</a></p>
-            <p class="mb-2"><a href="{% url 'listings' %}" class="text-warning">Browse Listings</a></p>
-            <p class="mb-0"><a href="{% url 'add_listing' %}" class="text-warning">List a Vehicle</a></p>
-            </div>
+                <div class="col-md-6">
+                  <div class="form-floating mb-3 mb-md-0">
+                    <input type="text" class="form-control" id="c_ln" name="last_name" placeholder="Last" required>
+                    <label for="c_ln">Last name</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating mb-3 mb-md-0">
+                    <input type="email" class="form-control" id="c_em" name="email" placeholder="Email" required>
+                    <label for="c_em">Email</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating mb-3 mb-md-0">
+                    <input type="tel" class="form-control" id="c_ph" name="phone" placeholder="Phone">
+                    <label for="c_ph">Phone (optional)</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label small text-white-50" for="c_sub">Subject</label>
+                  <select class="form-select mb-3" id="c_sub" name="subject" required>
+                    <option value="">Choose a topic</option>
+                    <option value="general" {% if request.GET.topic == 'general' %}selected{% endif %}>General</option>
+                    <option value="rental">Rental questions</option>
+                    <option value="listing">Listing my vehicle</option>
+                    <option value="support">Technical support</option>
+                    <option value="billing">Billing &amp; payments</option>
+                    <option value="partnership" {% if request.GET.topic == 'partnership' %}selected{% endif %}>Partnership</option>
+                    <option value="dispatch" {% if request.GET.topic == 'dispatch' %}selected{% endif %}>Dispatch &amp; operations</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" name="message" id="c_msg" placeholder="Message" style="height: 140px" required></textarea>
+                    <label for="c_msg">Your message</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-warning btn-lg fw-bold text-dark w-100">
+                    <i class="fas fa-paper-plane me-2"></i>Send message
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-    </section>
+        <div class="col-lg-5" data-aos="fade-up" data-aos-delay="60">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-clock"></i></div>
+            <h3 class="h5 text-white">Response times</h3>
+            <p class="small">We aim to reply within one business day. Urgent safety issues should mention “urgent” in the subject.</p>
+            <hr class="border-secondary border-opacity-25 my-4">
+            <h3 class="h5 text-white">Other links</h3>
+            <ul class="list-unstyled small mb-0">
+              <li class="mb-2"><a href="{% url 'faq' %}" class="text-warning text-decoration-none">FAQ</a></li>
+              <li class="mb-2"><a href="{% url 'feedback' %}" class="text-warning text-decoration-none">Feedback</a></li>
+              <li><a href="{% url 'browse' %}" class="text-warning text-decoration-none">Browse marketplace</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

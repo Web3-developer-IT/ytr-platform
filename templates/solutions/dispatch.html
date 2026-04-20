@@ -2,39 +2,80 @@
 {% load static %}
 {% block title %}Dispatch console{% endblock %}
 {% block meta_description %}
-<meta name="description" content="Dispatch console workflows for fleets, events, and field teams — assign vehicles, track readiness, and coordinate operations on Yours To Rent.">
+<meta name="description" content="Dispatch console workflows for fleets, events, and field teams on Yours To Rent.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
 {% endblock %}
 {% block public_content %}
-<main class="container py-5" style="max-width: 980px;">
-    <p class="text-warning text-uppercase small fw-bold mb-2">Operations</p>
-    <h1 class="text-white display-6 fw-bold mb-3">Dispatch with <span class="text-warning">clarity</span></h1>
-    <p class="text-white-50 lead mb-4">
-        Build route-ready pools for projects, events, and branch operations. Track verified listings, assign by
-        location/body style, and keep hosts + teams aligned with message-first coordination.
-    </p>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Multi-vehicle requests</h3>
-                <p class="text-white-50 small mb-0">Bundle commercial units for campaigns or short-term projects.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Regional balancing</h3>
-                <p class="text-white-50 small mb-0">Source from cities where demand spikes and rebalance weekly.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Audit trail</h3>
-                <p class="text-white-50 small mb-0">Maintain clear records via booking timelines and admin control room.</p>
-            </div>
-        </div>
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Operations</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">
+        Dispatch with <span class="text-warning">clarity</span>
+      </h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        Route-ready pools for projects, events, and branch operations. Track verified listings, assign by location and body style,
+        and keep hosts aligned with message-first coordination.
+      </p>
     </div>
+  </section>
 
-    <a href="{% url 'contact' %}?topic=dispatch" class="btn btn-warning btn-lg fw-bold text-dark">Plan dispatch rollout</a>
-    <a href="{% url 'browse' %}?commercial=1" class="btn btn-outline-light btn-lg ms-2">Browse dispatch-ready fleet</a>
-</main>
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-layer-group"></i></div>
+            <h3>Multi-vehicle requests</h3>
+            <p>Bundle commercial units for campaigns or short-term projects — one thread per listing.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-map-marked-alt"></i></div>
+            <h3>Regional balancing</h3>
+            <p>Source from cities where demand spikes and rebalance weekly using marketplace inventory.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-clipboard-list"></i></div>
+            <h3>Audit trail</h3>
+            <p>Booking timelines, listing context, and admin tools — fewer “who said what?” moments.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+        <h3 class="ytr-premium-section-title">Roadmap honesty</h3>
+        <p class="ytr-premium-muted mb-0">
+          Deep telematics and automated dispatch rules are <span class="text-warning">coming soon</span>. Today, YTR gives you verified supply,
+          structured bookings, and secure messaging — a solid base before we plug in fleet APIs.
+        </p>
+      </div>
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Plan your rollout</h3>
+        <p>Tell us about your regions, vehicle types, and timelines — we’ll respond with a practical next step.</p>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'contact' %}?topic=dispatch" class="btn btn-lg btn-warning fw-bold text-dark">Talk dispatch</a>
+          <a href="{% url 'browse' %}?commercial=1" class="btn btn-lg btn-outline-light">Commercial inventory</a>
+          <a href="{% url 'fleet_solutions' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">Fleet solutions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

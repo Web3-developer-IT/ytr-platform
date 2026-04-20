@@ -1,4 +1,5 @@
 from django.urls import path, re_path
+from django.views.generic.base import RedirectView
 from . import views
 
 urlpatterns = [
@@ -20,6 +21,21 @@ urlpatterns = [
     path('feedback.html', views.feedback_page),
     path('faq/', views.faq_page, name='faq'),
     path('faq.html', views.faq_page),
+
+    path('terms/', views.terms_page, name='terms'),
+    path('terms.html', views.terms_page),
+    path('privacy/', views.privacy_page, name='privacy'),
+    path('privacy.html', views.privacy_page),
+    path('cookies/', views.cookies_page, name='cookies'),
+    path('cookies.html', views.cookies_page),
+    path('careers/', views.careers_page, name='careers'),
+    path('careers.html', views.careers_page),
+    path('partners/', views.partners_marketing_page, name='partners'),
+    path('partners.html', views.partners_marketing_page),
+    path('insurance/', views.insurance_page, name='insurance'),
+    path('insurance.html', views.insurance_page),
+    path('trust-safety/', views.trust_safety_public_page, name='trust_safety'),
+    path('trust-safety.html', views.trust_safety_public_page),
     path('solutions/fleet/', views.fleet_solutions, name='fleet_solutions'),
     path('solutions/mobility/', views.mobility_hub, name='mobility_hub'),
     path('solutions/dispatch/', views.dispatch_console, name='dispatch_console'),
@@ -33,14 +49,22 @@ urlpatterns = [
     path('browse/vehicle-details.html', views.listing_detail_fallback, name='browse_vehicle_details_fallback'),
     path('how-it-works/browse.html', views.listings_page, name='how_it_works_browse_html'),
 
+    # Legacy static export used "messages/index.html" — was incorrectly routed to home; send users to inbox.
+    path(
+        'messages/index.html',
+        RedirectView.as_view(url='/messages/', permanent=False),
+        name='messages_index_html_redirect',
+    ),
+
     path('listings/<int:listing_id>/', views.listing_detail, name='listing_detail'),
     path('vehicle-details.html', views.listing_detail_fallback, name='vehicle_details_fallback'),
     re_path(
         r'^(browse|dashboard|messages|profile|settings|my-bookings|my-vehicles|earnings|transactions|payouts|help-center)/vehicle-details\.html$',
         views.listing_detail_fallback,
     ),
+    # Excludes "messages" — handled above so /messages/ inbox works (see messages_index_html_redirect).
     re_path(
-        r'^(browse|dashboard|messages|profile|settings|my-bookings|my-vehicles|earnings|transactions|payouts|help-center)/index\.html$',
+        r'^(browse|dashboard|profile|settings|my-bookings|my-vehicles|earnings|transactions|payouts|help-center)/index\.html$',
         views.home,
     ),
 

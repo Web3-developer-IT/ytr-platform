@@ -111,7 +111,7 @@
             </div>
             <div class="d-flex gap-2 mt-3">
               <a href="{% url 'listing_detail' row.booking.listing.id %}" class="btn btn-sm btn-outline-light flex-fill">View vehicle</a>
-              <a href="{% url 'inbox' %}" class="btn btn-sm btn-outline-warning flex-fill">Messages</a>
+              <a href="{% url 'conversation' row.booking.listing.id row.booking.listing.owner.id %}" class="btn btn-sm btn-outline-warning flex-fill">Message host</a>
             </div>
           </div>
         </div>

@@ -249,3 +249,26 @@ svg {
     max-width: 100%;
   }
 }
+
+/* --- Legal / marketing long-form pages (terms, privacy, etc.) --- */
+@media (max-width: 767.98px) {
+  .legal-hero {
+    padding-top: 88px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .legal-hero h1 {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+  }
+
+  .legal-content {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+  }
+
+  .legal-sidebar {
+    position: relative !important;
+    top: auto !important;
+    margin-bottom: 1.5rem;
+  }
+}

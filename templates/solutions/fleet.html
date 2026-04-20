@@ -2,22 +2,73 @@
 {% load static %}
 {% block title %}Fleet &amp; enterprise{% endblock %}
 {% block meta_description %}
-<meta name="description" content="Replace rigid leasing with on-demand fleet access — Yours To Rent for enterprises, logistics, and field teams across South Africa.">
+<meta name="description" content="Fleet and enterprise vehicle access on Yours To Rent — South Africa.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
 {% endblock %}
 {% block public_content %}
-<main class="container py-5" style="max-width: 900px;">
-    <p class="text-warning text-uppercase small fw-bold mb-2">Enterprise</p>
-    <h1 class="text-white display-6 fw-bold mb-4">Fleet without the <span class="text-warning">lock-in</span></h1>
-    <p class="text-white-50 lead mb-4">
-        Procure vehicles by the day or week, consolidate billing, and scale capacity when projects spike — an alternative
-        to long-term leases and opaque rental counters built for how modern teams actually move.
-    </p>
-    <ul class="text-white-50 mb-5">
-        <li class="mb-2">Verified hosts, documented handovers, and transparent pricing per listing.</li>
-        <li class="mb-2">Commercial vans, bakkies, and trucks — aligned with our launch fleet vertical.</li>
-        <li class="mb-2">API-ready roadmap: connect your operations dashboard (coming soon).</li>
-    </ul>
-    <a href="{% url 'contact' %}" class="btn btn-warning btn-lg fw-bold text-dark">Talk to us</a>
-    <a href="{% url 'browse' %}?commercial=1" class="btn btn-outline-light btn-lg ms-2">Browse commercial</a>
-</main>
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Enterprise</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">
+        Fleet without the <span class="text-warning">lock-in</span>
+      </h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        Procure vehicles by the day or week, consolidate billing patterns around real bookings, and scale when projects spike —
+        an alternative to long leases and opaque counters.
+      </p>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <h2 class="ytr-mkt-h2" data-aos="fade-up">What you get today</h2>
+      <p class="ytr-mkt-sub" data-aos="fade-up">Structured marketplace mechanics — we label future API work honestly.</p>
+      <ul class="ytr-mkt-list" data-aos="fade-up">
+        <li>Verified hosts, documented handovers, and transparent pricing per listing.</li>
+        <li>Commercial vans, bakkies, and trucks — browse the commercial-focused inventory.</li>
+        <li>API-ready operations dashboard: <span class="text-warning">coming soon</span> — messaging and bookings work now.</li>
+      </ul>
+      <div class="row g-4">
+        <div class="col-md-6" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-building"></i></div>
+            <h3>Branch &amp; project teams</h3>
+            <p>Coordinate regional access without owning idle metal — book against live listings.</p>
+          </div>
+        </div>
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="60">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-truck"></i></div>
+            <h3>Logistics &amp; field ops</h3>
+            <p>Commercial body styles and clear listing detail — filter the browse experience to match capacity.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Talk to us about fleet</h3>
+        <p>Share regions, vehicle categories, and volume — we’ll align on what’s live today and what’s on the roadmap.</p>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'contact' %}" class="btn btn-lg btn-warning fw-bold text-dark">Contact</a>
+          <a href="{% url 'browse' %}?commercial=1" class="btn btn-lg btn-outline-light">Browse commercial</a>
+          <a href="{% url 'mobility_hub' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">Mobility hub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

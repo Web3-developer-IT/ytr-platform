@@ -37,53 +37,6 @@
 
 
 <style>
-.ytr__Δ77_overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999998;
-}
-.ytr__Δ77_box {
-  background: #0b0b0b;
-  border: 1px solid #1c1c1c;
-  padding: 26px;
-  max-width: 420px;
-  border-radius: 18px;
-  color: #e6f2ec;
-  font-family: system-ui, sans-serif;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(0,255,136,0.22);
-}
-.ytr__Δ77_box strong {
-  color: #00ff88;
-  letter-spacing: 0.4px;
-}
-.ytr__Δ77_box button {
-  margin-top: 18px;
-  padding: 10px 20px;
-  background: #00ff88;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  color: #000;
-}
-</style>
-
-<div class="ytr__Δ77_overlay" id="ytrPreviewNotice">
-  <div class="ytr__Δ77_box">
-    <strong>Platform Preview</strong>
-    <p style="margin-top:14px;font-size:14px;color:#9aa3a0;">
-      Some features displayed are part of the planned platform roadmap and are shown for conceptual and design demonstration purposes only.
-    </p>
-    <button onclick="document.getElementById('ytrPreviewNotice').remove()">Continue</button>
-  </div>
-</div>
-
-<style>
 .ytr__InfoOrb {
   position: fixed;
   bottom: 84px;
@@ -113,7 +66,7 @@
   const path = window.location.pathname;
 
   const ytrMessages = {
-    "/list-vehicle": "This page demonstrates the intended vehicle listing flow. Submission and uploads activate in a later rollout phase.",
+    "/list-vehicle": "List your vehicle below. Submissions are saved to your dashboard after you complete all steps.",
     "/signup": "Sign-up currently captures early access interest only.",
     "/login": "Login functionality will activate once backend systems are live.",
     "/how-it-works": "This page outlines the planned user journey for demonstration.",
@@ -158,6 +111,13 @@
 
 <script>
 document.addEventListener("mouseover", function (e) {
+  if (
+    e.target.tagName === "BUTTON" &&
+    e.target.closest("#listingForm") &&
+    (e.target.type === "submit" || (e.target.classList && e.target.classList.contains("btn-submit")))
+  ) {
+    return;
+  }
   if (
     e.target.tagName === "BUTTON" &&
     /submit|book|upload|register|list/i.test(e.target.innerText)
@@ -1693,15 +1653,72 @@ burger.addEventListener('click',()=>{
             });
         }
 
+        function validateStep(stepNum) {
+            const stepEl = document.querySelector('.form-step[data-step="' + stepNum + '"]');
+            if (!stepEl) return true;
+            const fields = stepEl.querySelectorAll('input, select, textarea');
+            for (let i = 0; i < fields.length; i++) {
+                const field = fields[i];
+                if (!field.hasAttribute('required')) continue;
+                if (field.disabled) continue;
+                if (field.type === 'checkbox' || field.type === 'radio') {
+                    if (!field.checked) {
+                        field.focus();
+                        alert('Please complete all required fields in step ' + stepNum + '.');
+                        return false;
+                    }
+                } else if (!field.value || (typeof field.value === 'string' && !field.value.trim())) {
+                    field.focus();
+                    if (typeof field.reportValidity === 'function') field.reportValidity();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function showStep(n) {
+            if (n < 1 || n > totalSteps) return;
+            currentStep = n;
+            for (let s = 1; s <= totalSteps; s++) {
+                const fs = document.querySelector('.form-step[data-step="' + s + '"]');
+                const sc = document.querySelector('.step-indicator .step[data-step="' + s + '"]');
+                if (fs) fs.classList.toggle('active', s === n);
+                if (sc) {
+                    sc.classList.remove('active', 'completed');
+                    if (s < n) sc.classList.add('completed');
+                    else if (s === n) sc.classList.add('active');
+                }
+            }
+            updateButtons();
+            updateSummary();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         const listingForm = document.getElementById('listingForm');
         if (listingForm) {
-            listingForm.addEventListener('submit', function () {
+            listingForm.addEventListener('submit', function (e) {
+                e.preventDefault();
                 syncDropzoneToFileInput();
+                for (let s = 1; s <= totalSteps; s++) {
+                    if (!validateStep(s)) {
+                        showStep(s);
+                        return;
+                    }
+                }
+                const ta = document.getElementById('termsAgree');
+                const ia = document.getElementById('insuranceAgree');
+                if (!ta || !ia || !ta.checked || !ia.checked) {
+                    showStep(5);
+                    alert('Please accept the Terms of Service, Privacy Policy, and Insurance Policy to continue.');
+                    return;
+                }
+                listingForm.submit();
             });
         }
         
         // Initialize noUiSlider
         const slider = document.getElementById('daysSlider');
+        if (slider && typeof noUiSlider !== 'undefined') {
         noUiSlider.create(slider, {
             start: [15],
             connect: [true, false],
@@ -1717,6 +1734,7 @@ burger.addEventListener('click',()=>{
             document.getElementById('selectedDays').textContent = days + ' days';
             calculateEarnings(days);
         });
+        }
         
         function calculateEarnings(days) {
             const dailyRate = parseFloat(document.getElementById('dailyRate').value) || 800;
@@ -1749,33 +1767,15 @@ burger.addEventListener('click',()=>{
         }
         
         function nextStep() {
+            if (!validateStep(currentStep)) return;
             if (currentStep < totalSteps) {
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
-                
-                currentStep++;
-                
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
-                
-                updateButtons();
-                updateSummary();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showStep(currentStep + 1);
             }
         }
         
         function prevStep() {
             if (currentStep > 1) {
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
-                
-                currentStep--;
-                
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
-                
-                updateButtons();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showStep(currentStep - 1);
             }
         }
         
@@ -1810,7 +1810,7 @@ burger.addEventListener('click',()=>{
             }
         }
         
-        // Django handles the final form submission on step 5.
+        updateButtons();
     </script>
 
 
@@ -1945,7 +1945,7 @@ burger.addEventListener('click',()=>{
                 </div>
             </div>
 
-            <form id="listingForm" method="POST" enctype="multipart/form-data" action="{% url 'add_listing' %}">
+            <form id="listingForm" method="POST" enctype="multipart/form-data" action="{% url 'add_listing' %}" novalidate>
                 {% csrf_token %}
                 <!-- Step 1: Vehicle Details -->
                 <div class="form-step active" data-step="1">
@@ -2439,7 +2439,7 @@ burger.addEventListener('click',()=>{
                                 </div>
                                 
                                 <div class="form-check mb-4">
-                                    <input class="form-check-input" type="checkbox" id="termsAgree" required>
+                                    <input class="form-check-input" type="checkbox" id="termsAgree" name="terms_agree" value="1" required>
                                     <label class="form-check-label text-white-50" for="termsAgree">
                                         I agree to the <a href="terms.html" class="text-gradient">Terms of Service</a> and 
                                         <a href="privacy.html" class="text-gradient">Privacy Policy</a>
@@ -2447,7 +2447,7 @@ burger.addEventListener('click',()=>{
                                 </div>
                                 
                                 <div class="form-check mb-4">
-                                    <input class="form-check-input" type="checkbox" id="insuranceAgree" required>
+                                    <input class="form-check-input" type="checkbox" id="insuranceAgree" name="insurance_agree" value="1" required>
                                     <label class="form-check-label text-white-50" for="insuranceAgree">
                                         I understand and accept the <a href="insurance.html" class="text-gradient">Insurance Policy</a>
                                     </label>

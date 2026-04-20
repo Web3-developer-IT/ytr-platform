@@ -1,37 +1,111 @@
-{% extends "base.html" %}
+{% extends "layouts/public_base.html" %}
 {% load static %}
-
-{% block title %}About | Yours To Rent{% endblock %}
-
-{% block content %}
-<section class="py-5 mb-5 rounded-4" style="background:linear-gradient(135deg,#151515,#242424);">
-    <div class="row align-items-center g-4 px-3">
-        <div class="col-lg-7">
-            <h1 class="display-5 fw-bold">About Yours To Rent</h1>
-            <p class="lead text-white-50 mb-0">A marketplace for vehicles, equipment, and tools where owners earn and renters book with confidence.</p>
-        </div>
-        <div class="col-lg-5 text-lg-end">
-            <img src="{% static 'images/hero-cars-reference.png' %}" class="img-fluid rounded-4" alt="Yours To Rent platform">
-        </div>
+{% block title %}About us{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Yours To Rent — South Africa's peer-to-peer vehicle marketplace. Mission, values, and how we build trust.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+{% endblock %}
+{% block public_content %}
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">About YTR</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">
+        Your fleet. Your services. <span class="text-warning">Your terms.</span>
+      </h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        We connect verified hosts with renters who need real vehicles for real journeys — weddings, work, logistics, and everyday travel.
+        No fabricated ratings on this site: trust is built through verification, clear listings, and honest product labelling.
+      </p>
+      <div class="ytr-mkt-stat-row" data-aos="fade-up" data-aos-delay="120">
+        <div class="ytr-mkt-stat"><strong>SA</strong><span>Locally focused</span></div>
+        <div class="ytr-mkt-stat"><strong>0%</strong><span>Fake “pass rates”</span></div>
+        <div class="ytr-mkt-stat"><strong>100%</strong><span>Real listing data</span></div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="row g-4 mb-5">
-    <div class="col-md-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h4>Vision</h4><p class="text-white-50 mb-0">Enable trusted peer-to-peer and business-to-customer rentals at scale.</p></div></div>
-    <div class="col-md-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h4>Mission</h4><p class="text-white-50 mb-0">Give every owner tools to list, manage bookings, and grow repeat revenue.</p></div></div>
-    <div class="col-md-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h4>Trust</h4><p class="text-white-50 mb-0">Clear communication, transparent pricing, and account-based accountability.</p></div></div>
-</section>
+  <section class="ytr-mkt-section">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6" data-aos="fade-up">
+          <h2 class="ytr-mkt-h2">Our story</h2>
+          <p class="ytr-mkt-sub">Built for owners who want fair income and renters who want transparent pricing — without inflated marketing.</p>
+          <p class="text-white-50" style="line-height:1.7;">
+            Yours To Rent exists to give everyday vehicle owners a structured way to earn, and to give renters access to a diverse
+            fleet — from learner-ready cars to commercial vehicles — with verification and messaging built in.
+          </p>
+        </div>
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="80">
+          <div class="ytr-premium-glass p-4 p-md-5">
+            <h3 class="ytr-premium-section-title">Mission</h3>
+            <p class="ytr-premium-muted mb-4">Empower owners with fair income tools and give renters clarity on pricing, vehicles, and trust requirements.</p>
+            <h3 class="ytr-premium-section-title">Vision</h3>
+            <p class="ytr-premium-muted mb-0">A South African marketplace where shared mobility creates opportunity — not confusion.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section class="row text-center g-4 mb-5">
-    <div class="col-6 col-lg-3"><h2 class="text-warning">10K+</h2><p class="text-white-50 mb-0">Listings Target</p></div>
-    <div class="col-6 col-lg-3"><h2 class="text-warning">5K+</h2><p class="text-white-50 mb-0">Owners Target</p></div>
-    <div class="col-6 col-lg-3"><h2 class="text-warning">20K+</h2><p class="text-white-50 mb-0">Bookings Target</p></div>
-    <div class="col-6 col-lg-3"><h2 class="text-warning">50+</h2><p class="text-white-50 mb-0">Cities</p></div>
-</section>
+  <section class="ytr-mkt-section pt-0" style="background: linear-gradient(180deg, transparent, rgba(255,165,0,0.03));">
+    <div class="ytr-mkt-section-inner">
+      <h2 class="ytr-mkt-h2 text-center mx-auto" data-aos="fade-up">What we stand for</h2>
+      <p class="ytr-mkt-sub text-center mx-auto" data-aos="fade-up">Values that guide product and policy.</p>
+      <div class="row g-4">
+        <div class="col-6 col-md-3" data-aos="fade-up">
+          <div class="ytr-mkt-card text-center h-100">
+            <div class="ytr-mkt-card-icon mx-auto"><i class="fas fa-handshake"></i></div>
+            <h3>Trust</h3>
+            <p>Verification, transparency, consistent delivery.</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="40">
+          <div class="ytr-mkt-card text-center h-100">
+            <div class="ytr-mkt-card-icon mx-auto"><i class="fas fa-users"></i></div>
+            <h3>Community</h3>
+            <p>Growth when people support each other.</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="80">
+          <div class="ytr-mkt-card text-center h-100">
+            <div class="ytr-mkt-card-icon mx-auto"><i class="fas fa-rocket"></i></div>
+            <h3>Opportunity</h3>
+            <p>Practical earning paths for real owners.</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="120">
+          <div class="ytr-mkt-card text-center h-100">
+            <div class="ytr-mkt-card-icon mx-auto"><i class="fas fa-eye"></i></div>
+            <h3>Clarity</h3>
+            <p>Clear pricing, requirements, and roadmaps.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section class="text-center p-5 rounded-4" style="background:#111;border:1px solid rgba(255,255,255,.08)">
-    <h3 class="mb-3">Start Renting Today</h3>
-    <p class="text-white-50">Join the growing rental network and launch your first listing.</p>
-    <a href="{% url 'listings' %}" class="btn btn-warning">Browse Listings</a>
-</section>
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Explore the marketplace</h3>
+        <p>Browse live listings, list a vehicle, or talk to the team — same platform, same standards.</p>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'browse' %}" class="btn btn-lg btn-warning fw-bold text-dark">Browse vehicles</a>
+          <a href="{% url 'how_it_works' %}" class="btn btn-lg btn-outline-light">How it works</a>
+          <a href="{% url 'contact' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

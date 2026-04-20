@@ -8,20 +8,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
 <style>
   .ytr-svc-hero {
-    margin-top: 88px;
-    padding: 72px 24px 48px;
-    background:
-      linear-gradient(180deg, rgba(5,5,8,0.97) 0%, rgba(10,10,14,0.92) 100%),
-      url("https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80") center/cover no-repeat;
+    position: relative;
+    margin-top: 72px;
+    padding: clamp(56px, 9vw, 88px) 24px clamp(40px, 6vw, 56px);
     border-bottom: 1px solid rgba(255,255,255,0.08);
+    background:
+      radial-gradient(ellipse 80% 50% at 15% 0%, rgba(255, 165, 0, 0.12), transparent 50%),
+      linear-gradient(180deg, rgba(5,5,8,0.98) 0%, rgba(10,10,14,0.94) 100%),
+      url("https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80") center/cover no-repeat;
   }
+  .ytr-svc-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.75) 100%);
+    pointer-events: none;
+  }
+  .ytr-svc-hero .container { position: relative; z-index: 1; }
   .ytr-svc-hero h1 {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 800;
-    font-size: clamp(2rem, 4vw, 3rem);
-    letter-spacing: -0.03em;
+    font-size: clamp(1.85rem, 4vw, 3rem);
+    letter-spacing: -0.035em;
     max-width: 900px;
   }
   .ytr-svc-card {
@@ -50,13 +61,19 @@
 {% endblock %}
 
 {% block public_content %}
+<div class="ytr-mkt-page">
 <section class="ytr-svc-hero">
   <div class="container" style="max-width: 1140px;">
-    <p class="text-warning small fw-bold text-uppercase mb-2" data-aos="fade-up">Enterprise mobility</p>
+    <p class="ytr-mkt-kicker mb-2" data-aos="fade-up">Enterprise mobility</p>
     <h1 class="text-white mb-3" data-aos="fade-up">Services designed around <span class="text-warning">real</span> South African journeys</h1>
-    <p class="text-white-50 lead mb-0" style="max-width: 720px;" data-aos="fade-up" data-aos-delay="60">
+    <p class="text-white-50 lead mb-4" style="max-width: 720px;" data-aos="fade-up" data-aos-delay="60">
       From learner-license preparation to corporate fleet coverage, every workflow is built on the same platform: verified users, structured bookings, and transparent records — not inflated marketing numbers.
     </p>
+    <div class="ytr-mkt-stat-row" data-aos="fade-up" data-aos-delay="100">
+      <div class="ytr-mkt-stat"><strong>6+</strong><span>Service pillars</span></div>
+      <div class="ytr-mkt-stat"><strong>1</strong><span>Verified platform</span></div>
+      <div class="ytr-mkt-stat"><strong>0</strong><span>Fake pass rates</span></div>
+    </div>
   </div>
 </section>
 
@@ -108,7 +125,11 @@
           <div class="ytr-svc-icon"><i class="fas fa-headset"></i></div>
           <h3 class="h5 fw-bold text-white mb-2">Concierge support</h3>
           <p class="text-white-50 small mb-3">Dedicated pathways for high-touch bookings will roll out with enterprise contracts. Until then, reach our team through the standard contact channels.</p>
+          {% if user.is_authenticated %}
           <a href="{% url 'help_center' %}" class="text-warning text-decoration-none fw-semibold small">Help center <i class="fas fa-arrow-right ms-1"></i></a>
+          {% else %}
+          <a href="{% url 'faq' %}" class="text-warning text-decoration-none fw-semibold small">FAQ <i class="fas fa-arrow-right ms-1"></i></a>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -119,12 +140,18 @@
       <p class="ytr-premium-muted mb-0">Administrators manage users, listings, documents, and platform notifications through Django Admin (see deployment notes). That control stays with your team at launch.</p>
     </div>
 
-    <div class="text-center py-4" data-aos="fade-up">
-      <a href="{% url 'browse' %}" class="btn btn-lg btn-warning fw-bold text-dark me-2 mb-2">Browse marketplace</a>
-      <a href="{% url 'contact' %}" class="btn btn-lg btn-outline-light mb-2">Contact the team</a>
+    <div class="ytr-mkt-cta-band" data-aos="fade-up">
+      <h3>Next step</h3>
+      <p>Browse live inventory or talk to us about corporate and fleet use cases.</p>
+      <div class="ytr-mkt-btn-row">
+        <a href="{% url 'browse' %}" class="btn btn-lg btn-warning fw-bold text-dark">Browse marketplace</a>
+        <a href="{% url 'contact' %}" class="btn btn-lg btn-outline-light">Contact the team</a>
+        <a href="{% url 'fleet_solutions' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">Fleet solutions</a>
+      </div>
     </div>
   </div>
 </section>
+</div>
 {% endblock %}
 
 {% block extra_js %}

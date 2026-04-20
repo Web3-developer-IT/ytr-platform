@@ -16,6 +16,8 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
+    path("api/v1/", include("core.api_urls")),
+
     path('oauth/', include('allauth.urls')),
 
     path('', include('core.urls')),

@@ -1,7 +1,9 @@
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.contrib import messages
+from django.contrib import messages as django_messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -9,6 +11,28 @@ from core.models import Listing
 from core.views import account_sidebar_context
 from users.models import UserProfile
 from .models import Message
+
+_MAX_IMAGE_BYTES = 8 * 1024 * 1024
+_MAX_VIDEO_BYTES = 28 * 1024 * 1024
+_IMG_EXT = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
+_VID_EXT = {".mp4", ".webm", ".mov"}
+
+
+def _validate_message_attachment(f):
+    """Returns (kind, error_message) where kind is 'image'|'video' or None."""
+    if not f:
+        return None, None
+    name = (f.name or "").lower()
+    ext = os.path.splitext(name)[1]
+    if ext in _IMG_EXT:
+        if f.size > _MAX_IMAGE_BYTES:
+            return None, "Image is too large (max 8 MB)."
+        return "image", None
+    if ext in _VID_EXT:
+        if f.size > _MAX_VIDEO_BYTES:
+            return None, "Video is too large (max 28 MB)."
+        return "video", None
+    return None, "Unsupported file type. Use JPG, PNG, GIF, WebP, MP4, WebM, or MOV."
 
 
 def _build_threads(user):
@@ -58,19 +82,32 @@ def inbox(request):
         listing_id = (request.POST.get("listing_id") or "").strip()
         other_id = (request.POST.get("other_user_id") or "").strip()
         content = (request.POST.get("content") or "").strip()
+        upload = request.FILES.get("attachment")
         if not listing_id or not other_id:
             return redirect("inbox")
         listing = get_object_or_404(Listing, id=listing_id)
         other = get_object_or_404(User, id=other_id)
         if other.id == request.user.id:
             return redirect("inbox")
-        if content:
-            Message.objects.create(
-                sender=request.user,
-                receiver=other,
-                listing=listing,
-                content=content,
+        if not content and not upload:
+            django_messages.error(
+                request,
+                "Type a message or attach a photo / video.",
             )
+            return redirect(f"{reverse('inbox')}?listing={listing_id}&user={other_id}")
+        att_kind, att_err = _validate_message_attachment(upload)
+        if upload and att_err:
+            django_messages.error(request, att_err)
+            return redirect(f"{reverse('inbox')}?listing={listing_id}&user={other_id}")
+        msg = Message(
+            sender=request.user,
+            receiver=other,
+            listing=listing,
+            content=content,
+        )
+        if upload and att_kind:
+            msg.attachment = upload
+        msg.save()
         return redirect(f"{reverse('inbox')}?listing={listing_id}&user={other_id}")
 
     threads = _build_threads(request.user)
@@ -153,10 +190,10 @@ def inbox(request):
 @login_required
 def conversation(request, listing_id, user_id):
     if request.user.id == user_id:
-        messages.warning(request, "You cannot open a conversation with yourself.")
+        django_messages.warning(request, "You cannot open a conversation with yourself.")
         return redirect("inbox")
     listing = Listing.objects.filter(id=listing_id).first()
     if not listing:
-        messages.error(request, "That listing no longer exists.")
+        django_messages.error(request, "That listing no longer exists.")
         return redirect("inbox")
     return redirect(f"{reverse('inbox')}?listing={listing_id}&user={user_id}")

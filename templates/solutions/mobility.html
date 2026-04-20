@@ -4,29 +4,78 @@
 {% block meta_description %}
 <meta name="description" content="Drivers, operators, and hosts — build income on a mobility platform designed for South Africa.">
 {% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+{% endblock %}
 {% block public_content %}
-<main class="container py-5" style="max-width: 900px;">
-    <p class="text-warning text-uppercase small fw-bold mb-2">Mobility</p>
-    <h1 class="text-white display-6 fw-bold mb-4">Beyond one-size <span class="text-warning">ride-hailing</span></h1>
-    <p class="text-white-50 lead mb-4">
-        Yours To Rent focuses on asset-based mobility: real vehicles, real hosts, and structured bookings — not a race to the
-        bottom on per-minute fares. List your fleet, serve corporate and leisure travellers, and keep control of pricing.
-    </p>
-    <div class="row g-4 mb-5">
-        <div class="col-md-6">
-            <div class="p-4 rounded-4 border border-secondary bg-dark">
-                <h3 class="h5 text-white">Hosts</h3>
-                <p class="text-white-50 small mb-0">List vehicles, set rules, approve bookings — same tools as our owner dashboard.</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="p-4 rounded-4 border border-secondary bg-dark">
-                <h3 class="h5 text-white">Drivers &amp; teams</h3>
-                <p class="text-white-50 small mb-0">Book approved vehicles for shoots, site visits, and regional runs.</p>
-            </div>
-        </div>
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Mobility</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">
+        Beyond one-size <span class="text-warning">ride-hailing</span>
+      </h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        Asset-based mobility: real vehicles, real hosts, structured bookings — not a race to the bottom on per-minute fares.
+        List your fleet, serve corporate and leisure travellers, and keep control of pricing.
+      </p>
+      <div class="ytr-mkt-stat-row" data-aos="fade-up" data-aos-delay="120">
+        <div class="ytr-mkt-stat"><strong>SA</strong><span>Built for local roads</span></div>
+        <div class="ytr-mkt-stat"><strong>24/7</strong><span>Booking requests</span></div>
+        <div class="ytr-mkt-stat"><strong>100%</strong><span>You set the rules</span></div>
+      </div>
     </div>
-    <a href="{% url 'add_listing' %}" class="btn btn-warning btn-lg fw-bold text-dark">List a vehicle</a>
-    <a href="{% url 'browse' %}" class="btn btn-outline-light btn-lg ms-2">Browse marketplace</a>
-</main>
+  </section>
+
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <h2 class="ytr-mkt-h2" data-aos="fade-up">Who it’s for</h2>
+      <p class="ytr-mkt-sub" data-aos="fade-up">One platform — hosts earning income and teams booking approved vehicles for real-world work.</p>
+      <div class="row g-4">
+        <div class="col-md-6" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-car-side"></i></div>
+            <h3>Hosts &amp; fleet owners</h3>
+            <p>List vehicles, set rules, approve bookings — the same tools as your owner dashboard. Transparent pricing per listing.</p>
+          </div>
+        </div>
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="60">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-route"></i></div>
+            <h3>Drivers &amp; field teams</h3>
+            <p>Book approved vehicles for shoots, site visits, and regional runs — with messages tied to each listing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+        <h3 class="ytr-premium-section-title">Why YTR for mobility</h3>
+        <p class="ytr-premium-muted mb-0">
+          We don’t inflate trip counts or fake “earnings” dashboards. What you see is structured around listings, bookings,
+          and verification — the same stack we use for enterprise services and fleet pages.
+        </p>
+      </div>
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Ready to list or book?</h3>
+        <p>Start with a vehicle listing or explore the marketplace — no lock-in.</p>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'add_listing' %}" class="btn btn-lg btn-warning fw-bold text-dark">List a vehicle</a>
+          <a href="{% url 'browse' %}" class="btn btn-lg btn-outline-light">Browse marketplace</a>
+          <a href="{% url 'services' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">All services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

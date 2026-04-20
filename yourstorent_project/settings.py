@@ -106,6 +106,9 @@ ALLOWED_HOSTS = list(
             "127.0.0.1",
             "localhost",
             "testserver",
+            "yourstorent.co.za",
+            "www.yourstorent.co.za",
+            'srv1549778.hstgr.cloud',
             "ytr-platform.onrender.com",
             *[h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()],
         ]
@@ -156,6 +159,7 @@ STORAGES = {
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -187,6 +191,7 @@ MIDDLEWARE = [
         if WHITENOISE_AVAILABLE
         else []
     ),
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -346,10 +351,47 @@ X_FRAME_OPTIONS = "DENY"
 _csrf_env = [x.strip() for x in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if x.strip()]
 _csrf_defaults = [
     "https://ytr-platform.onrender.com",
+    "https://yourstorent.co.za",
+    "https://www.yourstorent.co.za",
     "http://127.0.0.1:8000",
     "http://localhost:8000",
 ]
 CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(_csrf_defaults + _csrf_env))
+
+# Optional: front a separate CDN for collected static files (set in production only).
+YTR_STATIC_CDN_BASE = (os.getenv("YTR_STATIC_CDN_BASE") or "").strip().rstrip("/")
+YTR_PLATFORM_VERSION = (os.getenv("YTR_PLATFORM_VERSION") or "1.0.0").strip()
+
+# CORS: allow browser dashboards / tools to call /api/v1/* (override via env).
+_cors_env = [x.strip() for x in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") if x.strip()]
+CORS_ALLOWED_ORIGINS = list(
+    dict.fromkeys(
+        [
+            "http://127.0.0.1:8000",
+            "http://localhost:8000",
+            "https://ytr-platform.onrender.com",
+            "https://yourstorent.co.za",
+            "https://www.yourstorent.co.za",
+        ]
+        + _cors_env
+    )
+)
+CORS_URLS_REGEX = r"^/api/.*$"
+# Only expose API cross-origin; HTML pages stay same-site.
+CORS_ALLOW_CREDENTIALS = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+}
 if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True

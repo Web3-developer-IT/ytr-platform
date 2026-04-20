@@ -1,0 +1,245 @@
+/* Premium marketing / solutions inner pages — pairs with public_base + ytr-premium-account */
+
+.ytr-mkt-page {
+  overflow-x: hidden;
+}
+
+.ytr-mkt-hero {
+  position: relative;
+  margin-top: 72px;
+  padding: clamp(56px, 10vw, 100px) 20px clamp(48px, 8vw, 72px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background:
+    radial-gradient(ellipse 90% 60% at 10% -10%, rgba(255, 165, 0, 0.14), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(255, 69, 0, 0.1), transparent 45%),
+    linear-gradient(180deg, #0a0a0c 0%, #060607 100%);
+}
+
+.ytr-mkt-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=2000&q=70")
+    center/cover no-repeat;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.ytr-mkt-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.ytr-mkt-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e8b84a;
+  margin-bottom: 0.75rem;
+}
+
+.ytr-mkt-kicker::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, #e8b84a, transparent);
+  border-radius: 2px;
+}
+
+.ytr-mkt-title {
+  font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.85rem, 4.5vw, 3rem);
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  color: #fff;
+  max-width: 920px;
+  margin-bottom: 1rem;
+}
+
+.ytr-mkt-lead {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.65;
+  max-width: 720px;
+  margin-bottom: 0;
+}
+
+.ytr-mkt-section {
+  padding: clamp(48px, 8vw, 88px) 20px;
+}
+
+.ytr-mkt-section--tight {
+  padding-top: clamp(32px, 5vw, 56px);
+}
+
+.ytr-mkt-section-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.ytr-mkt-h2 {
+  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.ytr-mkt-sub {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
+  max-width: 560px;
+  margin-bottom: 1.75rem;
+}
+
+.ytr-mkt-card {
+  height: 100%;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.35) 100%);
+  padding: clamp(22px, 3vw, 28px);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.ytr-mkt-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(232, 184, 74, 0.38);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+}
+
+.ytr-mkt-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #e8b84a;
+  background: rgba(232, 184, 74, 0.1);
+  border: 1px solid rgba(232, 184, 74, 0.22);
+}
+
+.ytr-mkt-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.ytr-mkt-card p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.58);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.ytr-mkt-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+
+.ytr-mkt-list li {
+  position: relative;
+  padding-left: 1.35rem;
+  margin-bottom: 0.65rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.ytr-mkt-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8b84a, #c9782a);
+}
+
+.ytr-mkt-cta-band {
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(135deg, rgba(232, 184, 74, 0.09) 0%, transparent 55%),
+    rgba(0, 0, 0, 0.4);
+  padding: clamp(28px, 5vw, 44px);
+  text-align: center;
+}
+
+.ytr-mkt-cta-band h3 {
+  font-weight: 800;
+  color: #fff;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  margin-bottom: 0.5rem;
+}
+
+.ytr-mkt-cta-band p {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.92rem;
+  max-width: 520px;
+  margin: 0 auto 1.25rem;
+}
+
+.ytr-mkt-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+@media (max-width: 575.98px) {
+  .ytr-mkt-btn-row .btn {
+    width: 100%;
+  }
+}
+
+.ytr-mkt-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 2rem;
+}
+
+@media (max-width: 767.98px) {
+  .ytr-mkt-stat-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ytr-mkt-stat {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ytr-mkt-stat strong {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff, #e8b84a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ytr-mkt-stat span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

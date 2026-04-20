@@ -2,39 +2,77 @@
 {% load static %}
 {% block title %}Trust center{% endblock %}
 {% block meta_description %}
-<meta name="description" content="Trust center for Yours To Rent: verification, document checks, secure messaging, and safety-first marketplace policies.">
+<meta name="description" content="Trust, verification, and safety on Yours To Rent — how we protect hosts and renters.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
 {% endblock %}
 {% block public_content %}
-<main class="container py-5" style="max-width: 980px;">
-    <p class="text-warning text-uppercase small fw-bold mb-2">Trust & safety</p>
-    <h1 class="text-white display-6 fw-bold mb-3">Marketplace trust by <span class="text-warning">design</span></h1>
-    <p class="text-white-50 lead mb-4">
-        Verified identity workflows, document reviews, controlled listing approvals, and thread-based communication
-        help protect both hosts and renters as the platform scales.
-    </p>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Verification first</h3>
-                <p class="text-white-50 small mb-0">Document checks and review states before sensitive actions.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Admin oversight</h3>
-                <p class="text-white-50 small mb-0">Operational queues for documents, listings, and booking approvals.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Messaging audit trail</h3>
-                <p class="text-white-50 small mb-0">Conversations are tied to listings for clear context and support.</p>
-            </div>
-        </div>
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Trust &amp; safety</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">
+        Marketplace trust by <span class="text-warning">design</span>
+      </h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        Verified identity flows, document reviews, listing approvals, and thread-based communication help protect hosts and renters
+        as the platform scales — without fake review scores on this site.
+      </p>
     </div>
+  </section>
 
-    <a href="{% url 'help_center' %}" class="btn btn-warning btn-lg fw-bold text-dark">Open help center</a>
-    <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg ms-2">Report a concern</a>
-</main>
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-id-card-alt"></i></div>
+            <h3>Verification first</h3>
+            <p>Document checks and review states before sensitive actions like booking — aligned with your documents hub.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-user-shield"></i></div>
+            <h3>Admin oversight</h3>
+            <p>Operational queues for documents, listings, and booking approvals — your team stays in control.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-comments"></i></div>
+            <h3>Contextual messaging</h3>
+            <p>Conversations are tied to listings so support and disputes have clear context.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Get help or report a concern</h3>
+        <p>Signed-in users can open the full help center; everyone can read FAQs or contact the team.</p>
+        <div class="ytr-mkt-btn-row">
+          {% if user.is_authenticated %}
+          <a href="{% url 'help_center' %}" class="btn btn-lg btn-warning fw-bold text-dark">Help center</a>
+          {% else %}
+          <a href="{% url 'faq' %}" class="btn btn-lg btn-warning fw-bold text-dark">Read FAQ</a>
+          {% endif %}
+          <a href="{% url 'contact' %}" class="btn btn-lg btn-outline-light">Contact</a>
+          <a href="{% url 'trust_safety' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">Public trust &amp; safety</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

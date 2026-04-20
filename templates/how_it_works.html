@@ -1,18 +1,105 @@
-{% extends "base.html" %}
-{% block title %}How It Works | Yours To Rent{% endblock %}
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}How it works{% endblock %}
+{% block meta_description %}
+<meta name="description" content="How to rent or list a vehicle on Yours To Rent — verification, bookings, and messaging in South Africa.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+{% endblock %}
+{% block public_content %}
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">How it works</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">
+        Rent or list with <span class="text-warning">clarity</span>
+      </h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        One marketplace for hosts and renters: verified accounts, structured booking requests, and in-app messages tied to each vehicle.
+      </p>
+    </div>
+  </section>
 
-{% block content %}
-<section class="text-center mb-5">
-    <h1 class="display-5 fw-bold">How Yours To Rent Works</h1>
-    <p class="text-white-50">A clean rental flow for renters and owners.</p>
-</section>
+  <section class="ytr-mkt-section">
+    <div class="ytr-mkt-section-inner">
+      <h2 class="ytr-mkt-h2" data-aos="fade-up">For renters</h2>
+      <p class="ytr-mkt-sub" data-aos="fade-up">From browse to return — no hidden steps.</p>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100 text-center">
+            <div class="ytr-mkt-card-icon mx-auto"><i class="fas fa-search"></i></div>
+            <h3>1. Browse &amp; filter</h3>
+            <p>Find vehicles by location, body style, and price. Every listing is tied to a real host profile.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
+          <div class="ytr-mkt-card h-100 text-center">
+            <div class="ytr-mkt-card-icon mx-auto"><i class="fas fa-user-check"></i></div>
+            <h3>2. Verify &amp; request</h3>
+            <p>Complete document checks where required, choose dates, and submit a booking request for the host to review.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="ytr-mkt-card h-100 text-center">
+            <div class="ytr-mkt-card-icon mx-auto"><i class="fas fa-key"></i></div>
+            <h3>3. Coordinate &amp; drive</h3>
+            <p>Use Messages to align handover, then enjoy your trip. Payments and deposits evolve with product — we label what’s live.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section class="row g-4">
-    <div class="col-md-6 col-lg-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h2 class="text-warning">1</h2><h5>Create Account</h5><p class="text-white-50 mb-0">Sign up with username and password to access listing and messaging features.</p></div></div>
-    <div class="col-md-6 col-lg-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h2 class="text-warning">2</h2><h5>Browse or List</h5><p class="text-white-50 mb-0">Renters browse listings while owners publish vehicles with location and pricing.</p></div></div>
-    <div class="col-md-6 col-lg-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h2 class="text-warning">3</h2><h5>Book</h5><p class="text-white-50 mb-0">Users choose dates and submit booking requests for owner approval.</p></div></div>
-    <div class="col-md-6 col-lg-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h2 class="text-warning">4</h2><h5>Message</h5><p class="text-white-50 mb-0">Conversations are available per listing for schedule and handover details.</p></div></div>
-    <div class="col-md-6 col-lg-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h2 class="text-warning">5</h2><h5>Manage Dashboard</h5><p class="text-white-50 mb-0">Owners track bookings, listings, earnings charts, and calendar activity.</p></div></div>
-    <div class="col-md-6 col-lg-4"><div class="p-4 rounded-4 h-100" style="background:#121212;border:1px solid rgba(255,255,255,.08)"><h2 class="text-warning">6</h2><h5>Scale</h5><p class="text-white-50 mb-0">Grow with analytics, repeat renters, and expanded listing categories.</p></div></div>
-</section>
+  <section class="ytr-mkt-section pt-0" style="background: linear-gradient(180deg, transparent, rgba(255,165,0,0.04));">
+    <div class="ytr-mkt-section-inner">
+      <h2 class="ytr-mkt-h2" data-aos="fade-up">For hosts</h2>
+      <p class="ytr-mkt-sub" data-aos="fade-up">List once, manage from your dashboard.</p>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-car"></i></div>
+            <h3>List &amp; price</h3>
+            <p>Add photos, rules, and daily rates. Commercial and specialty categories supported where applicable.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-clipboard-check"></i></div>
+            <h3>Approve requests</h3>
+            <p>Review renter dates and profiles. Approve when it fits your calendar — you stay in control.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-comments"></i></div>
+            <h3>Message &amp; hand over</h3>
+            <p>Chat in-app per listing, hand over keys safely, and build repeat renters over time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Ready to try it?</h3>
+        <p>Browse live inventory or list your first vehicle — same verification standards either way.</p>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'browse' %}" class="btn btn-lg btn-warning fw-bold text-dark">Browse vehicles</a>
+          <a href="{% url 'add_listing' %}" class="btn btn-lg btn-outline-light">List a vehicle</a>
+          <a href="{% url 'contact' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

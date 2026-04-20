@@ -1,0 +1,46 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Insurance{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Insurance and protection on Yours To Rent — roadmap and honest status for South Africa.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+{% endblock %}
+{% block public_content %}
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Protection</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">Insurance &amp; <span class="text-warning">coverage</span></h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        We’re working toward structured protection for hosts and renters with real underwriting partners. Until a product is live in-app,
+        we won’t display fake coverage amounts — check this page and release notes for updates.
+      </p>
+    </div>
+  </section>
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+        <h3 class="ytr-premium-section-title">Today</h3>
+        <p class="ytr-premium-muted mb-0">Bookings and verification are live; automated policy issuance and card-held deposits are <span class="text-warning">coming soon</span>. Always read your rental agreement and local law — we’re not a substitute for legal or insurance advice.</p>
+      </div>
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Partners &amp; fleet</h3>
+        <p>If you represent an insurer or fleet, reach out through contact — subject <strong>Partnership</strong>.</p>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'contact' %}?topic=partnership" class="btn btn-lg btn-warning fw-bold text-dark">Talk to us</a>
+          <a href="{% url 'partner_network' %}" class="btn btn-lg btn-outline-light">Partner network</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Careers{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Careers at Yours To Rent — building South Africa’s vehicle marketplace.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+{% endblock %}
+{% block public_content %}
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Careers</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">Build with <span class="text-warning">us</span></h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        We’re assembling a team that cares about honest product, fair economics for hosts, and great UX — not vanity metrics.
+        Open roles will be posted here; until then, send your profile through contact.
+      </p>
+    </div>
+  </section>
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-4">
+        <div class="col-md-6" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-code"></i></div>
+            <h3>Engineering</h3>
+            <p>Django, integrations, and mobile-ready web — we value shipping safely over shipping hype.</p>
+          </div>
+        </div>
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="60">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-handshake"></i></div>
+            <h3>Partnerships</h3>
+            <p>Fleet, insurance, and workshop relationships — help us grow the ecosystem responsibly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ytr-mkt-cta-band mt-5" data-aos="fade-up">
+        <h3>Introduce yourself</h3>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'contact' %}" class="btn btn-lg btn-warning fw-bold text-dark">Contact</a>
+          <a href="{% url 'about' %}" class="btn btn-lg btn-outline-light">About YTR</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
+{% endblock %}

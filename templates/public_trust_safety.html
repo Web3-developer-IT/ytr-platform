@@ -1,0 +1,75 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Trust &amp; safety{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Safety and trust on Yours To Rent — verification, messaging, and honest product status.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+{% endblock %}
+{% block public_content %}
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Safety</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">Trust you can <span class="text-warning">trace</span></h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        We combine verification, admin review, and listing-scoped messaging — without displaying fake review scores or invented insurance figures.
+      </p>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-id-card"></i></div>
+            <h3>Identity &amp; docs</h3>
+            <p>Users complete checks where the product requires them. Admins can review uploads before sensitive actions unlock.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-car-crash"></i></div>
+            <h3>Listing quality</h3>
+            <p>Listings go through review states so guests see accurate vehicles — not stock photos passed off as yours.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-life-ring"></i></div>
+            <h3>Support path</h3>
+            <p>Contact the team for disputes or safety concerns. Escalation tooling expands as volume grows — we don’t pretend it’s all automated yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+        <h3 class="ytr-premium-section-title">Enterprise narrative</h3>
+        <p class="ytr-premium-muted mb-0">
+          For a deeper trust story aimed at operators, see <a href="{% url 'trust_center' %}" class="text-warning text-decoration-none">Trust center (solutions)</a>.
+        </p>
+      </div>
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Need help now?</h3>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'contact' %}" class="btn btn-lg btn-warning fw-bold text-dark">Contact</a>
+          <a href="{% url 'faq' %}" class="btn btn-lg btn-outline-light">FAQ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
+{% endblock %}

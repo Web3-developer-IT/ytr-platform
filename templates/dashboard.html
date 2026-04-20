@@ -690,6 +690,133 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Live API (REST + session) — premium panel -->
+            <style>
+                #ytr-api-live-panel.ytr-api-glass {
+                    position: relative;
+                    overflow: hidden;
+                    border: 1px solid rgba(255, 165, 0, 0.22);
+                    border-radius: 20px;
+                    background:
+                        linear-gradient(135deg, rgba(255, 165, 0, 0.07) 0%, transparent 45%),
+                        linear-gradient(180deg, rgba(20, 20, 24, 0.95) 0%, rgba(10, 10, 12, 0.98) 100%);
+                    box-shadow:
+                        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+                        0 24px 48px rgba(0, 0, 0, 0.45);
+                }
+                #ytr-api-live-panel.ytr-api-glass::before {
+                    content: "";
+                    position: absolute;
+                    inset: -40% -20% auto auto;
+                    width: 60%;
+                    height: 120%;
+                    background: radial-gradient(circle at 30% 30%, rgba(255, 180, 80, 0.12), transparent 55%);
+                    pointer-events: none;
+                }
+                #ytr-api-live-panel .card-header { position: relative; z-index: 1; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+                #ytr-api-live-panel .ytr-api-tile {
+                    position: relative;
+                    z-index: 1;
+                    border-radius: 16px;
+                    padding: 1rem 1.1rem;
+                    background: rgba(255, 255, 255, 0.03);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    height: 100%;
+                    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+                }
+                #ytr-api-live-panel .ytr-api-tile:hover {
+                    transform: translateY(-2px);
+                    border-color: rgba(255, 165, 0, 0.35);
+                    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+                }
+                #ytr-api-live-panel .ytr-api-tile .tile-label {
+                    font-size: 0.72rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.08em;
+                    color: rgba(255, 255, 255, 0.45);
+                    margin-bottom: 0.35rem;
+                }
+                #ytr-api-live-panel .ytr-api-tile .tile-value {
+                    font-size: 1.65rem;
+                    font-weight: 800;
+                    line-height: 1.1;
+                    background: linear-gradient(90deg, #fff 0%, rgba(255, 200, 120, 0.95) 100%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+                #ytr-api-live-panel .ytr-api-tile .tile-foot {
+                    font-size: 0.75rem;
+                    color: rgba(255, 255, 255, 0.4);
+                    margin-top: 0.35rem;
+                }
+                #ytr-api-live-panel .ytr-api-tile.is-loading .tile-value {
+                    animation: ytrShimmer 1.2s ease-in-out infinite;
+                    background: rgba(255, 255, 255, 0.08);
+                    -webkit-background-clip: border-box;
+                    background-clip: border-box;
+                    color: transparent;
+                    border-radius: 8px;
+                    min-height: 1.6rem;
+                }
+                @keyframes ytrShimmer {
+                    0%, 100% { opacity: 0.45; }
+                    50% { opacity: 1; }
+                }
+            </style>
+            <div class="dashboard-card mb-4 ytr-api-glass" id="ytr-api-live-panel">
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div>
+                        <h4 class="mb-1"><i class="fas fa-bolt me-2 text-warning"></i>Platform activity</h4>
+                        <p class="mb-0 small text-white-50">Live totals for the marketplace · your numbers when you’re signed in</p>
+                    </div>
+                    <span class="badge bg-secondary px-3 py-2" id="ytr-api-health-badge">API …</span>
+                </div>
+                <div class="card-body position-relative">
+                    <div class="row g-3 mb-3">
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="ytr-api-tile is-loading" data-ytr-tile="pub-approved">
+                                <div class="tile-label">Approved listings</div>
+                                <div class="tile-value" id="ytr-api-pub-approved">—</div>
+                                <div class="tile-foot">Public</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="ytr-api-tile is-loading" data-ytr-tile="pub-bookings">
+                                <div class="tile-label">Total bookings</div>
+                                <div class="tile-value" id="ytr-api-pub-bookings">—</div>
+                                <div class="tile-foot">Public</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="ytr-api-tile is-loading" data-ytr-tile="me-listings">
+                                <div class="tile-label">My listings</div>
+                                <div class="tile-value" id="ytr-api-me-listings">—</div>
+                                <div class="tile-foot">Your session</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="ytr-api-tile is-loading" data-ytr-tile="me-rentals">
+                                <div class="tile-label">My rentals</div>
+                                <div class="tile-value" id="ytr-api-me-rentals">—</div>
+                                <div class="tile-foot">Your session</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                            <div class="ytr-api-tile is-loading" data-ytr-tile="me-host">
+                                <div class="tile-label">Bookings on my vehicles</div>
+                                <div class="tile-value" id="ytr-api-me-host-bookings">—</div>
+                                <div class="tile-foot">Host activity</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="small text-white-50 border-top border-secondary border-opacity-25 pt-3">
+                        <p class="mb-2"><strong class="text-white">Public snapshot</strong> — <span id="ytr-api-stats-line">Loading…</span></p>
+                        <p class="mb-0"><strong class="text-white">Your activity</strong> — <span id="ytr-api-me-line">Loading…</span></p>
+                    </div>
+                </div>
+            </div>
             
             <!-- Quick Actions -->
             <div class="dashboard-card mb-4">
@@ -968,6 +1095,76 @@
             });
             calendar.render();
         });
+
+        (function loadYtrApiPanel() {
+            const badge = document.getElementById('ytr-api-health-badge');
+            const statsLine = document.getElementById('ytr-api-stats-line');
+            const meLine = document.getElementById('ytr-api-me-line');
+            const elPubA = document.getElementById('ytr-api-pub-approved');
+            const elPubB = document.getElementById('ytr-api-pub-bookings');
+            const elMeL = document.getElementById('ytr-api-me-listings');
+            const elMeR = document.getElementById('ytr-api-me-rentals');
+            const elMeH = document.getElementById('ytr-api-me-host-bookings');
+            const panel = document.getElementById('ytr-api-live-panel');
+            function clearTileLoading() {
+                if (!panel) return;
+                panel.querySelectorAll('.ytr-api-tile.is-loading').forEach(function (el) {
+                    el.classList.remove('is-loading');
+                });
+            }
+            if (!badge || !statsLine || !meLine) return;
+            fetch('{% url "api_health" %}', { credentials: 'same-origin' })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    badge.textContent = 'v' + (d.version || '?');
+                    badge.classList.remove('bg-secondary');
+                    badge.classList.add('bg-success');
+                })
+                .catch(function () {
+                    badge.textContent = 'offline';
+                    badge.classList.remove('bg-secondary');
+                    badge.classList.add('bg-danger');
+                });
+            fetch('{% url "api_platform_stats" %}', { credentials: 'same-origin' })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    var a = d.listings ? d.listings.approved : '—';
+                    var b = d.bookings ? d.bookings.total : '—';
+                    statsLine.textContent = 'approved listings ' + a + ', total bookings ' + b;
+                    if (elPubA) elPubA.textContent = a;
+                    if (elPubB) elPubB.textContent = b;
+                    clearTileLoading();
+                })
+                .catch(function () {
+                    statsLine.textContent = 'unavailable';
+                    if (elPubA) elPubA.textContent = '—';
+                    if (elPubB) elPubB.textContent = '—';
+                    clearTileLoading();
+                });
+            fetch('{% url "api_account_summary" %}', { credentials: 'same-origin' })
+                .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+                .then(function (d) {
+                    var c = d.counts || {};
+                    var ml = c.my_listings || 0;
+                    var mr = c.my_rentals || 0;
+                    var mh = c.bookings_on_my_listings || 0;
+                    meLine.textContent =
+                        'my listings ' + ml +
+                        ', my rentals ' + mr +
+                        ', bookings on my vehicles ' + mh;
+                    if (elMeL) elMeL.textContent = ml;
+                    if (elMeR) elMeR.textContent = mr;
+                    if (elMeH) elMeH.textContent = mh;
+                    clearTileLoading();
+                })
+                .catch(function () {
+                    meLine.textContent = 'Sign in to load your session summary.';
+                    if (elMeL) elMeL.textContent = '—';
+                    if (elMeR) elMeR.textContent = '—';
+                    if (elMeH) elMeH.textContent = '—';
+                    clearTileLoading();
+                });
+        })();
     </script>
 </body>
 </html>

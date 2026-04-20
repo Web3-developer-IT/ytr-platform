@@ -2,45 +2,92 @@
 {% load static %}
 {% block title %}Partner network{% endblock %}
 {% block meta_description %}
-<meta name="description" content="Join the Yours To Rent partner network — fleet operators, insurers, workshops, and finance collaborators powering trusted mobility in South Africa.">
+<meta name="description" content="Insurers, workshops, fleet operators, and finance partners — Yours To Rent ecosystem for South Africa.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
 {% endblock %}
 {% block public_content %}
-<main class="container py-5" style="max-width: 980px;">
-    <p class="text-warning text-uppercase small fw-bold mb-2">Ecosystem</p>
-    <h1 class="text-white display-6 fw-bold mb-3">Partner network for <span class="text-warning">scale</span></h1>
-    <p class="text-white-50 lead mb-4">
-        Yours To Rent is expanding beyond pure listings into a connected network of operators and service partners
-        so fleet teams can launch faster with lower operational friction.
-    </p>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-6">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Insurance partners</h3>
-                <p class="text-white-50 small mb-0">Structured risk options for hosts and fleet clients (rollout roadmap).</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Service & maintenance</h3>
-                <p class="text-white-50 small mb-0">Workshop ecosystems to keep high-utilization vehicles on the road.</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Corporate procurement</h3>
-                <p class="text-white-50 small mb-0">Centralized contacts and transparent rates for repeat enterprise demand.</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="p-4 rounded-4 border border-secondary bg-dark h-100">
-                <h3 class="h5 text-white">Integration-first roadmap</h3>
-                <p class="text-white-50 small mb-0">Data-sharing patterns for dispatch, accounting, and fleet visibility.</p>
-            </div>
-        </div>
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Ecosystem</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">
+        Partner network for <span class="text-warning">scale</span>
+      </h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        Connect fleet operators, risk partners, workshops, and procurement teams so listings stay road-ready and enterprise
+        clients get transparent rates — integrations are staged honestly on the roadmap.
+      </p>
+      <div class="ytr-mkt-stat-row" data-aos="fade-up" data-aos-delay="120">
+        <div class="ytr-mkt-stat"><strong>B2B</strong><span>Focused</span></div>
+        <div class="ytr-mkt-stat"><strong>API</strong><span>Roadmap</span></div>
+        <div class="ytr-mkt-stat"><strong>SA</strong><span>First</span></div>
+      </div>
     </div>
+  </section>
 
-    <a href="{% url 'contact' %}?topic=partnership" class="btn btn-warning btn-lg fw-bold text-dark">Become a partner</a>
-    <a href="{% url 'fleet_solutions' %}" class="btn btn-outline-light btn-lg ms-2">Fleet overview</a>
-</main>
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-4">
+        <div class="col-md-6" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3>Insurance &amp; risk</h3>
+            <p>Structured cover options for hosts and fleet clients as products mature — we don’t promise live insurer APIs until they’re real.</p>
+          </div>
+        </div>
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="50">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-wrench"></i></div>
+            <h3>Service &amp; maintenance</h3>
+            <p>Workshop networks to keep high-utilisation vehicles on the road with clear handover records.</p>
+          </div>
+        </div>
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="80">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-building"></i></div>
+            <h3>Corporate procurement</h3>
+            <p>Central contacts and repeatable booking patterns for teams that outgrow ad-hoc rentals.</p>
+          </div>
+        </div>
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="120">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-plug"></i></div>
+            <h3>Integration-first</h3>
+            <p>Dispatch, accounting, and fleet visibility patterns — shipped incrementally with documentation for your engineers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ytr-mkt-section pt-0">
+    <div class="ytr-mkt-section-inner">
+      <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+        <h3 class="ytr-premium-section-title">Also see</h3>
+        <p class="ytr-premium-muted mb-0">
+          Marketing partners and press-style stories live on <a href="{% url 'partners' %}" class="text-warning text-decoration-none">/partners/</a>.
+          This page is for <strong class="text-white">ecosystem &amp; technical partnerships</strong>.
+        </p>
+      </div>
+      <div class="ytr-mkt-cta-band" data-aos="fade-up">
+        <h3>Become a partner</h3>
+        <p>Tell us your segment, regions, and integration needs.</p>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'contact' %}?topic=partnership" class="btn btn-lg btn-warning fw-bold text-dark">Start a conversation</a>
+          <a href="{% url 'fleet_solutions' %}" class="btn btn-lg btn-outline-light">Fleet solutions</a>
+          <a href="{% url 'mobility_hub' %}" class="btn btn-lg btn-outline-secondary text-white-50 border-secondary">Mobility hub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
 {% endblock %}

@@ -94,11 +94,11 @@ def home(request):
 
 
 def about(request):
-    return render(request, "download/about.html")
+    return render(request, "about.html")
 
 
 def how_it_works(request):
-    return render(request, "download/howitworks.html")
+    return render(request, "how_it_works.html")
 
 
 def contact(request):
@@ -129,7 +129,7 @@ def contact(request):
         else:
             messages.error(request, err or "Could not send message.")
         return redirect("contact")
-    return render(request, "download/contact.html")
+    return render(request, "contact.html")
 
 
 def feedback_page(request):
@@ -162,7 +162,7 @@ def feedback_page(request):
             messages.error(request, err or "Could not send feedback.")
         return redirect("feedback")
 
-    return render(request, "download/feedback.html", {"show_public_reviews": False})
+    return render(request, "feedback.html", {"show_public_reviews": False})
 
 
 def services(request):
@@ -889,7 +889,7 @@ def help_center_page(request):
 
 
 def faq_page(request):
-    return render(request, "download/faq.html")
+    return render(request, "faq.html")
 
 
 def fleet_solutions(request):
@@ -915,6 +915,35 @@ def partner_network(request):
 def trust_center(request):
     """Trust, verification, and safety overview for enterprise and retail users."""
     return render(request, "solutions/trust-center.html")
+
+
+def terms_page(request):
+    return render(request, "download/terms.html")
+
+
+def privacy_page(request):
+    return render(request, "download/privacy.html")
+
+
+def cookies_page(request):
+    return render(request, "download/cookies.html")
+
+
+def careers_page(request):
+    return render(request, "public_careers.html")
+
+
+def partners_marketing_page(request):
+    """Public marketing partners page (download/partners.html)."""
+    return render(request, "public_marketing_partners.html")
+
+
+def insurance_page(request):
+    return render(request, "public_insurance.html")
+
+
+def trust_safety_public_page(request):
+    return render(request, "public_trust_safety.html")
 
 
 def media_with_fallback(request, path):

@@ -1,0 +1,57 @@
+{% extends "layouts/public_base.html" %}
+{% load static %}
+{% block title %}Partners{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Partner with Yours To Rent — media, events, and growth collaborators in South Africa.">
+{% endblock %}
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+{% endblock %}
+{% block public_content %}
+<div class="ytr-mkt-page">
+  <section class="ytr-mkt-hero">
+    <div class="ytr-mkt-hero-inner">
+      <p class="ytr-mkt-kicker" data-aos="fade-up">Partners</p>
+      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">Grow with <span class="text-warning">YTR</span></h1>
+      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
+        Media, influencers, events, and aligned brands — let’s tell honest stories about mobility and income opportunities.
+        For insurer / fleet technical partnerships, use <a href="{% url 'partner_network' %}" class="text-warning text-decoration-none">Partner network</a> under Solutions.
+      </p>
+    </div>
+  </section>
+  <section class="ytr-mkt-section ytr-mkt-section--tight">
+    <div class="ytr-mkt-section-inner">
+      <div class="row g-4">
+        <div class="col-md-6" data-aos="fade-up">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-bullhorn"></i></div>
+            <h3>Media &amp; creators</h3>
+            <p>Request brand assets and facts — we don’t provide fabricated user or revenue numbers.</p>
+          </div>
+        </div>
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="60">
+          <div class="ytr-mkt-card h-100">
+            <div class="ytr-mkt-card-icon"><i class="fas fa-calendar-alt"></i></div>
+            <h3>Events</h3>
+            <p>Co-branded experiences and ride days as the product calendar allows.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ytr-mkt-cta-band mt-5" data-aos="fade-up">
+        <h3>Get in touch</h3>
+        <div class="ytr-mkt-btn-row">
+          <a href="{% url 'contact' %}?topic=partnership" class="btn btn-lg btn-warning fw-bold text-dark">Partner enquiry</a>
+          <a href="{% url 'services' %}" class="btn btn-lg btn-outline-light">Services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
+{% endblock %}
