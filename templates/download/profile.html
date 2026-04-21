@@ -1,0 +1,494 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Yours To Rent</title>
+    <meta name="description" content="Manage your Yours To Rent profile and personal information.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+    
+    <style>
+        :root {
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            background: #0a0a0a;
+        }
+        
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-user .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+        
+        .sidebar-nav .nav-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 25px 10px;
+        }
+        
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+        
+        .sidebar-nav .nav-link i {
+            width: 24px;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+        }
+        
+        .page-header {
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            color: #fff;
+            font-weight: 700;
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, rgba(255,165,0,0.1), rgba(255,69,0,0.05));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 10px 40px rgba(255,165,0,0.3);
+        }
+        
+        .avatar-upload {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-upload-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .profile-stat h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .profile-stat p {
+            color: rgba(255,255,255,0.6);
+            margin: 0;
+        }
+        
+        .profile-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .profile-card .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .profile-card .card-header h4 {
+            color: #fff;
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .profile-card .card-body {
+            padding: 30px;
+        }
+        
+        .info-row {
+            display: flex;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-row .label {
+            width: 200px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 500;
+        }
+        
+        .info-row .value {
+            flex: 1;
+            color: #fff;
+        }
+        
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .verification-badge.verified {
+            background: rgba(0,200,83,0.1);
+            color: #00c853;
+        }
+        
+        .verification-badge.pending {
+            background: rgba(255,165,0,0.1);
+            color: #ffa500;
+        }
+        
+        .verification-badge.unverified {
+            background: rgba(255,68,68,0.1);
+            color: #ff4444;
+        }
+        
+        .verification-badge i {
+            margin-right: 8px;
+        }
+        
+        .review-item {
+            padding: 25px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .review-item .reviewer {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .review-item .reviewer img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        
+        .review-item .reviewer h5 {
+            color: #fff;
+            margin: 0;
+        }
+        
+        .review-item .reviewer small {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .review-item .stars {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .review-item p {
+            color: rgba(255,255,255,0.7);
+            margin: 0;
+        }
+        
+        .form-floating > .form-control,
+        .form-floating > .form-select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+        }
+        
+        .form-floating > .form-control:focus,
+        .form-floating > .form-select:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(255,165,0,0.15);
+        }
+        
+        .form-floating > label {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 14px 10px 24px;
+            }
+            .profile-header {
+                text-align: center;
+                padding: 20px 14px;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 18px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-row .label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            .profile-card .card-header,
+            .profile-card .card-body {
+                padding: 14px;
+            }
+            .profile-avatar {
+                width: 110px;
+                height: 110px;
+            }
+        }
+    </style>
+</head>
+<body class="ytr-account-body">
+    {% if messages %}
+    <div class="position-fixed top-0 start-50 translate-middle-x mt-3 px-3" style="z-index: 2000;">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} shadow mb-2 py-2 px-3 small">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="dashboard-wrapper">
+        {% include 'partials/account_sidebar.html' %}
+        <main class="main-content">
+            {% include 'partials/account_topbar.html' %}
+
+            <div class="profile-header">
+                <div class="row align-items-center">
+                    <div class="col-md-auto mb-4 mb-md-0 text-center">
+                        <div class="avatar-upload">
+                            {% if profile.avatar %}
+                            <img src="{{ profile.avatar.url }}" alt="" class="profile-avatar" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
+                            {% else %}
+                            <div class="profile-avatar d-inline-flex align-items-center justify-content-center bg-secondary text-white fw-bold fs-3" style="border-radius:50%;width:150px;height:150px;border:5px solid var(--primary-color);">
+                                {% if user.first_name or user.last_name %}
+                                    {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                                {% else %}
+                                    <i class="fas fa-user"></i>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            <label class="avatar-upload-btn mb-0" for="avatarInput" title="Change photo"><i class="fas fa-camera"></i></label>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <h2 class="text-white mb-2">{{ user.get_full_name|default:user.username }}</h2>
+                        <p class="text-white-50 mb-2"><i class="fas fa-calendar-alt me-2"></i>Member since {{ user.date_joined|date:"F Y" }}</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% if user_verified %}
+                            <span class="verification-badge verified"><i class="fas fa-shield-alt"></i> Verification complete</span>
+                            {% else %}
+                            <span class="verification-badge pending"><i class="fas fa-clock"></i> Verification pending</span>
+                            <a href="{% url 'documents_center' %}" class="btn btn-sm btn-outline-light">Complete documents</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <h3>—</h3>
+                                <p>Reviews</p>
+                            </div>
+                            <div class="profile-stat">
+                                <h3>—</h3>
+                                <p>Trips</p>
+                            </div>
+                        </div>
+                        <p class="text-white-50 small mt-2 mb-0" style="max-width:200px;">Ratings and trip counts will appear after launch.</p>
+                    </div>
+                </div>
+            </div>
+
+            <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data" class="row g-4">
+                {% csrf_token %}
+                <input type="file" name="avatar" id="avatarInput" accept="image/*" class="d-none">
+
+                <div class="col-lg-8">
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-user me-2"></i>Account details</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-white-50 small">First name</label>
+                                    <input type="text" name="first_name" class="form-control bg-dark text-white border-secondary" value="{{ user.first_name }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-white-50 small">Last name</label>
+                                    <input type="text" name="last_name" class="form-control bg-dark text-white border-secondary" value="{{ user.last_name }}">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label text-white-50 small">Email</label>
+                                    <input type="email" name="email" class="form-control bg-dark text-white border-secondary" value="{{ user.email }}" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label text-white-50 small">Phone</label>
+                                    <input type="text" name="phone" class="form-control bg-dark text-white border-secondary" value="{{ profile.phone }}" placeholder="e.g. +27 …">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label text-white-50 small">Bio</label>
+                                    <textarea name="bio" rows="4" class="form-control bg-dark text-white border-secondary" placeholder="Short introduction for hosts and renters">{{ profile.bio }}</textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-save me-2"></i>Save profile</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-card mt-4">
+                        <div class="card-header">
+                            <h4><i class="fas fa-map-marker-alt me-2"></i>Address</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-white-50 mb-0 small">Saved addresses and ID details for check-in will be added in a future release. For now, use verification uploads for proof of address.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-id-card me-2"></i>Driver &amp; ID</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-white-50 small">License and ID status follow your uploaded documents.</p>
+                            <a href="{% url 'documents_center' %}" class="btn btn-outline-light btn-sm w-100 mt-2">Open Verification &amp; Alerts</a>
+                        </div>
+                    </div>
+                    <div class="profile-card mt-4">
+                        <div class="card-header">
+                            <h4><i class="fas fa-star me-2"></i>Reviews</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-white-50 small mb-0">Public reviews are not live yet. Nothing is shown here until the feature launches.</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    {% include 'partials/account_shell_scripts.html' %}
+</body>
+</html>

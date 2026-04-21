@@ -1,0 +1,732 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance & Protection | Yours To Rent</title>
+    <meta name="description" content="Learn about our comprehensive insurance and protection plans for your peace of mind.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    
+    <style>
+        .insurance-hero {
+            background: linear-gradient(135deg, rgba(255,165,0,0.1) 0%, rgba(255,69,0,0.1) 100%);
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .insurance-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(ellipse, rgba(255,165,0,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .insurance-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        
+        .insurance-hero .lead {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+        }
+        
+        .protection-cards {
+            padding: 100px 0;
+        }
+        
+        .protection-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 40px;
+            height: 100%;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .protection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .protection-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,165,0,0.3);
+        }
+        
+        .protection-card:hover::before {
+            opacity: 1;
+        }
+        
+        .protection-card .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .protection-card .icon i {
+            font-size: 35px;
+            color: #000;
+        }
+        
+        .protection-card h3 {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .protection-card p {
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+        }
+        
+        .coverage-section {
+            padding: 100px 0;
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .coverage-table {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        
+        .coverage-table table {
+            width: 100%;
+            margin: 0;
+        }
+        
+        .coverage-table th {
+            background: linear-gradient(135deg, rgba(255,165,0,0.1) 0%, rgba(255,69,0,0.1) 100%);
+            color: #fff;
+            font-weight: 600;
+            padding: 25px;
+            text-align: center;
+            border: none;
+        }
+        
+        .coverage-table th:first-child {
+            text-align: left;
+        }
+        
+        .coverage-table td {
+            color: rgba(255,255,255,0.8);
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        
+        .coverage-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .coverage-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .coverage-table .check {
+            color: #00c853;
+            font-size: 20px;
+        }
+        
+        .coverage-table .cross {
+            color: rgba(255,255,255,0.3);
+            font-size: 20px;
+        }
+        
+        .plan-header {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .plan-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .claims-section {
+            padding: 100px 0;
+        }
+        
+        .claim-step {
+            text-align: center;
+            padding: 40px 30px;
+        }
+        
+        .claim-step .number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin: 0 auto 25px;
+        }
+        
+        .claim-step h4 {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .claim-step p {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .partners-section {
+            padding: 80px 0;
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .partner-logo {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            transition: all 0.3s ease;
+        }
+        
+        .partner-logo:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .partner-logo img {
+            max-height: 40px;
+            filter: brightness(0) invert(1);
+            opacity: 0.7;
+        }
+        
+        .faq-section {
+            padding: 100px 0;
+        }
+        
+        .accordion-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px !important;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .accordion-button {
+            background: transparent;
+            color: #fff;
+            font-weight: 600;
+            padding: 25px 30px;
+            box-shadow: none !important;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+        }
+        
+        .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+        
+        .accordion-body {
+            color: rgba(255,255,255,0.7);
+            padding: 0 30px 25px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="browse.html">Browse Vehicles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="how-it-works.html">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="insurance.html">Insurance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-3">
+                    <a href="login.html" class="btn btn-outline-light">Login</a>
+                    <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="insurance-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <span class="badge bg-warning text-dark mb-3 px-3 py-2">INSURANCE & PROTECTION</span>
+                    <h1>Drive with Complete Peace of Mind</h1>
+                    <p class="lead mb-4">Every rental is backed by comprehensive insurance coverage. We've got you covered from start to finish.</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="#coverage" class="btn btn-primary btn-lg">View Coverage</a>
+                        <a href="contact.html" class="btn btn-outline-light btn-lg">Contact Support</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center" data-aos="fade-left">
+                    <img src="/static/images/tim-meyer-GIm7wxiAZys-unsplash.jpg" alt="Insurance protection for your rental" class="img-fluid" style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Protection Cards -->
+    <section class="protection-cards">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-5 fw-bold text-white mb-3">Comprehensive Protection</h2>
+                <p class="text-white-50 mx-auto" style="max-width: 600px;">Our insurance packages are designed to give you complete peace of mind while you enjoy your rental experience.</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="protection-card">
+                        <div class="icon">
+                            <i class="fas fa-car-crash"></i>
+                        </div>
+                        <h3>Collision Damage</h3>
+                        <p>Comprehensive coverage for any collision damage to the vehicle during your rental period.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="protection-card">
+                        <div class="icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Personal Injury</h3>
+                        <p>Medical coverage for you and your passengers in case of an accident.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="protection-card">
+                        <div class="icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>Theft Protection</h3>
+                        <p>Full protection against vehicle theft and attempted theft incidents.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="protection-card">
+                        <div class="icon">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <h3>Roadside Assist</h3>
+                        <p>24/7 roadside assistance for breakdowns, flat tires, and emergencies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Coverage Comparison -->
+    <section class="coverage-section" id="coverage">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-5 fw-bold text-white mb-3">Coverage Plans</h2>
+                <p class="text-white-50 mx-auto" style="max-width: 600px;">Choose the protection level that's right for you.</p>
+            </div>
+            
+            <div class="coverage-table" data-aos="fade-up">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 35%;">Coverage</th>
+                                <th style="width: 21.6%;">
+                                    <div class="plan-header">Basic</div>
+                                    <div class="plan-price">R 0/day</div>
+                                    <small>Included</small>
+                                </th>
+                                <th style="width: 21.6%;">
+                                    <div class="plan-header">Standard</div>
+                                    <div class="plan-price">R 99/day</div>
+                                    <small>Popular</small>
+                                </th>
+                                <th style="width: 21.6%;">
+                                    <div class="plan-header">Premium</div>
+                                    <div class="plan-price">R 199/day</div>
+                                    <small>Best Value</small>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Third Party Liability</td>
+                                <td><i class="fas fa-check check"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Collision Damage Waiver</td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Theft Protection</td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Personal Accident Insurance</td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>24/7 Roadside Assistance</td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Zero Excess</td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Glass & Tire Coverage</td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Personal Belongings</td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-times cross"></i></td>
+                                <td><i class="fas fa-check check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Excess Amount</strong>
+                                </td>
+                                <td>R 15,000</td>
+                                <td>R 5,000</td>
+                                <td>R 0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Claims Process -->
+    <section class="claims-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-5 fw-bold text-white mb-3">How to File a Claim</h2>
+                <p class="text-white-50 mx-auto" style="max-width: 600px;">Our claims process is designed to be quick and hassle-free.</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="claim-step">
+                        <div class="number">1</div>
+                        <h4>Report Incident</h4>
+                        <p>Contact us immediately through the app or call our 24/7 hotline to report the incident.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="claim-step">
+                        <div class="number">2</div>
+                        <h4>Document Everything</h4>
+                        <p>Take photos of any damage and gather witness information if applicable.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="claim-step">
+                        <div class="number">3</div>
+                        <h4>Submit Claim</h4>
+                        <p>Fill out the claim form online and upload all required documentation.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="claim-step">
+                        <div class="number">4</div>
+                        <h4>Get Resolution</h4>
+                        <p>We'll review your claim and process it within 5-7 business days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Insurance Partners -->
+    <section class="partners-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="h3 fw-bold text-white mb-3">Our Insurance Partners</h2>
+                <p class="text-white-50">Backed by leading insurance providers in South Africa</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="partner-logo">
+                        <span class="text-white fw-bold">Santam</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="partner-logo">
+                        <span class="text-white fw-bold">Discovery</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="partner-logo">
+                        <span class="text-white fw-bold">Old Mutual</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="400">
+                    <div class="partner-logo">
+                        <span class="text-white fw-bold">Outsurance</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="500">
+                    <div class="partner-logo">
+                        <span class="text-white fw-bold">Hollard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-5 fw-bold text-white mb-3">Insurance FAQ</h2>
+                <p class="text-white-50 mx-auto" style="max-width: 600px;">Find answers to common insurance questions.</p>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <div class="accordion" id="insuranceFaq">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    What happens if I get into an accident?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#insuranceFaq">
+                                <div class="accordion-body">
+                                    In case of an accident, ensure everyone's safety first. Contact emergency services if needed, then report the incident through our app or call our 24/7 hotline. Document the scene with photos and exchange information with any other parties involved. Your coverage will handle the rest based on your selected protection plan.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Is insurance included with every rental?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#insuranceFaq">
+                                <div class="accordion-body">
+                                    Yes, basic third-party liability insurance is included with every rental at no additional cost. However, we strongly recommend upgrading to our Standard or Premium plans for comprehensive coverage including collision damage waiver and theft protection.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    What's not covered by insurance?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#insuranceFaq">
+                                <div class="accordion-body">
+                                    Our insurance does not cover: damage caused while driving under the influence of alcohol or drugs, damage from off-road driving (unless in an approved 4x4 vehicle), mechanical breakdowns due to driver negligence, loss of personal belongings (unless you have Premium coverage), and damage to the vehicle's interior caused by smoking or pets.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Can I use my own insurance instead?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#insuranceFaq">
+                                <div class="accordion-body">
+                                    In some cases, your personal car insurance or credit card may provide rental car coverage. Contact your insurance provider to confirm. If you choose to use your own insurance, you'll need to provide proof of coverage before the rental. Note that our basic third-party liability coverage will still apply.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    How is the excess handled?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#insuranceFaq">
+                                <div class="accordion-body">
+                                    The excess is the amount you're responsible for in case of a claim. With Basic coverage, the excess is R15,000. Standard coverage reduces this to R5,000, and Premium coverage offers zero excess. The excess amount is held as a security deposit at the start of your rental.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, rgba(255,165,0,0.1) 0%, rgba(255,69,0,0.1) 100%);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <h3 class="text-white fw-bold mb-2">Have Questions About Coverage?</h3>
+                    <p class="text-white-50 mb-0">Our insurance experts are ready to help you choose the right protection plan.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="contact.html" class="btn btn-primary btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-5" style="background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="50" class="mb-4">
+                    <p class="text-white-50">South Africa's premier peer-to-peer vehicle rental platform. Rent from trusted owners or earn by sharing your vehicle.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="text-white-50"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white-50"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white-50"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white-50"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-4">Company</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="about.html" class="text-white-50 text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="careers.html" class="text-white-50 text-decoration-none">Careers</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-white-50 text-decoration-none">Contact</a></li>
+                        <li class="mb-2"><a href="partners.html" class="text-white-50 text-decoration-none">Partners</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-4">Resources</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="how-it-works.html" class="text-white-50 text-decoration-none">How It Works</a></li>
+                        <li class="mb-2"><a href="insurance.html" class="text-white-50 text-decoration-none">Insurance</a></li>
+                        <li class="mb-2"><a href="trust-safety.html" class="text-white-50 text-decoration-none">Trust & Safety</a></li>
+                        <li class="mb-2"><a href="faq.html" class="text-white-50 text-decoration-none">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-4">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="terms.html" class="text-white-50 text-decoration-none">Terms of Service</a></li>
+                        <li class="mb-2"><a href="privacy.html" class="text-white-50 text-decoration-none">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-4">Support</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="faq.html" class="text-white-50 text-decoration-none">Help Center</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-white-50 text-decoration-none">Contact Support</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Report Issue</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <p class="text-white-50 mb-0">&copy; 2026 Yours To Rent. All rights reserved.</p>
+                <div class="d-flex gap-3 align-items-center text-white-50" aria-label="Accepted payment methods">
+                    <i class="fab fa-cc-visa fa-2x" title="Visa"></i>
+                    <i class="fab fa-cc-mastercard fa-2x" title="Mastercard"></i>
+                    <i class="fab fa-cc-paypal fa-2x" title="PayPal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+</body>
+</html>

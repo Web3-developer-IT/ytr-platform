@@ -1,0 +1,568 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Yours To Rent</title>
+    <meta name="description" content="Create your Yours To Rent account to start renting or listing vehicles.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-responsive.css' %}">
+    
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        .auth-left {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.7) 100%),
+                        url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1200') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+        }
+        
+        .auth-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,140,0,0.1) 0%, transparent 50%);
+        }
+        
+        .auth-left-content {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+        }
+        
+        .auth-logo {
+            height: 60px;
+            margin-bottom: 40px;
+        }
+        
+        .auth-left h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .auth-left p {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .stat-box {
+            text-align: center;
+        }
+        
+        .stat-box .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+        }
+        
+        .stat-box .label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .auth-right {
+            width: 550px;
+            background: var(--bg-dark-2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 60px;
+            overflow-y: auto;
+        }
+        
+        .auth-form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-form-header h2 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .auth-form-header p {
+            color: var(--text-muted);
+        }
+        
+        .account-type-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .account-type {
+            flex: 1;
+            padding: 16px;
+            background: var(--bg-dark-3);
+            border: 2px solid var(--border-dark);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .account-type:hover,
+        .account-type.active {
+            border-color: var(--primary-gold);
+        }
+        
+        .account-type.active {
+            background: rgba(255,215,0,0.05);
+        }
+        
+        .account-type i {
+            font-size: 2rem;
+            color: var(--primary-gold);
+            margin-bottom: 8px;
+        }
+        
+        .account-type h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .account-type p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        
+        .social-auth {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-md);
+            color: var(--text-white);
+            text-decoration: none;
+            transition: var(--transition-fast);
+            font-size: 0.875rem;
+        }
+        
+        .social-btn:hover {
+            border-color: var(--border-gold);
+            color: var(--text-white);
+        }
+        
+        .social-btn i {
+            font-size: 1.125rem;
+        }
+        
+        .social-btn.google i { color: #db4437; }
+        .social-btn.facebook i { color: #4267b2; }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-dark);
+        }
+        
+        .divider span {
+            color: var(--text-muted);
+            font-size: 0.813rem;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .auth-form label {
+            display: block;
+            font-size: 0.813rem;
+            color: var(--text-light);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .auth-form .form-control {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            color: var(--text-white);
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            font-size: 0.938rem;
+        }
+        
+        .auth-form .form-control:focus {
+            background: var(--bg-dark-4);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
+        }
+        
+        .name-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .input-group-password {
+            position: relative;
+        }
+        
+        .input-group-password .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        
+        .password-strength {
+            margin-top: 8px;
+        }
+        
+        .strength-bar {
+            height: 4px;
+            background: var(--bg-dark-4);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            width: 0;
+            transition: var(--transition-fast);
+        }
+        
+        .strength-fill.weak { width: 33%; background: #ef4444; }
+        .strength-fill.medium { width: 66%; background: #f59e0b; }
+        .strength-fill.strong { width: 100%; background: #10b981; }
+        
+        .strength-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .terms-check {
+            margin-bottom: 20px;
+        }
+        
+        .terms-check label {
+            font-size: 0.813rem;
+            color: var(--text-light);
+        }
+        
+        .terms-check a {
+            color: var(--primary-gold);
+        }
+        
+        .auth-submit {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .auth-footer a {
+            color: var(--primary-gold);
+            font-weight: 500;
+        }
+        
+        @media (max-width: 992px) {
+            .auth-left {
+                display: none;
+            }
+            
+            .auth-right {
+                width: 100%;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    {% include 'partials/auth_public_nav.html' %}
+    <div class="auth-page">
+        <!-- Left Side - Branding -->
+        <div class="auth-left" data-aos="fade-right">
+            <div class="auth-left-content">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" class="auth-logo">
+                </a>
+                <h1>Join <span class="gradient-text">Yours To Rent</span> Today</h1>
+                <p>Whether you want to rent a vehicle or earn money by listing yours, we've got you covered.</p>
+                
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="number">25K+</div>
+                        <div class="label">Expected Users</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">5K+</div>
+                        <div class="label">Projected Vehicles</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number">50+</div>
+                        <div class="label">Target Cities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Side - Signup Form -->
+        <div class="auth-right" data-aos="fade-left">
+            <div class="auth-form-header">
+                <a href="{% url 'home' %}" class="d-lg-none">
+                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" style="height: 50px; margin-bottom: 20px;">
+                </a>
+                <h2>Create Account</h2>
+                <p>Start your journey with Yours To Rent</p>
+            </div>
+            {% if messages %}
+            <div class="mb-3">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <!-- Account Type Selector -->
+            <div class="account-type-selector">
+                <div class="account-type active" onclick="selectAccountType(this, 'renter')">
+                    <i class="fas fa-user"></i>
+                    <h4>I Want to Rent</h4>
+                    <p>Find and book vehicles</p>
+                </div>
+                <div class="account-type" onclick="selectAccountType(this, 'host')">
+                    <i class="fas fa-car"></i>
+                    <h4>I Want to List</h4>
+                    <p>Earn money from your car</p>
+                </div>
+            </div>
+            
+            <!-- Social Auth — Google only when a Social Application exists -->
+            <div class="social-auth">
+                {% if google_oauth_enabled %}
+                <a href="{{ google_oauth_url }}" class="social-btn google">
+                    <i class="fab fa-google"></i>
+                    <span>Sign up with Google</span>
+                </a>
+                {% else %}
+                <span class="social-btn google opacity-50" style="cursor:not-allowed;" title="Add a Google Social Application in Admin to enable">
+                    <i class="fab fa-google"></i>
+                    <span>Sign up with Google</span>
+                </span>
+                {% endif %}
+                <span class="social-btn facebook opacity-50" style="cursor:not-allowed;" title="Coming soon">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </span>
+            </div>
+            
+            <div class="divider">
+                <span>or register with email</span>
+            </div>
+            
+            <!-- Signup Form -->
+            <form class="auth-form" id="signupForm" method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <input type="hidden" name="account_type" id="accountType" value="renter">
+                
+                <div class="name-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="first_name" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="+27 XX XXX XXXX" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group-password">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Create a strong password" required oninput="checkPasswordStrength()">
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText">Password strength</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Confirm your password" required>
+                </div>
+                
+                <div class="terms-check">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="terms" required>
+                        <label class="form-check-label" for="terms">
+                            I agree to the <a href="{% url 'terms' %}">Terms of Service</a> and <a href="{% url 'privacy' %}">Privacy Policy</a>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="terms-check">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="newsletter">
+                        <label class="form-check-label" for="newsletter">
+                            Send me news and promotional updates
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-gradient auth-submit">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                Already have an account? <a href="{% url 'login' %}">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        function selectAccountType(element, type) {
+            document.querySelectorAll('.account-type').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('accountType').value = type;
+        }
+        
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password) && /[!@#$%^&*]/.test(password)) strength++;
+            
+            strengthFill.className = 'strength-fill';
+            if (strength === 1) {
+                strengthFill.classList.add('weak');
+                strengthText.textContent = 'Weak password';
+            } else if (strength === 2) {
+                strengthFill.classList.add('medium');
+                strengthText.textContent = 'Medium strength';
+            } else if (strength === 3) {
+                strengthFill.classList.add('strong');
+                strengthText.textContent = 'Strong password';
+            } else {
+                strengthText.textContent = 'Password strength';
+            }
+        }
+        
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+                return;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+{% load static %}
+{% load ytr_images %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings | Yours To Rent</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+  <style>
+    :root { --sidebar-width: 280px; }
+    body { background:#0a0a0a; color:#fff; }
+    .dashboard-wrapper { display:flex; min-height:100vh; }
+    .main-content { flex:1; margin-left:var(--sidebar-width); padding:0 30px 48px; }
+    .card-dark { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.12); border-radius:16px; }
+    .booking-image { width:100%; height:160px; object-fit:cover; border-radius:12px; }
+    .muted { color:rgba(255,255,255,.62); }
+    .booking-stat { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:14px 16px; }
+    .booking-stat .label { color:rgba(255,255,255,.62); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; }
+    .booking-stat .value { font-size:1.2rem; font-weight:800; color:#fff; }
+    @media (max-width:1200px){ .sidebar{transform:translateX(-100%);transition:transform .3s} .sidebar.active{transform:translateX(0)} .main-content{margin-left:0} }
+    @media (max-width:768px){
+      .main-content{padding:0 14px 28px;}
+      .card-dark{padding:14px !important;}
+      .booking-image{height:140px;}
+      .booking-stat .value{font-size:1rem;}
+      .d-flex.gap-2.mt-3{flex-direction:column;}
+      .d-flex.gap-2.mt-3 .btn{width:100%;}
+    }
+  </style>
+</head>
+<body class="ytr-account-body">
+<div class="dashboard-wrapper">
+  {% include 'partials/account_sidebar.html' %}
+  <main class="main-content">
+    {% include 'partials/account_topbar.html' %}
+
+    {% include 'partials/ytr_account_hero.html' %}
+
+    <div class="ytr-premium-wrap px-0">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4" data-aos="fade-up">
+        <div>
+          <h2 class="h4 mb-1 fw-bold">Trip overview</h2>
+          <p class="muted mb-0 small">Real bookings from your account. Reviews and loyalty perks are <span class="text-warning">coming soon</span>.</p>
+        </div>
+        <a href="{% url 'browse' %}" class="btn btn-warning fw-bold text-dark"><i class="fas fa-search me-2"></i>Browse vehicles</a>
+      </div>
+
+      <div class="row g-3 mb-4" data-aos="fade-up" data-aos-delay="40">
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Total trips</div>
+            <div class="value">{{ booking_summary.total }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Active</div>
+            <div class="value text-warning">{{ booking_summary.active }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Pending</div>
+            <div class="value">{{ booking_summary.pending }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Completed</div>
+            <div class="value">{{ booking_summary.completed }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Total value</div>
+            <div class="value">R {{ booking_summary.total_spend }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Next trip</div>
+            <div class="value small fw-bold">{% if booking_summary.next_trip_date %}{{ booking_summary.next_trip_date }}{% else %}-{% endif %}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-5">
+        {% for row in booking_rows %}
+        <div class="col-lg-6">
+          <div class="card-dark p-4 h-100" data-aos="fade-up">
+            <img src="{% listing_card_image row.booking.listing %}" alt="{{ row.booking.listing.title }}" class="booking-image mb-3" loading="lazy" decoding="async">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="mb-0">{{ row.booking.listing.title }}</h5>
+              <span class="badge {% if row.status == 'completed' %}text-bg-success{% elif row.status == 'active' %}text-bg-warning text-dark{% else %}text-bg-secondary{% endif %}">{{ row.status_label }}</span>
+            </div>
+            <p class="muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i>{{ row.booking.listing.location }}</p>
+            <p class="small mb-2"><strong>From:</strong> {{ row.booking.start_date }} &nbsp; <strong>To:</strong> {{ row.booking.end_date }}</p>
+            <p class="small mb-2"><strong>Host:</strong> {{ row.booking.listing.owner.get_full_name|default:row.booking.listing.owner.username }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="small muted">{{ row.days }} day{{ row.days|pluralize }}</span>
+              <strong>R {{ row.total }}</strong>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+              <a href="{% url 'listing_detail' row.booking.listing.id %}" class="btn btn-sm btn-outline-light flex-fill">View vehicle</a>
+              <a href="{% url 'conversation' row.booking.listing.id row.booking.listing.owner.id %}" class="btn btn-sm btn-outline-warning flex-fill">Message host</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+          <div class="ytr-premium-glass p-5 text-center" data-aos="fade-up">
+            <h5 class="mb-2">No bookings yet</h5>
+            <p class="muted mb-3">When you submit a booking request and it is recorded, it appears here.</p>
+            <a href="{% url 'browse' %}" class="btn btn-warning fw-bold text-dark">Browse vehicles</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+        <h3 class="ytr-premium-section-title"><i class="fas fa-info-circle text-warning me-2"></i>How bookings work</h3>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <p class="ytr-premium-muted mb-0"><strong class="text-white">Requests</strong> — Submit dates from the vehicle page. The host reviews availability before a trip is treated as confirmed.</p>
+          </div>
+          <div class="col-md-4">
+            <p class="ytr-premium-muted mb-0"><strong class="text-white">Messages</strong> — Coordinate pickup, keys, and return windows in <a href="{% url 'inbox' %}" class="text-warning text-decoration-none">Messages</a>.</p>
+          </div>
+          <div class="col-md-4">
+            <p class="ytr-premium-muted mb-0"><strong class="text-white">Payments</strong> — In-platform payments and statements are <span class="text-warning">coming soon</span>; nothing is presented as settled until go-live.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ytr-premium-grid-3">
+        <div class="ytr-premium-icon-card text-center" data-aos="fade-up">
+          <i class="fas fa-clipboard-check"></i>
+          <div class="fw-bold small">Host approval</div>
+          <p class="ytr-premium-muted small mb-0 mt-2">Listings remain under owner control until checkout features launch.</p>
+        </div>
+        <div class="ytr-premium-icon-card text-center" data-aos="fade-up" data-aos-delay="40">
+          <i class="fas fa-file-signature"></i>
+          <div class="fw-bold small">Verification</div>
+          <p class="ytr-premium-muted small mb-0 mt-2">Document checks protect hosts and renters — see <a href="{% url 'documents_center' %}" class="text-warning text-decoration-none">Documents</a>.</p>
+        </div>
+        <div class="ytr-premium-icon-card text-center" data-aos="fade-up" data-aos-delay="80">
+          <i class="fas fa-headset"></i>
+          <div class="fw-bold small">Support</div>
+          <p class="ytr-premium-muted small mb-0 mt-2">Questions? <a href="{% url 'help_center' %}" class="text-warning text-decoration-none">Help center</a> or <a href="{% url 'contact' %}" class="text-warning text-decoration-none">contact</a>.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% include 'partials/account_shell_scripts.html' %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true });</script>
+</body>
+</html>

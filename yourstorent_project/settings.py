@@ -206,7 +206,7 @@ ROOT_URLCONF = 'yourstorent_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],  # top-level templates
+        'DIRS': [BASE_DIR / "templates"],  # single canonical templates root
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -309,8 +309,7 @@ USE_TZ = True
 
 
 # Static/media roots and STORAGES are defined near the top of this file (WhiteNoise + collectstatic).
-
-TEMPLATES[0]['DIRS'] = [BASE_DIR / 'templates', BASE_DIR]
+TEMPLATES[0]['DIRS'] = [BASE_DIR / "templates"]
 
 
 LOGIN_URL = "/login/"
