@@ -184,7 +184,7 @@ def inbox(request):
             topbar_subtitle="Inbox & threads",
         )
     )
-    return render(request, "download/messages.html", ctx)
+    return render(request, "messages.html", ctx)
 
 
 @login_required

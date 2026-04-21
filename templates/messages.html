@@ -5,741 +5,302 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages | Yours To Rent</title>
-    <meta name="description" content="Communicate with renters and vehicle owners on Yours To Rent.">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap 5 CSS -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    
+    <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
     <style>
-        :root {
-            --sidebar-width: 280px;
-        }
-        
-        body {
-            background: #0a0a0a;
-        }
-        
-        .dashboard-wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        .sidebar {
-            width: var(--sidebar-width);
-            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-        
-        .sidebar-header {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-user {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-user .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-color);
-        }
-        
-        .sidebar-nav {
-            padding: 20px 0;
-        }
-        
-        .sidebar-nav .nav-label {
-            color: rgba(255,255,255,0.4);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 15px 25px 10px;
-        }
-        
-        .sidebar-nav .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 15px 25px;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-        
-        .sidebar-nav .nav-link:hover,
-        .sidebar-nav .nav-link.active {
-            background: rgba(255,165,0,0.1);
-            color: var(--primary-color);
-            border-left-color: var(--primary-color);
-        }
-        
-        .sidebar-nav .nav-link i {
-            width: 24px;
-            margin-right: 15px;
-            font-size: 18px;
-        }
-        
-        .sidebar-nav .nav-link .badge {
-            margin-left: auto;
-            background: var(--primary-color);
-            color: #000;
-        }
-        
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            display: flex;
-            height: 100vh;
-        }
-        
-        .messages-wrapper {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-        
-        .conversations-list {
-            width: 350px;
-            background: rgba(255,255,255,0.02);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .conversations-header {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .conversations-header h4 {
-            color: #fff;
-            margin: 0;
-        }
-        
-        .search-messages {
-            padding: 15px 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .search-messages input {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #fff;
-        }
-        
-        .search-messages input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .search-messages .search-icon {
-            position: absolute;
-            left: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255,255,255,0.5);
-        }
-        
-        .conversations-scroll {
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .conversation-item {
-            display: flex;
-            align-items: center;
-            padding: 20px 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .conversation-item:hover,
-        .conversation-item.active {
-            background: rgba(255,165,0,0.1);
-        }
-        
-        .conversation-item .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 15px;
-            position: relative;
-        }
-        
-        .conversation-item .online-badge {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 14px;
-            height: 14px;
-            background: #00c853;
-            border: 2px solid #0a0a0a;
-            border-radius: 50%;
-        }
-        
-        .conversation-item .info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .conversation-item .info h5 {
-            color: #fff;
-            margin: 0 0 5px;
-            font-size: 15px;
-        }
-        
-        .conversation-item .info p {
-            color: rgba(255,255,255,0.5);
-            margin: 0;
-            font-size: 13px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .conversation-item .meta {
-            text-align: right;
-        }
-        
-        .conversation-item .meta .time {
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
-        
-        .conversation-item .meta .unread {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 22px;
-            height: 22px;
-            background: var(--primary-color);
-            color: #000;
-            border-radius: 50%;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .chat-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 30px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.02);
-        }
-        
-        .chat-header .user-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .chat-header .user-info img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-        
-        .chat-header .user-info h5 {
-            color: #fff;
-            margin: 0;
-        }
-        
-        .chat-header .user-info p {
-            color: rgba(255,255,255,0.5);
-            margin: 0;
-            font-size: 13px;
-        }
-        
-        .chat-header .actions button {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #fff;
-            margin-left: 10px;
-        }
-        
-        .chat-header .actions button:hover {
-            background: rgba(255,165,0,0.1);
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 30px;
-        }
-        
-        .message-date {
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .message-date span {
-            background: rgba(255,255,255,0.05);
-            color: rgba(255,255,255,0.5);
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 12px;
-        }
-        
-        .message {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        
-        .message.sent {
-            flex-direction: row-reverse;
-        }
-        
-        .message .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin: 0 15px;
-        }
-        
-        .message .bubble {
-            max-width: 60%;
-            padding: 15px 20px;
-            border-radius: 20px;
-            position: relative;
-        }
-        
-        .message.received .bubble {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            border-bottom-left-radius: 5px;
-        }
-        
-        .message.sent .bubble {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: #000;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .message .bubble .time {
-            font-size: 11px;
-            opacity: 0.7;
-            margin-top: 5px;
-        }
-        
-        .message.sent .bubble .time {
-            text-align: right;
-        }
-        
-        .chat-input {
-            padding: 20px 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.02);
-        }
-        
-        .chat-input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .chat-input-wrapper .attach-btn {
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            color: #fff;
-        }
-        
-        .chat-input-wrapper .attach-btn:hover {
-            background: rgba(255,165,0,0.1);
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .chat-input-wrapper input {
-            flex: 1;
-            padding: 15px 20px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            color: #fff;
-        }
-        
-        .chat-input-wrapper input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .chat-input-wrapper .send-btn {
-            width: 45px;
-            height: 45px;
-            background: var(--primary-color);
-            border: none;
-            border-radius: 12px;
-            color: #000;
-        }
-        
-        .chat-input-wrapper .send-btn:hover {
-            background: var(--secondary-color);
-        }
-        
+        :root { --sidebar-width: 280px; --msg-accent: #e8a23c; --msg-bg: #0a0a0c; --msg-panel: #111114; --msg-border: rgba(255,255,255,0.08); }
+        body { background: var(--msg-bg); font-family: Inter, system-ui, sans-serif; color: #f4f4f5; }
+        .dashboard-wrapper { display: flex; min-height: 100vh; }
+        .main-content { flex: 1; margin-left: var(--sidebar-width); display: flex; flex-direction: column; min-height: 100vh; }
+        .messages-shell { display: flex; flex: 1; min-height: 0; border-top: 1px solid var(--msg-border); }
+        .thread-list { width: 360px; border-right: 1px solid var(--msg-border); background: var(--msg-panel); display: flex; flex-direction: column; min-height: 0; }
+        .thread-list-header { padding: 1.25rem 1.25rem 0.75rem; border-bottom: 1px solid var(--msg-border); }
+        .thread-list-header h4 { margin: 0; font-weight: 700; font-size: 1.15rem; }
+        .thread-scroll { flex: 1; overflow-y: auto; }
+        .thread-row { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--msg-border); text-decoration: none; color: inherit; transition: background .15s; }
+        .thread-row:hover, .thread-row.active { background: rgba(232,162,60,0.08); }
+        .avatar-wrap { position: relative; flex-shrink: 0; }
+        .avatar-img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(232,162,60,0.35); }
+        .avatar-fallback { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; background: linear-gradient(135deg, #3d3428, #1a1814); color: var(--msg-accent); border: 2px solid rgba(232,162,60,0.35); }
+        .avatar-fallback i { font-size: 1.1rem; opacity: 0.9; }
+        .thread-meta { flex: 1; min-width: 0; }
+        .thread-meta .name { font-weight: 600; font-size: 0.95rem; margin: 0 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .thread-meta .listing { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin: 0; }
+        .thread-meta .preview { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin: 4px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .thread-side { text-align: right; flex-shrink: 0; }
+        .thread-side .time { font-size: 0.72rem; color: rgba(255,255,255,0.4); }
+        .unread-dot { display: inline-block; min-width: 20px; height: 20px; line-height: 20px; padding: 0 6px; border-radius: 999px; background: var(--msg-accent); color: #111; font-size: 0.7rem; font-weight: 800; margin-top: 6px; text-align: center; }
+        .chat-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; background: #0c0c0f; }
+        .chat-head { padding: 16px 22px; border-bottom: 1px solid var(--msg-border); display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255,255,255,0.02); }
+        .chat-head .who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .chat-head .who h5 { margin: 0; font-size: 1.05rem; font-weight: 700; }
+        .chat-head .who small { color: rgba(255,255,255,0.5); display: block; margin-top: 2px; }
+        .chat-feed { flex: 1; overflow-y: auto; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+        .msg-row { display: flex; gap: 10px; align-items: flex-end; max-width: 85%; }
+        .msg-row.me { align-self: flex-end; flex-direction: row-reverse; }
+        .msg-bubble { padding: 12px 16px; border-radius: 16px; line-height: 1.45; font-size: 0.95rem; max-width: min(100%, 420px); word-break: break-word; }
+        .msg-row:not(.me) .msg-bubble { background: rgba(255,255,255,0.06); border: 1px solid var(--msg-border); border-bottom-left-radius: 4px; }
+        .msg-row.me .msg-bubble { background: linear-gradient(135deg, rgba(232,162,60,0.95), rgba(200,120,40,0.95)); color: #141210; border-bottom-right-radius: 4px; }
+        .msg-bubble .msg-media { max-width: min(100%, 320px); border-radius: 12px; display: block; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+        .msg-row.me .msg-bubble .msg-media { border: 1px solid rgba(0,0,0,0.15); }
+        .msg-bubble video.msg-media { background: #000; min-height: 120px; }
+        .msg-time { font-size: 0.7rem; opacity: 0.65; margin-top: 6px; }
+        .chat-compose { padding: 16px 22px; border-top: 1px solid var(--msg-border); background: rgba(255,255,255,0.02); }
+        .compose-wrap textarea { min-height: 52px; resize: vertical; }
+        .compose-wrap label.btn { cursor: pointer; align-self: stretch; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; }
+        #msgAttachPreview.file-on { color: rgba(232,162,60,0.95); }
+        .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; color: rgba(255,255,255,0.55); }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 16px; color: var(--msg-accent); opacity: 0.6; }
+        .mobile-chat-back { display: none; }
         @media (max-width: 1200px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
+            .sidebar { transform: translateX(-100%); transition: transform .3s; }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; }
         }
-        
-        @media (max-width: 992px) {
-            .conversations-list {
-                width: 100%;
-                position: absolute;
-                z-index: 10;
-                background: #0a0a0a;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
+        @media (max-width: 1200px) and (min-width: 993px) {
+            .messages-shell { flex-wrap: nowrap; }
+            .thread-list {
+                width: min(340px, 36vw);
+                flex: 0 0 auto;
+                min-width: 0;
             }
-            
-            .conversations-list.active {
-                transform: translateX(0);
+            .chat-panel { min-width: 0; }
+        }
+        @media (max-width: 992px) {
+            .messages-shell.mobile-chat .thread-list { display: none; }
+            .messages-shell.mobile-chat .chat-panel { display: flex; width: 100%; }
+            .messages-shell.mobile-threads .thread-list { display: flex; width: 100%; }
+            .messages-shell.mobile-threads .chat-panel { display: none; }
+            .chat-head { padding: 12px; }
+            .chat-feed { padding: 14px; }
+            .chat-compose { padding: 10px; }
+            .msg-row { max-width: 100%; }
+            .msg-bubble { max-width: 80vw; }
+            .mobile-chat-back {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                height: 34px;
+                border: 1px solid var(--msg-border);
+                border-radius: 8px;
+                color: #fff;
+                background: rgba(255,255,255,0.06);
             }
         }
     </style>
 </head>
 <body>
+    {% if messages %}
+    <div class="position-fixed top-0 start-50 translate-middle-x mt-3 px-3" style="z-index: 2000;">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} shadow mb-2 py-2 px-3 small">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="dashboard-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <a href="index.html">
-                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
-                </a>
-            </div>
-            
-            <div class="sidebar-user">
-                <div class="d-flex align-items-center">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar me-3">
-                    <div>
-                        <h6 class="text-white mb-0">John Doe</h6>
-                        <small class="text-white-50">Premium Member</small>
-                    </div>
-                </div>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <div class="nav-label">Main Menu</div>
-                <a href="dashboard.html" class="nav-link">
-                    <i class="fas fa-th-large"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="my-bookings.html" class="nav-link">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>My Bookings</span>
-                </a>
-                <a href="my-vehicles.html" class="nav-link">
-                    <i class="fas fa-car"></i>
-                    <span>My Vehicles</span>
-                </a>
-                <a href="{% url 'inbox' %}" class="nav-link active">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                    <span class="badge">5</span>
-                </a>
-                
-                <div class="nav-label">Finance</div>
-                <a href="earnings.html" class="nav-link">
-                    <i class="fas fa-wallet"></i>
-                    <span>Earnings</span>
-                </a>
-                <a href="transactions.html" class="nav-link">
-                    <i class="fas fa-exchange-alt"></i>
-                    <span>Transactions</span>
-                </a>
-                
-                <div class="nav-label">Account</div>
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
-                <a href="settings.html" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </nav>
-        </aside>
-        
-        <!-- Main Content -->
+        {% include 'partials/account_sidebar.html' %}
         <main class="main-content">
-            <div class="messages-wrapper">
-                <!-- Conversations List -->
-                <div class="conversations-list" id="conversationsList">
-                    <div class="conversations-header">
+            {% include 'partials/account_topbar.html' %}
+
+            <div class="messages-shell {% if active_other and active_listing %}mobile-chat{% else %}mobile-threads{% endif %}" id="messagesShell">
+                <aside class="thread-list">
+                    <div class="thread-list-header">
                         <h4>Messages</h4>
+                        <p class="small text-white-50 mb-2">Conversations tied to listings</p>
+                        <a href="{% url 'contact' %}" class="btn btn-sm btn-outline-warning w-100 d-flex align-items-center justify-content-center gap-2">
+                            <i class="fas fa-headset"></i> Contact support
+                        </a>
                     </div>
-                    <div class="search-messages position-relative">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" placeholder="Search conversations...">
+                    <div class="thread-scroll">
+                        {% for t in threads %}
+                        <a class="thread-row {% if active_other and active_other.id == t.other.id and active_listing and active_listing.id == t.listing.id %}active{% endif %}"
+                           href="{% url 'inbox' %}?listing={{ t.listing.id }}&user={{ t.other.id }}">
+                            <div class="avatar-wrap">
+                                {% if t.other_profile.avatar %}
+                                <img class="avatar-img" src="{{ t.other_profile.avatar.url }}" alt="" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
+                                {% else %}
+                                <div class="avatar-fallback">
+                                    {% if t.other.first_name or t.other.last_name %}
+                                        {{ t.other.first_name|slice:":1"|upper }}{{ t.other.last_name|slice:":1"|upper }}
+                                    {% else %}
+                                        <i class="fas fa-user" aria-hidden="true"></i>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="thread-meta">
+                                <p class="name">{{ t.other.get_full_name|default:t.other.username }}</p>
+                                <p class="listing">{{ t.listing.title }}</p>
+                                <p class="preview">{{ t.last_message.preview_snippet }}</p>
+                            </div>
+                            <div class="thread-side">
+                                <div class="time">{{ t.last_message.created_at|date:"d M" }}</div>
+                                {% if t.unread_count %}<span class="unread-dot">{{ t.unread_count }}</span>{% endif %}
+                            </div>
+                        </a>
+                        {% empty %}
+                        <div class="p-4 text-center text-white-50 small">No conversations yet. Open a listing and contact the host or renter to start messaging.</div>
+                        {% endfor %}
                     </div>
-                    <div class="conversations-scroll">
-                        <div class="conversation-item active">
-                            <div class="position-relative">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                                <span class="online-badge"></span>
-                            </div>
-                            <div class="info">
-                                <h5>Sarah Johnson</h5>
-                                <p>Thanks! I'll be there at 10am to...</p>
-                            </div>
-                            <div class="meta">
-                                <div class="time">2m ago</div>
-                                <span class="unread">3</span>
-                            </div>
-                        </div>
-                        <div class="conversation-item">
-                            <div class="position-relative">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                            </div>
-                            <div class="info">
-                                <h5>Michael Smith</h5>
-                                <p>Is the car available next weekend?</p>
-                            </div>
-                            <div class="meta">
-                                <div class="time">1h ago</div>
-                                <span class="unread">2</span>
-                            </div>
-                        </div>
-                        <div class="conversation-item">
-                            <div class="position-relative">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                                <span class="online-badge"></span>
-                            </div>
-                            <div class="info">
-                                <h5>David Williams</h5>
-                                <p>Great experience with the BMW!</p>
-                            </div>
-                            <div class="meta">
-                                <div class="time">3h ago</div>
-                            </div>
-                        </div>
-                        <div class="conversation-item">
-                            <div class="position-relative">
-                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                            </div>
-                            <div class="info">
-                                <h5>Lisa Brown</h5>
-                                <p>I've sent you the pickup details</p>
-                            </div>
-                            <div class="meta">
-                                <div class="time">Yesterday</div>
-                            </div>
-                        </div>
-                        <div class="conversation-item">
-                            <div class="position-relative">
-                                <img src="/static/images/ytr-logo-reference.svg" alt="User" class="avatar">
-                            </div>
-                            <div class="info">
-                                <h5>YTR Support</h5>
-                                <p>Your payout has been processed</p>
-                            </div>
-                            <div class="meta">
-                                <div class="time">2 days</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Chat Area -->
-                <div class="chat-area">
-                    <div class="chat-header">
-                        <div class="user-info">
-                            <button class="btn btn-outline-light d-lg-none me-3" onclick="document.getElementById('conversationsList').classList.toggle('active')">
-                                <i class="fas fa-arrow-left"></i>
+                </aside>
+
+                <section class="chat-panel">
+                    {% if active_other and active_listing %}
+                    <div class="chat-head">
+                        <div class="who">
+                            <button type="button" class="mobile-chat-back d-lg-none" id="showThreadsBtn" aria-label="Back to conversations">
+                                <i class="fas fa-chevron-left"></i>
                             </button>
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&amp;h=96&amp;fit=crop&amp;face" alt="">
+                            <div class="avatar-wrap">
+                                {% if active_other_profile.avatar %}
+                                <img class="avatar-img" src="{{ active_other_profile.avatar.url }}" alt="" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
+                                {% else %}
+                                <div class="avatar-fallback">
+                                    {% if active_other.first_name or active_other.last_name %}
+                                        {{ active_other.first_name|slice:":1"|upper }}{{ active_other.last_name|slice:":1"|upper }}
+                                    {% else %}
+                                        <i class="fas fa-user" aria-hidden="true"></i>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="min-w-0">
+                                <h5>{{ active_other.get_full_name|default:active_other.username }}</h5>
+                                <small>Re: {{ active_listing.title }}</small>
+                            </div>
+                        </div>
+                        <a href="{% url 'listing_detail' active_listing.id %}" class="btn btn-sm btn-outline-light">View listing</a>
+                    </div>
+
+                    <div class="chat-feed" id="chatFeed">
+                        {% for m in active_messages %}
+                        <div class="msg-row {% if m.sender_id == user.id %}me{% endif %}">
+                            {% if m.sender_id != user.id %}
+                            <div class="avatar-wrap">
+                                {% if m.sender_profile.avatar %}
+                                <img class="avatar-img" src="{{ m.sender_profile.avatar.url }}" alt="" style="width:36px;height:36px;" onerror="this.onerror=null;this.src='{% static 'images/ytr-logo-reference.svg' %}';">
+                                {% else %}
+                                <div class="avatar-fallback" style="width:36px;height:36px;font-size:0.7rem;">
+                                    {% if m.sender.first_name or m.sender.last_name %}
+                                        {{ m.sender.first_name|slice:":1"|upper }}{{ m.sender.last_name|slice:":1"|upper }}
+                                    {% else %}
+                                        <i class="fas fa-user small"></i>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endif %}
                             <div>
-                                <h5>Sarah Johnson</h5>
-                                <p><span class="text-success"><i class="fas fa-circle me-1" style="font-size: 8px;"></i></span>Online</p>
+                                <div class="msg-bubble">
+                                    {% if m.attachment %}
+                                        {% if m.attachment_media_kind == "video" %}
+                                        <video class="msg-media" controls playsinline preload="metadata" src="{{ m.attachment.url }}"></video>
+                                        {% else %}
+                                        <img class="msg-media" src="{{ m.attachment.url }}" alt="Attachment" loading="lazy">
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if m.content %}
+                                    <div class="{% if m.attachment %}mt-2{% endif %}">{{ m.content|linebreaksbr }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="msg-time">{{ m.created_at|date:"d M Y, H:i" }}</div>
                             </div>
                         </div>
-                        <div class="actions">
-                            <button><i class="fas fa-phone"></i></button>
-                            <button><i class="fas fa-video"></i></button>
-                            <button><i class="fas fa-ellipsis-v"></i></button>
+                        {% empty %}
+                        <p class="text-white-50 small">No messages in this thread yet.</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="chat-compose">
+                        <form method="post" action="{% url 'inbox' %}" enctype="multipart/form-data" id="msgComposeForm" novalidate>
+                            {% csrf_token %}
+                            <input type="hidden" name="listing_id" value="{{ active_listing.id }}">
+                            <input type="hidden" name="other_user_id" value="{{ active_other.id }}">
+                            <div class="compose-wrap">
+                                <div class="d-flex flex-column flex-md-row gap-2 align-items-stretch">
+                                    <textarea name="content" id="msgContent" class="form-control bg-dark text-white border-secondary flex-grow-1" rows="2" maxlength="4000" placeholder="Write a message… (optional if you attach media)"></textarea>
+                                    <div class="d-flex gap-2 flex-shrink-0">
+                                        <label for="msgAttachment" class="btn btn-outline-secondary mb-0" title="Attach photo or video">
+                                            <i class="fas fa-paperclip"></i>
+                                        </label>
+                                        <button type="submit" class="btn btn-warning text-dark fw-bold px-4">
+                                            <i class="fas fa-paper-plane me-1 d-none d-sm-inline"></i> Send
+                                        </button>
+                                    </div>
+                                </div>
+                                <input type="file" name="attachment" id="msgAttachment" class="d-none" accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/webm,video/quicktime">
+                                <div id="msgAttachPreview" class="small mt-1"></div>
+                            </div>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <p class="mb-2 fw-semibold text-white">Your inbox is ready</p>
+                        <p class="small mb-0" style="max-width: 420px;">When you message someone about a vehicle, the conversation appears here. There is no demo content—only real threads from your account.</p>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+                            <a href="{% url 'browse' %}" class="btn btn-warning text-dark fw-bold">Browse listings</a>
+                            <a href="{% url 'contact' %}" class="btn btn-outline-light">Contact support</a>
                         </div>
                     </div>
-                    
-                    <div class="chat-messages">
-                        <div class="message-date">
-                            <span>Today</span>
-                        </div>
-                        
-                        <div class="message received">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                            <div class="bubble">
-                                <p>Hi John! I'm interested in renting your BMW X5 for next weekend. Is it available?</p>
-                                <span class="time">10:30 AM</span>
-                            </div>
-                        </div>
-                        
-                        <div class="message sent">
-                            <div class="bubble">
-                                <p>Hi Sarah! Yes, the BMW X5 is available next weekend. What dates were you thinking?</p>
-                                <span class="time">10:32 AM</span>
-                            </div>
-                        </div>
-                        
-                        <div class="message received">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                            <div class="bubble">
-                                <p>I'm looking at Friday January 24th to Sunday January 26th. Would that work?</p>
-                                <span class="time">10:35 AM</span>
-                            </div>
-                        </div>
-                        
-                        <div class="message sent">
-                            <div class="bubble">
-                                <p>Perfect! Those dates are open. The total would be R4,500 for 3 days. Would you like me to send you a booking request?</p>
-                                <span class="time">10:38 AM</span>
-                            </div>
-                        </div>
-                        
-                        <div class="message received">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                            <div class="bubble">
-                                <p>Yes please! That sounds great. Where would I pick it up from?</p>
-                                <span class="time">10:40 AM</span>
-                            </div>
-                        </div>
-                        
-                        <div class="message sent">
-                            <div class="bubble">
-                                <p>I'm based in Sandton. We can arrange pickup at the Sandton City parking area, or I can deliver it to you for an additional R200. Let me know what works best!</p>
-                                <span class="time">10:42 AM</span>
-                            </div>
-                        </div>
-                        
-                        <div class="message received">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar">
-                            <div class="bubble">
-                                <p>Thanks! I'll be there at 10am to pick it up at Sandton City. Looking forward to it!</p>
-                                <span class="time">10:45 AM</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-input">
-                        <div class="chat-input-wrapper">
-                            <button class="attach-btn"><i class="fas fa-paperclip"></i></button>
-                            <input type="text" placeholder="Type a message...">
-                            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
+                    {% endif %}
+                </section>
             </div>
         </main>
     </div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    {% include 'partials/account_shell_scripts.html' %}
     <script>
-        // Toggle sidebar on mobile
-        document.querySelector('.sidebar-header').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-        
-        // Conversation item click
-        document.querySelectorAll('.conversation-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.conversation-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                
-                // On mobile, hide conversation list
-                if (window.innerWidth < 992) {
-                    document.getElementById('conversationsList').classList.remove('active');
+        (function () {
+            var el = document.getElementById('chatFeed');
+            if (el) el.scrollTop = el.scrollHeight;
+            var shell = document.getElementById('messagesShell');
+            var backBtn = document.getElementById('showThreadsBtn');
+            if (shell && window.matchMedia('(max-width: 992px)').matches) {
+                shell.querySelectorAll('.thread-row').forEach(function (row) {
+                    row.addEventListener('click', function () {
+                        shell.classList.remove('mobile-threads');
+                        shell.classList.add('mobile-chat');
+                    });
+                });
+                if (backBtn) {
+                    backBtn.addEventListener('click', function () {
+                        shell.classList.remove('mobile-chat');
+                        shell.classList.add('mobile-threads');
+                    });
                 }
-            });
-        });
-        
-        // Send message
-        document.querySelector('.send-btn').addEventListener('click', function() {
-            const input = document.querySelector('.chat-input input');
-            const message = input.value.trim();
-            
-            if (message) {
-                const chatMessages = document.querySelector('.chat-messages');
-                const now = new Date();
-                const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-                
-                const messageHtml = `
-                    <div class="message sent">
-                        <div class="bubble">
-                            <p>${message}</p>
-                            <span class="time">${time}</span>
-                        </div>
-                    </div>
-                `;
-                
-                chatMessages.insertAdjacentHTML('beforeend', messageHtml);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                input.value = '';
             }
-        });
-        
-        // Send on Enter
-        document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.querySelector('.send-btn').click();
+            var form = document.getElementById('msgComposeForm');
+            var ta = document.getElementById('msgContent');
+            var fileIn = document.getElementById('msgAttachment');
+            var prev = document.getElementById('msgAttachPreview');
+            if (fileIn && prev) {
+                fileIn.addEventListener('change', function () {
+                    var f = fileIn.files && fileIn.files[0];
+                    if (!f) {
+                        prev.textContent = '';
+                        prev.classList.remove('file-on');
+                        return;
+                    }
+                    prev.textContent = 'Attached: ' + f.name;
+                    prev.classList.add('file-on');
+                });
             }
-        });
+            if (form && ta && fileIn) {
+                form.addEventListener('submit', function (e) {
+                    var text = (ta.value || '').trim();
+                    var hasFile = fileIn.files && fileIn.files.length > 0;
+                    if (!text && !hasFile) {
+                        e.preventDefault();
+                        alert('Type a message or attach a photo / video.');
+                    }
+                });
+            }
+        })();
     </script>
 </body>
 </html>

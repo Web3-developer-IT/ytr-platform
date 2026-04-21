@@ -84,7 +84,7 @@ def home(request):
     }
     return render(
         request,
-        "download/index.html",
+        "index.html",
         {
             "featured_listings": featured_listings,
             "show_public_reviews": False,
@@ -166,7 +166,7 @@ def feedback_page(request):
 
 
 def services(request):
-    return render(request, "download/services.html")
+    return render(request, "services.html")
 
 
 def newsletter_subscribe(request):
@@ -262,7 +262,7 @@ def listings_page(request):
 
     return render(
         request,
-        "download/browse.html",
+        "browse.html",
         {
             "listings": page_obj.object_list,
             "page_obj": page_obj,
@@ -300,7 +300,7 @@ def listing_detail(request, listing_id):
         )
     return render(
         request,
-        "download/vehicle-details.html",
+        "vehicle-details.html",
         {"listing": listing, "related_listings": related},
     )
 
@@ -312,7 +312,7 @@ def listing_detail_fallback(request, *args, **kwargs):
     related = _public_listings_qs().exclude(id=listing.id).order_by("-created_at")[:4]
     return render(
         request,
-        "download/vehicle-details.html",
+        "vehicle-details.html",
         {"listing": listing, "related_listings": related},
     )
 
@@ -602,7 +602,7 @@ def add_listing(request):
         messages.success(request, "Vehicle listing submitted successfully.")
         return redirect("owner_dashboard")
 
-    return render(request, "download/list-vehicle.html")
+    return render(request, "list-vehicle.html")
 
 
 @login_required
@@ -663,7 +663,7 @@ def profile_page(request):
             topbar_subtitle="Your public details & avatar",
         )
     )
-    return render(request, "download/profile.html", ctx)
+    return render(request, "profile.html", ctx)
 
 
 @login_required
@@ -690,7 +690,7 @@ def settings_page(request):
             topbar_subtitle="Security & preferences",
         )
     )
-    return render(request, "download/settings.html", ctx)
+    return render(request, "settings.html", ctx)
 
 
 @login_required
@@ -759,7 +759,7 @@ def my_bookings_page(request):
             topbar_subtitle="Trips and rental history",
         )
     )
-    return render(request, "download/my-bookings.html", ctx)
+    return render(request, "my-bookings.html", ctx)
 
 
 @login_required
@@ -774,7 +774,7 @@ def my_vehicles_page(request):
             topbar_subtitle="Listings you host",
         )
     )
-    return render(request, "download/my-vehicles.html", ctx)
+    return render(request, "my-vehicles.html", ctx)
 
 
 def _owner_earnings_data(request):
@@ -804,7 +804,7 @@ def earnings_page(request):
             topbar_subtitle="Revenue from your listings",
         )
     )
-    return render(request, "download/earnings.html", ctx)
+    return render(request, "earnings.html", ctx)
 
 
 @login_required
@@ -857,7 +857,7 @@ def transactions_page(request):
             topbar_subtitle="Host & renter activity",
         )
     )
-    return render(request, "download/transactions.html", ctx)
+    return render(request, "transactions.html", ctx)
 
 
 @login_required
@@ -871,7 +871,7 @@ def payouts_page(request):
             topbar_subtitle="Bank & payout preferences",
         )
     )
-    return render(request, "download/payouts.html", ctx)
+    return render(request, "payouts.html", ctx)
 
 
 @login_required
@@ -885,7 +885,7 @@ def help_center_page(request):
             topbar_subtitle="Guides & support",
         )
     )
-    return render(request, "download/help-center.html", ctx)
+    return render(request, "help-center.html", ctx)
 
 
 def faq_page(request):
@@ -918,15 +918,15 @@ def trust_center(request):
 
 
 def terms_page(request):
-    return render(request, "download/terms.html")
+    return render(request, "terms.html")
 
 
 def privacy_page(request):
-    return render(request, "download/privacy.html")
+    return render(request, "privacy.html")
 
 
 def cookies_page(request):
-    return render(request, "download/cookies.html")
+    return render(request, "cookies.html")
 
 
 def careers_page(request):
@@ -934,7 +934,7 @@ def careers_page(request):
 
 
 def partners_marketing_page(request):
-    """Public marketing partners page (download/partners.html)."""
+    """Public marketing partners page."""
     return render(request, "public_marketing_partners.html")
 
 

@@ -8,7 +8,7 @@
     <meta name="description" content="Join the team at Yours To Rent and help revolutionize vehicle rentals in South Africa.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
+    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -723,16 +723,21 @@ html, body {
     </a>
 
     <div class="ytrE-links">
-      <a href="#" id="ytrEBrowse">Browse Vehicles</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="list-vehicle.html">List Vehicle</a>
-      <a href="about.html">Company</a>
-      <a href="contact.html">Support</a>
+      <a href="{% url 'browse' %}" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="{% url 'how_it_works' %}">How It Works</a>
+      <a href="{% url 'add_listing' %}">List Vehicle</a>
+      <a href="{% url 'about' %}">Company</a>
+      <a href="{% url 'contact' %}">Support</a>
     </div>
 
     <div class="ytrE-actions">
-      <a href="login.html" class="ytrE-login">Login</a>
-      <a href="signup.html" class="ytrE-signup">Sign Up</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'owner_dashboard' %}" class="ytrE-login">Dashboard</a>
+      <a href="{% url 'logout' %}" class="ytrE-signup">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="ytrE-login">Login</a>
+      <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
+      {% endif %}
     </div>
 
     <div class="ytrE-burger" id="ytrEBurger">☰</div>
@@ -763,12 +768,19 @@ html, body {
 
 <!-- ================= MOBILE DRAWER ================= -->
 <div class="ytrE-drawer" id="ytrEDrawer">
-<a href="index.html">Homepage</a>
-  <a href="browse.html">Browse Vehicles</a>
-  <a href="how-it-works.html">How It Works</a>
-  <a href="list-vehicle.html">List Vehicle</a>
-  <a href="about.html">Company</a>
-  <a href="contact.html">Support</a>
+<a href="{% url 'home' %}">Homepage</a>
+  <a href="{% url 'browse' %}">Browse Vehicles</a>
+  <a href="{% url 'how_it_works' %}">How It Works</a>
+  <a href="{% url 'add_listing' %}">List Vehicle</a>
+  <a href="{% url 'about' %}">Company</a>
+  <a href="{% url 'contact' %}">Support</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'owner_dashboard' %}">Dashboard</a>
+  <a href="{% url 'logout' %}">Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'register' %}">Sign Up</a>
+  {% endif %}
 </div>
 
 <script>

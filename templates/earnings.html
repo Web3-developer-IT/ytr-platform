@@ -2,687 +2,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earnings | Yours To Rent</title>
-    <meta name="description" content="Track your earnings and payouts on Yours To Rent.">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    
-    <style>
-        :root {
-            --sidebar-width: 280px;
-        }
-        
-        body {
-            background: #0a0a0a;
-        }
-        
-        .dashboard-wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        .sidebar {
-            width: var(--sidebar-width);
-            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-        
-        .sidebar-header {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-user {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-user .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-color);
-        }
-        
-        .sidebar-nav {
-            padding: 20px 0;
-        }
-        
-        .sidebar-nav .nav-label {
-            color: rgba(255,255,255,0.4);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 15px 25px 10px;
-        }
-        
-        .sidebar-nav .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 15px 25px;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-        
-        .sidebar-nav .nav-link:hover,
-        .sidebar-nav .nav-link.active {
-            background: rgba(255,165,0,0.1);
-            color: var(--primary-color);
-            border-left-color: var(--primary-color);
-        }
-        
-        .sidebar-nav .nav-link i {
-            width: 24px;
-            margin-right: 15px;
-            font-size: 18px;
-        }
-        
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            padding: 30px;
-        }
-        
-        .page-header {
-            margin-bottom: 40px;
-        }
-        
-        .page-header h1 {
-            color: #fff;
-            font-weight: 700;
-        }
-        
-        .earnings-summary {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .summary-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .summary-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-        }
-        
-        .summary-card .icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .summary-card .icon i {
-            font-size: 20px;
-            color: #000;
-        }
-        
-        .summary-card h3 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        
-        .summary-card p {
-            color: rgba(255,255,255,0.6);
-            margin: 0;
-        }
-        
-        .summary-card .trend {
-            display: flex;
-            align-items: center;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        
-        .summary-card .trend.up {
-            color: #00c853;
-        }
-        
-        .summary-card .trend.down {
-            color: #ff4444;
-        }
-        
-        .earnings-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .earnings-card .card-header {
-            padding: 25px 30px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .earnings-card .card-header h4 {
-            color: #fff;
-            margin: 0;
-        }
-        
-        .earnings-card .card-body {
-            padding: 30px;
-        }
-        
-        .payout-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-        
-        .payout-item .info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .payout-item .info .icon {
-            width: 45px;
-            height: 45px;
-            background: rgba(0,200,83,0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .payout-item .info .icon i {
-            color: #00c853;
-        }
-        
-        .payout-item .info h5 {
-            color: #fff;
-            margin: 0 0 5px;
-        }
-        
-        .payout-item .info p {
-            color: rgba(255,255,255,0.5);
-            margin: 0;
-            font-size: 13px;
-        }
-        
-        .payout-item .amount {
-            text-align: right;
-        }
-        
-        .payout-item .amount h5 {
-            color: #00c853;
-            margin: 0;
-        }
-        
-        .payout-item .amount small {
-            color: rgba(255,255,255,0.5);
-        }
-        
-        .vehicle-earnings-table {
-            width: 100%;
-        }
-        
-        .vehicle-earnings-table th {
-            color: rgba(255,255,255,0.6);
-            font-weight: 500;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            text-align: left;
-        }
-        
-        .vehicle-earnings-table td {
-            color: #fff;
-            padding: 20px 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .vehicle-earnings-table .vehicle-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .vehicle-earnings-table .vehicle-info img {
-            width: 60px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-right: 15px;
-        }
-        
-        @media (max-width: 1200px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .earnings-summary {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .earnings-summary {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earnings | Yours To Rent</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root { --sidebar-width: 280px; }
+    body { background:#0a0a0a; color:#fff; }
+    .dashboard-wrapper { display:flex; min-height:100vh; }
+    .main-content { flex:1; margin-left:var(--sidebar-width); padding:30px; }
+    .card-dark { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.12); border-radius:16px; }
+    .muted { color:rgba(255,255,255,.62); }
+    @media (max-width:1200px){ .sidebar{transform:translateX(-100%);transition:transform .3s} .sidebar.active{transform:translateX(0)} .main-content{margin-left:0} }
+  </style>
 </head>
-<body>
-    <div class="dashboard-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <a href="index.html">
-                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
-                </a>
-            </div>
-            
-            <div class="sidebar-user">
-                <div class="d-flex align-items-center">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar me-3">
-                    <div>
-                        <h6 class="text-white mb-0">John Doe</h6>
-                        <small class="text-white-50">Premium Member</small>
-                    </div>
-                </div>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <div class="nav-label">Main Menu</div>
-                <a href="dashboard.html" class="nav-link">
-                    <i class="fas fa-th-large"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="my-bookings.html" class="nav-link">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>My Bookings</span>
-                </a>
-                <a href="my-vehicles.html" class="nav-link">
-                    <i class="fas fa-car"></i>
-                    <span>My Vehicles</span>
-                </a>
-                <a href="{% url 'inbox' %}" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-                
-                <div class="nav-label">Finance</div>
-                <a href="earnings.html" class="nav-link active">
-                    <i class="fas fa-wallet"></i>
-                    <span>Earnings</span>
-                </a>
-                <a href="transactions.html" class="nav-link">
-                    <i class="fas fa-exchange-alt"></i>
-                    <span>Transactions</span>
-                </a>
-                
-                <div class="nav-label">Account</div>
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
-                <a href="settings.html" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </nav>
-        </aside>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            <button class="btn btn-outline-light d-lg-none mb-4" onclick="document.getElementById('sidebar').classList.toggle('active')">
-                <i class="fas fa-bars me-2"></i>Menu
-            </button>
-            
-            <div class="page-header d-flex justify-content-between align-items-center flex-wrap">
-                <div>
-                    <h1>Earnings</h1>
-                    <p class="text-white-50">Track your rental income and payouts</p>
-                </div>
-                <button class="btn btn-primary">
-                    <i class="fas fa-download me-2"></i>Export Report
-                </button>
-            </div>
-            
-            <!-- Earnings Summary -->
-            <div class="earnings-summary">
-                <div class="summary-card">
-                    <div class="icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <h3>R 45,280</h3>
-                    <p>Total Earnings</p>
-                    <div class="trend up">
-                        <i class="fas fa-arrow-up me-1"></i>
-                        <span>12.5% from last month</span>
-                    </div>
-                </div>
-                <div class="summary-card">
-                    <div class="icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <h3>R 8,500</h3>
-                    <p>This Month</p>
-                    <div class="trend up">
-                        <i class="fas fa-arrow-up me-1"></i>
-                        <span>8.2% from last month</span>
-                    </div>
-                </div>
-                <div class="summary-card">
-                    <div class="icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3>R 3,200</h3>
-                    <p>Pending Payout</p>
-                    <div class="trend">
-                        <span class="text-white-50">Processing by Jan 20</span>
-                    </div>
-                </div>
-                <div class="summary-card">
-                    <div class="icon">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <h3>R 42,080</h3>
-                    <p>Total Paid Out</p>
-                    <div class="trend">
-                        <span class="text-white-50">Last payout: Jan 10</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-lg-8">
-                    <!-- Earnings Chart -->
-                    <div class="earnings-card">
-                        <div class="card-header">
-                            <h4>Earnings Overview</h4>
-                            <select class="form-select form-select-sm" style="width: auto; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: #fff;">
-                                <option>This Year</option>
-                                <option>Last Year</option>
-                                <option>All Time</option>
-                            </select>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="earningsChart" height="300"></canvas>
-                        </div>
-                    </div>
-                    
-                    <!-- Vehicle Earnings -->
-                    <div class="earnings-card">
-                        <div class="card-header">
-                            <h4>Earnings by Vehicle</h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="vehicle-earnings-table">
-                                <thead>
-                                    <tr>
-                                        <th>Vehicle</th>
-                                        <th>Trips</th>
-                                        <th>Days Rented</th>
-                                        <th>Earnings</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="vehicle-info">
-                                                <img src="/static/images/matthew-chow-q6XVEHtdtao-unsplash.jpg" alt="BMW X5">
-                                                <span>BMW X5 2024</span>
-                                            </div>
-                                        </td>
-                                        <td>32</td>
-                                        <td>78</td>
-                                        <td class="text-gradient fw-bold">R 18,500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="vehicle-info">
-                                                <img src="/static/images/foto-k-YlIEAP5k6JQ-unsplash.jpg" alt="Mercedes">
-                                                <span>Mercedes C-Class</span>
-                                            </div>
-                                        </td>
-                                        <td>28</td>
-                                        <td>65</td>
-                                        <td class="text-gradient fw-bold">R 14,200</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="vehicle-info">
-                                                <img src="/static/images/osmany-m-leyva-aldana-IcB8U3l9Slg-unsplash.jpg" alt="Fortuner">
-                                                <span>Toyota Fortuner</span>
-                                            </div>
-                                        </td>
-                                        <td>19</td>
-                                        <td>45</td>
-                                        <td class="text-gradient fw-bold">R 8,100</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="vehicle-info">
-                                                <img src="/static/images/bernd-dittrich-dhg0zbuAbqE-unsplash.jpg" alt="Audi">
-                                                <span>Audi A4</span>
-                                            </div>
-                                        </td>
-                                        <td>10</td>
-                                        <td>22</td>
-                                        <td class="text-gradient fw-bold">R 4,480</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4">
-                    <!-- Recent Payouts -->
-                    <div class="earnings-card">
-                        <div class="card-header">
-                            <h4>Recent Payouts</h4>
-                            <a href="transactions.html" class="btn btn-sm btn-outline-light">View All</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="payout-item">
-                                <div class="info">
-                                    <div class="icon">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Bank Transfer</h5>
-                                        <p>Jan 10, 2026</p>
-                                    </div>
-                                </div>
-                                <div class="amount">
-                                    <h5>+ R 5,200</h5>
-                                    <small>Completed</small>
-                                </div>
-                            </div>
-                            <div class="payout-item">
-                                <div class="info">
-                                    <div class="icon">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Bank Transfer</h5>
-                                        <p>Jan 3, 2026</p>
-                                    </div>
-                                </div>
-                                <div class="amount">
-                                    <h5>+ R 4,800</h5>
-                                    <small>Completed</small>
-                                </div>
-                            </div>
-                            <div class="payout-item">
-                                <div class="info">
-                                    <div class="icon">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Bank Transfer</h5>
-                                        <p>Dec 27, 2025</p>
-                                    </div>
-                                </div>
-                                <div class="amount">
-                                    <h5>+ R 6,100</h5>
-                                    <small>Completed</small>
-                                </div>
-                            </div>
-                            <div class="payout-item">
-                                <div class="info">
-                                    <div class="icon">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Bank Transfer</h5>
-                                        <p>Dec 20, 2025</p>
-                                    </div>
-                                </div>
-                                <div class="amount">
-                                    <h5>+ R 3,900</h5>
-                                    <small>Completed</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Payout Method -->
-                    <div class="earnings-card">
-                        <div class="card-header">
-                            <h4>Payout Method</h4>
-                            <button class="btn btn-sm btn-outline-light">
-                                <i class="fas fa-edit me-1"></i>Edit
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon me-3" style="width: 50px; height: 50px; background: rgba(255,255,255,0.05); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-university text-white"></i>
-                                </div>
-                                <div>
-                                    <h6 class="text-white mb-0">FNB Bank Account</h6>
-                                    <small class="text-white-50">**** **** **** 4521</small>
-                                </div>
-                            </div>
-                            <p class="text-white-50 small mb-0">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Payouts are processed every Tuesday and Friday
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+<body class="ytr-account-body">
+<div class="dashboard-wrapper">
+  {% include 'partials/account_sidebar.html' %}
+  <main class="main-content">
+    {% include 'partials/account_topbar.html' %}
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h1 class="mb-2">Earnings</h1>
+        <p class="muted mb-0">Totals from booking records linked to your listings.</p>
+      </div>
+      <a href="{% url 'transactions' %}" class="btn btn-outline-warning">Open transactions</a>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Earnings Chart
-        const ctx = document.getElementById('earningsChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Earnings (R)',
-                    data: [3200, 4100, 3800, 4500, 5200, 4800, 5500, 6200, 5800, 6500, 7200, 8500],
-                    backgroundColor: 'rgba(255,165,0,0.8)',
-                    borderColor: '#ffa500',
-                    borderWidth: 1,
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            color: 'rgba(255,255,255,0.05)'
-                        },
-                        ticks: {
-                            color: 'rgba(255,255,255,0.6)'
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: 'rgba(255,255,255,0.05)'
-                        },
-                        ticks: {
-                            color: 'rgba(255,255,255,0.6)',
-                            callback: function(value) {
-                                return 'R ' + value.toLocaleString();
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+    <div class="row g-4 mb-4">
+      <div class="col-md-4"><div class="card-dark p-4"><div class="muted small">Total earnings</div><h3 class="mt-2 mb-0">R {{ total_earnings }}</h3></div></div>
+      <div class="col-md-4"><div class="card-dark p-4"><div class="muted small">Payouts</div><p class="mb-0 mt-2">Coming soon</p></div></div>
+      <div class="col-md-4"><div class="card-dark p-4"><div class="muted small">Statements</div><p class="mb-0 mt-2">Coming soon</p></div></div>
+    </div>
+
+    <div class="card-dark p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Monthly trend</h5>
+        <span class="muted small">Real data</span>
+      </div>
+      <canvas id="earningsChart" height="120"></canvas>
+    </div>
+  </main>
+</div>
+{% include 'partials/account_shell_scripts.html' %}
+<script>
+  const chartValues = JSON.parse('{{ earnings_chart_values|escapejs }}');
+  const ctx = document.getElementById('earningsChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      datasets: [{
+        data: chartValues,
+        borderColor: '#f3b13f',
+        backgroundColor: 'rgba(243,177,63,0.12)',
+        fill: true,
+        tension: 0.35,
+        pointRadius: 3
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color:'rgba(255,255,255,.65)' }, grid: { color:'rgba(255,255,255,.06)' } },
+        y: { ticks: { color:'rgba(255,255,255,.65)', callback: (v) => 'R '+v }, grid: { color:'rgba(255,255,255,.06)' } }
+      }
+    }
+  });
+</script>
 </body>
 </html>

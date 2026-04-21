@@ -1,99 +1,1041 @@
-{% extends "layouts/public_base.html" %}
 {% load static %}
-{% block title %}FAQ{% endblock %}
-{% block meta_description %}
-<meta name="description" content="Frequently asked questions about Yours To Rent — bookings, verification, listings, and safety.">
-{% endblock %}
-{% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
-<link rel="stylesheet" href="{% static 'css/ytr-solutions-marketing.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Yours To Rent</title>
+    <meta name="description" content="Frequently asked questions about Yours To Rent vehicle rental platform.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(20,20,20,0.95) 100%),
+                        url('/static/images/hero-cars-reference.png') center/cover;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+        }
+        
+        .faq-section {
+            background: var(--dark-bg);
+            padding: 100px 0;
+        }
+        
+        .faq-category-nav {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .faq-category-nav h4 {
+            color: #fff;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .faq-category-nav a {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-category-nav a:hover,
+        .faq-category-nav a.active {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+        }
+        
+        .faq-category-nav a i {
+            width: 24px;
+            margin-right: 12px;
+        }
+        
+        .faq-category {
+            margin-bottom: 60px;
+        }
+        
+        .faq-category h3 {
+            color: #fff;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+        }
+        
+        .faq-accordion .accordion-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px !important;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .faq-accordion .accordion-button {
+            background: transparent;
+            color: #fff;
+            font-weight: 600;
+            padding: 25px 30px;
+            font-size: 16px;
+        }
+        
+        .faq-accordion .accordion-button:not(.collapsed) {
+            background: rgba(255,165,0,0.1);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+        
+        .faq-accordion .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+        
+        .faq-accordion .accordion-button:not(.collapsed)::after {
+            filter: brightness(1) saturate(100%);
+        }
+        
+        .faq-accordion .accordion-body {
+            color: rgba(255,255,255,0.7);
+            padding: 0 30px 25px;
+            line-height: 1.8;
+        }
+        
+        .faq-search {
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+        
+        .faq-search input {
+            width: 100%;
+            padding: 20px 30px 20px 60px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 16px;
+        }
+        
+        .faq-search input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .faq-search i {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 18px;
+        }
+        
+        .help-cta {
+            background: linear-gradient(135deg, rgba(255,165,0,0.1), rgba(255,69,0,0.1));
+            border: 1px solid rgba(255,165,0,0.3);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+        }
+    </style>
+
+   <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-orange: #E8722A;
+            --primary-red: #C41E3A;
+            --dark-bg: #0A0A0B;
+            --dark-card: #111113;
+            --dark-border: #1E1E22;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A, #C41E3A);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); line-height: 1.6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 4px; }
+        
+        .navbar-ytr { background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--dark-border); padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-secondary) !important; font-weight: 500; padding: 8px 18px !important; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-gold) !important; }
+        .btn-nav-primary { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 24px; border-radius: 8px; }
+        .btn-nav-outline { border: 1px solid var(--primary-gold); color: var(--primary-gold); background: transparent; padding: 10px 24px; border-radius: 8px; }
+        
+        /* Hero */
+        .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920') center/cover no-repeat; opacity: 0.1; }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; color: #22c55e; margin-bottom: 25px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
+        .hero-title .gradient-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 550px; }
+        .hero-cta { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 50px; }
+        .btn-hero { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        .btn-hero-outline { background: transparent; border: 2px solid var(--dark-border); color: var(--text-primary); }
+        .btn-hero-outline:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+        
+        /* Earnings Calculator */
+        .earnings-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 24px; padding: 40px; }
+        .earnings-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .earnings-title i { color: var(--primary-gold); }
+        .earnings-field { margin-bottom: 25px; }
+        .earnings-label { display: block; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .earnings-select { width: 100%; background: var(--dark-bg); border: 1px solid var(--dark-border); border-radius: 12px; padding: 14px 16px; color: var(--text-primary); font-size: 1rem; cursor: pointer; }
+        .earnings-select:focus { outline: none; border-color: var(--primary-gold); }
+        .earnings-slider { width: 100%; margin: 15px 0; }
+        .days-display { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
+        .earnings-result { background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); border-radius: 16px; padding: 25px; text-align: center; margin-top: 20px; }
+        .earnings-amount { font-size: 3rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .earnings-period { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 15px; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        
+        /* Why List */
+        .why-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 40px 30px; height: 100%; transition: all 0.4s; }
+        .why-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.1); }
+        .why-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin-bottom: 25px; transition: all 0.4s; }
+        .why-card:hover .why-icon { background: var(--gradient-gold); color: #000; }
+        .why-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+        .why-text { color: var(--text-secondary); }
+        
+        /* Requirements */
+        .requirements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .requirement-item { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 16px; padding: 25px; display: flex; gap: 20px; transition: all 0.3s; }
+        .requirement-item:hover { border-color: var(--primary-gold); }
+        .requirement-icon { width: 50px; height: 50px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.3rem; flex-shrink: 0; }
+        .requirement-title { font-weight: 600; margin-bottom: 5px; }
+        .requirement-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* Testimonials */
+        .testimonial-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 35px; height: 100%; }
+        .testimonial-stars { color: var(--primary-gold); margin-bottom: 20px; }
+        .testimonial-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 15px; }
+        .testimonial-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-gold); }
+        .testimonial-name { font-weight: 600; }
+        .testimonial-info { font-size: 0.85rem; color: var(--text-muted); }
+        .testimonial-earnings { background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-left: auto; }
+        
+        /* Protection */
+        .protection-section { background: var(--dark-card); border-radius: 30px; padding: 60px; }
+        .protection-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .protection-item { text-align: center; }
+        .protection-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin: 0 auto 15px; }
+        .protection-title { font-weight: 600; margin-bottom: 8px; }
+        .protection-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* CTA */
+        .cta-section { background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, rgba(232, 114, 42, 0.1) 100%); border-radius: 30px; padding: 80px; text-align: center; position: relative; overflow: hidden; }
+        .cta-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 20px; }
+        .cta-text { color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn-cta { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 50px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        
+        .footer { background: var(--dark-bg); padding: 80px 0 30px; border-top: 1px solid var(--dark-border); margin-top: 100px; }
+        .footer-logo { height: 50px; margin-bottom: 20px; }
+        .footer-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; max-width: 300px; }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 45px; height: 45px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s; }
+        .footer-social a:hover { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .footer-title { font-weight: 700; margin-bottom: 25px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .footer-bottom { border-top: 1px solid var(--dark-border); padding-top: 30px; margin-top: 60px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-copyright { color: var(--text-muted); font-size: 0.9rem; }
+        
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3rem; }
+            .requirements-grid { grid-template-columns: 1fr; }
+            .protection-grid { grid-template-columns: repeat(2, 1fr); }
+            .cta-section { padding: 50px 30px; }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .protection-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+ <!-- =========================================================
+YTR ENTERPRISE NAV + HERO SYSTEM v4.0 (FULLY RESPONSIVE)
+PASTE ONCE • MOBILE-FIRST • ENTERPRISE SAFE
+========================================================= -->
+
 <style>
-  .ytr-faq .accordion-item { background: transparent; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px !important; margin-bottom: 10px; overflow: hidden; }
-  .ytr-faq .accordion-button { background: rgba(0,0,0,0.35); color: #fff; font-weight: 600; }
-  .ytr-faq .accordion-button:not(.collapsed) { background: rgba(232,184,74,0.12); color: #e8b84a; box-shadow: none; }
-  .ytr-faq .accordion-body { color: rgba(255,255,255,0.65); font-size: 0.95rem; line-height: 1.65; }
+/* ================= RESET & SAFETY ================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  background: #000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ================= NAVBAR ================= */
+.ytrE-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 88px;
+  z-index: 100000;
+  background: rgba(0,0,0,0.97);
+  border-bottom: 1px solid rgba(255,69,0,0.4);
+  backdrop-filter: blur(14px);
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink { height: 64px; }
+
+.ytrE-nav-inner {
+  max-width: 1480px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ytrE-logo img {
+  height: 44px;
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink .ytrE-logo img { height: 34px; }
+
+/* ================= DESKTOP LINKS ================= */
+.ytrE-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+.ytrE-links a {
+  position: relative;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+.ytrE-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg,#ff4500,#ff7a18);
+  transition: width .25s ease;
+}
+.ytrE-links a:hover::after { width: 100%; }
+
+/* ================= ACTIONS ================= */
+.ytrE-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ytrE-login {
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.ytrE-signup {
+  padding: 7px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#ff4500,#ff7a18);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+/* ================= BURGER ================= */
+.ytrE-burger {
+  display: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ================= MEGA MENU ================= */
+.ytrE-mega {
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: #0b0b0b;
+  display: none;
+}
+.ytrE-mega.show { display: block; }
+
+.ytrE-mega-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 32px;
+}
+.ytrE-mega h6 {
+  margin: 0 0 12px;
+  color: #ff7a18;
+  font-size: 14px;
+}
+.ytrE-mega a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* ================= MOBILE DRAWER ================= */
+.ytrE-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(88%, 380px);
+  background: #050505;
+  z-index: 200000;
+  transform: translateX(-100%);
+  transition: transform .35s ease;
+  padding: 90px 22px 30px;
+}
+.ytrE-drawer.open { transform: translateX(0); }
+
+.ytrE-drawer a {
+  display: block;
+  padding: 14px 0;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ================= HERO ================= */
+.ytrE-hero {
+  padding-top: 140px;
+  padding-bottom: 120px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,69,0,0.18), transparent 45%),
+    radial-gradient(circle at 88% 20%, rgba(255,122,24,0.15), transparent 45%),
+    #000;
+}
+.ytrE-hero-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 56px;
+  align-items: center;
+}
+.ytrE-hero-img img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 60px 140px rgba(0,0,0,0.9));
+}
+.ytrE-hero h1 {
+  color: #fff;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.12;
+  margin: 0;
+}
+.ytrE-hero p {
+  margin-top: 18px;
+  max-width: 560px;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.6;
+}
+
+/* ================= STATS ================= */
+.ytrE-stats {
+  margin-top: 38px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px;
+}
+.ytrE-stat {
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .ytrE-links, .ytrE-actions { display: none; }
+  .ytrE-burger { display: block; }
+}
+
+@media (max-width: 900px) {
+  .ytrE-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .ytrE-hero p { margin-left: auto; margin-right: auto; }
+  .ytrE-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
 </style>
-{% endblock %}
-{% block public_content %}
-<div class="ytr-mkt-page">
-  <section class="ytr-mkt-hero">
-    <div class="ytr-mkt-hero-inner">
-      <p class="ytr-mkt-kicker" data-aos="fade-up">Help</p>
-      <h1 class="ytr-mkt-title" data-aos="fade-up" data-aos-delay="40">Frequently asked <span class="text-warning">questions</span></h1>
-      <p class="ytr-mkt-lead" data-aos="fade-up" data-aos-delay="80">
-        Quick answers about renting, hosting, verification, and how we’re building the product — without fake stats.
-      </p>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="ytrE-nav" id="ytrENav">
+  <div class="ytrE-nav-inner">
+    <a href="index.html" class="ytrE-logo">
+      <img src="/static/images/ytr-logo-reference.svg" alt="YTR">
+    </a>
+
+    <div class="ytrE-links">
+      <a href="{% url 'browse' %}" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="{% url 'how_it_works' %}">How It Works</a>
+      <a href="{% url 'add_listing' %}">List Vehicle</a>
+      <a href="{% url 'about' %}">Company</a>
+      <a href="{% url 'contact' %}">Support</a>
     </div>
-  </section>
 
-  <section class="ytr-mkt-section ytr-mkt-section--tight">
-    <div class="ytr-mkt-section-inner ytr-faq">
-      <div class="accordion" id="faqMain" data-aos="fade-up">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1">How do I rent a vehicle?</button>
-          </h2>
-          <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#faqMain">
-            <div class="accordion-body">Browse listings, open a vehicle you like, choose dates, complete verification if prompted, and submit a booking request. The host approves before the trip is treated as confirmed.</div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">How do I list my car?</button>
-          </h2>
-          <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqMain">
-            <div class="accordion-body">Use <strong>List vehicle</strong> from your account, add photos and pricing, and submit for review. Admins may verify documents before the listing goes live.</div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f3">Why do you need documents?</button>
-          </h2>
-          <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqMain">
-            <div class="accordion-body">Verification reduces fraud and helps protect both hosts and renters. Status appears in your account; we don’t show fabricated “trust scores.”</div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f4">How does messaging work?</button>
-          </h2>
-          <div id="f4" class="accordion-collapse collapse" data-bs-parent="#faqMain">
-            <div class="accordion-body">Messages are tied to a listing and the other party — use <strong>Messages</strong> in your account after you’re logged in. You can also reach support via <a href="{% url 'contact' %}" class="text-warning">Contact</a>.</div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f5">Are payments automated?</button>
-          </h2>
-          <div id="f5" class="accordion-collapse collapse" data-bs-parent="#faqMain">
-            <div class="accordion-body">Card capture and automated payouts are <span class="text-warning">coming soon</span>. Current flows focus on booking records and transparency — check the Services page for what’s live.</div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f6">Is there insurance?</button>
-          </h2>
-          <div id="f6" class="accordion-collapse collapse" data-bs-parent="#faqMain">
-            <div class="accordion-body">We’re building structured protection options with partners — nothing is presented as guaranteed coverage until it’s live in product. See <a href="{% url 'insurance' %}" class="text-warning">Insurance</a> for the current narrative.</div>
-          </div>
-        </div>
+    <div class="ytrE-actions">
+      {% if user.is_authenticated %}
+      <a href="{% url 'owner_dashboard' %}" class="ytrE-login">Dashboard</a>
+      <a href="{% url 'logout' %}" class="ytrE-signup">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="ytrE-login">Login</a>
+      <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
+      {% endif %}
+    </div>
+
+    <div class="ytrE-burger" id="ytrEBurger">☰</div>
+  </div>
+
+  <!-- Mega Menu -->
+  <div class="ytrE-mega" id="ytrEMega">
+    <div class="ytrE-mega-inner">
+      <div>
+        <h6>By Category</h6>
+        <a>Sedan</a><a>SUV</a><a>Luxury</a><a>Economy</a>
       </div>
-
-      <div class="ytr-mkt-cta-band mt-5" data-aos="fade-up">
-        <h3>Still stuck?</h3>
-        <p>Talk to the team — include your listing or booking context if relevant.</p>
-        <div class="ytr-mkt-btn-row">
-          <a href="{% url 'contact' %}" class="btn btn-lg btn-warning fw-bold text-dark">Contact</a>
-          <a href="{% url 'how_it_works' %}" class="btn btn-lg btn-outline-light">How it works</a>
-        </div>
+      <div>
+        <h6>More</h6>
+        <a>Bakkie</a><a>Van</a><a>Commercial</a>
+      </div>
+      <div>
+        <h6>Services</h6>
+        <a>License Test</a><a>Corporate</a>
+      </div>
+      <div>
+        <h6>Featured</h6>
+        <a>BMW 3 Series</a>
       </div>
     </div>
-  </section>
+  </div>
+</nav>
+
+<!-- ================= MOBILE DRAWER ================= -->
+<div class="ytrE-drawer" id="ytrEDrawer">
+<a href="{% url 'home' %}">Homepage</a>
+  <a href="{% url 'browse' %}">Browse Vehicles</a>
+  <a href="{% url 'how_it_works' %}">How It Works</a>
+  <a href="{% url 'add_listing' %}">List Vehicle</a>
+  <a href="{% url 'about' %}">Company</a>
+  <a href="{% url 'contact' %}">Support</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'owner_dashboard' %}">Dashboard</a>
+  <a href="{% url 'logout' %}">Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}">Login</a>
+  <a href="{% url 'register' %}">Sign Up</a>
+  {% endif %}
 </div>
-{% endblock %}
-{% block extra_js %}
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init({ duration: 650, once: true, offset: 40 });</script>
-{% endblock %}
+
+<script>
+/* ================= JS ================= */
+const nav = document.getElementById('ytrENav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) nav.classList.add('shrink');
+  else nav.classList.remove('shrink');
+});
+
+const mega = document.getElementById('ytrEMega');
+const browse = document.getElementById('ytrEBrowse');
+browse && browse.addEventListener('mouseenter',()=>mega.classList.add('show'));
+nav.addEventListener('mouseleave',()=>mega.classList.remove('show'));
+
+const burger = document.getElementById('ytrEBurger');
+const drawer = document.getElementById('ytrEDrawer');
+burger.addEventListener('click',()=>{
+  drawer.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+});
+</script>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <div class="container text-center">
+            <span class="badge-pill" data-aos="fade-up">Help Center</span>
+            <h1 class="display-3 fw-bold text-white mt-3" data-aos="fade-up" data-aos-delay="100">
+                Frequently Asked <span class="gradient-text">Questions</span>
+            </h1>
+            <p class="lead text-white-50 mt-4 mb-5" data-aos="fade-up" data-aos-delay="200">
+                Find answers to common questions about renting and listing vehicles on YTR
+            </p>
+            <div class="faq-search position-relative" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-search"></i>
+                <input type="text" id="faqSearch" placeholder="Search for answers...">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="row">
+                <!-- Category Navigation -->
+                <div class="col-lg-3">
+                    <div class="faq-category-nav" data-aos="fade-right">
+                        <h4>Categories</h4>
+                        <a href="#getting-started" class="active">
+                            <i class="fas fa-rocket"></i>Getting Started
+                        </a>
+                        <a href="#renting">
+                            <i class="fas fa-car"></i>Renting a Vehicle
+                        </a>
+                        <a href="#listing">
+                            <i class="fas fa-list"></i>Listing Your Vehicle
+                        </a>
+                        <a href="#payments">
+                            <i class="fas fa-credit-card"></i>Payments & Pricing
+                        </a>
+                        
+                        <a href="#account">
+                            <i class="fas fa-user"></i>Account & Profile
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- FAQ Content -->
+                <div class="col-lg-9">
+                    <!-- Getting Started -->
+                    <div id="getting-started" class="faq-category" data-aos="fade-up">
+                        <h3><i class="fas fa-rocket me-2 text-gradient"></i>Getting Started</h3>
+                        <div class="accordion faq-accordion" id="gettingStartedAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#gs1">
+                                        What is Yours To Rent?
+                                    </button>
+                                </h2>
+                                <div id="gs1" class="accordion-collapse collapse show" data-bs-parent="#gettingStartedAccordion">
+                                    <div class="accordion-body">
+                                        Yours To Rent (YTR) is South Africa's premier peer-to-peer vehicle rental marketplace. We connect vehicle owners who want to earn extra income with renters looking for affordable, convenient transportation options. Our platform provides a safe, secure and easy way to rent or list vehicles.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gs2">
+                                        How do I create an account?
+                                    </button>
+                                </h2>
+                                <div id="gs2" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
+                                    <div class="accordion-body">
+                                        Creating an account is easy! Click the "Get Started" button, enter your email address, create a password, and verify your email. You'll then need to complete your profile by adding your personal information, uploading your ID, and verifying your driver's license. The entire process takes about 5-10 minutes.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gs3">
+                                        Is YTR available in my city?
+                                    </button>
+                                </h2>
+                                <div id="gs3" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
+                                    <div class="accordion-body">
+                                        YTR is currently available in all major cities across South Africa, including Johannesburg, Cape Town, Durban, Pretoria, Port Elizabeth, and Bloemfontein. We're constantly expanding to new areas. Check our coverage map on the homepage to see if we're in your area.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gs4">
+                                        What documents do I need to sign up?
+                                    </button>
+                                </h2>
+                                <div id="gs4" class="accordion-collapse collapse" data-bs-parent="#gettingStartedAccordion">
+                                    <div class="accordion-body">
+                                        To complete your profile, you'll need: a valid South African ID or passport, a valid driver's license (held for at least 2 years), proof of address (utility bill or bank statement from the last 3 months), and a clear profile photo. Vehicle owners will also need to provide vehicle registration documents.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Renting a Vehicle -->
+                    <div id="renting" class="faq-category" data-aos="fade-up">
+                        <h3><i class="fas fa-car me-2 text-gradient"></i>Renting a Vehicle</h3>
+                        <div class="accordion faq-accordion" id="rentingAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#r1">
+                                        How do I book a vehicle?
+                                    </button>
+                                </h2>
+                                <div id="r1" class="accordion-collapse collapse show" data-bs-parent="#rentingAccordion">
+                                    <div class="accordion-body">
+                                        Browse our available vehicles, select your dates and location, review the vehicle details and pricing, then click "Book Now". You'll need to complete verification if you haven't already, and then confirm your booking with payment. The vehicle owner will confirm your booking within 24 hours.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r2">
+                                        What is the minimum rental period?
+                                    </button>
+                                </h2>
+                                <div id="r2" class="accordion-collapse collapse" data-bs-parent="#rentingAccordion">
+                                    <div class="accordion-body">
+                                        The minimum rental period is 1 day (24 hours). Some vehicle owners may set longer minimum periods, which will be displayed on the vehicle listing. We also offer hourly rentals for select vehicles in certain areas.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r3">
+                                        How do I pick up and return the vehicle?
+                                    </button>
+                                </h2>
+                                <div id="r3" class="accordion-collapse collapse" data-bs-parent="#rentingAccordion">
+                                    <div class="accordion-body">
+                                        You can arrange to pick up the vehicle directly from the owner at an agreed location, or request delivery to your location (additional fees may apply). Before pickup, both parties will complete a vehicle inspection using our app. Return the vehicle at the agreed time and location, completing another inspection to document the condition.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r4">
+                                        What happens if I need to cancel my booking?
+                                    </button>
+                                </h2>
+                                <div id="r4" class="accordion-collapse collapse" data-bs-parent="#rentingAccordion">
+                                    <div class="accordion-body">
+                                        Our cancellation policy depends on when you cancel: Full refund if cancelled more than 48 hours before pickup, 50% refund if cancelled 24-48 hours before pickup, no refund if cancelled less than 24 hours before pickup. Some listings may have different policies, which will be clearly stated.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r5">
+                                        Is there a mileage limit?
+                                    </button>
+                                </h2>
+                                <div id="r5" class="accordion-collapse collapse" data-bs-parent="#rentingAccordion">
+                                    <div class="accordion-body">
+                                        Most vehicles come with a daily mileage allowance (typically 200-300km per day). Excess mileage is charged at a per-kilometer rate specified in the listing. Some owners offer unlimited mileage packages for longer rentals. Always check the specific terms on each vehicle listing.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Listing Your Vehicle -->
+                    <div id="listing" class="faq-category" data-aos="fade-up">
+                        <h3><i class="fas fa-list me-2 text-gradient"></i>Listing Your Vehicle</h3>
+                        <div class="accordion faq-accordion" id="listingAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#l1">
+                                        How do I list my vehicle?
+                                    </button>
+                                </h2>
+                                <div id="l1" class="accordion-collapse collapse show" data-bs-parent="#listingAccordion">
+                                    <div class="accordion-body">
+                                        Click "List Your Vehicle" and complete our simple 5-step process: add your vehicle details (make, model, year), upload high-quality photos, select features and amenities, set your pricing, and submit for review. Our team will verify your listing within 24-48 hours, and you'll start receiving booking requests immediately.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#l2">
+                                        What types of vehicles can I list?
+                                    </button>
+                                </h2>
+                                <div id="l2" class="accordion-collapse collapse" data-bs-parent="#listingAccordion">
+                                    <div class="accordion-body">
+                                        You can list cars, SUVs, bakkies, vans, and luxury vehicles. Vehicles must be less than 15 years old, in good mechanical condition, have valid license and registration, and pass our safety inspection. Motorcycles and commercial vehicles require additional verification.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#l3">
+                                        How much can I earn?
+                                    </button>
+                                </h2>
+                                <div id="l3" class="accordion-collapse collapse" data-bs-parent="#listingAccordion">
+                                    <div class="accordion-body">
+                                        Earnings depend on your vehicle type, location, and how often you rent it out. On average, vehicle owners earn R8,000 - R15,000 per month. Premium and luxury vehicles can earn significantly more. Use our earnings calculator to estimate your potential income based on your specific vehicle.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#l4">
+                                        Can I set my own availability?
+                                    </button>
+                                </h2>
+                                <div id="l4" class="accordion-collapse collapse" data-bs-parent="#listingAccordion">
+                                    <div class="accordion-body">
+                                        You have full control over your vehicle's availability. Use our calendar to block dates when you need your vehicle, set minimum and maximum rental periods, and even specify pickup and return times. You can also enable instant booking or require approval for each request.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payments & Pricing -->
+                    <div id="payments" class="faq-category" data-aos="fade-up">
+                        <h3><i class="fas fa-credit-card me-2 text-gradient"></i>Payments & Pricing</h3>
+                        <div class="accordion faq-accordion" id="paymentsAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p1">
+                                        What payment methods do you accept?
+                                    </button>
+                                </h2>
+                                <div id="p1" class="accordion-collapse collapse show" data-bs-parent="#paymentsAccordion">
+                                    <div class="accordion-body">
+                                        We accept all major credit and debit cards (Visa, Mastercard, American Express), EFT bank transfers, and mobile payment options including SnapScan and Zapper. All payments are processed securely through our encrypted payment system.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p2">
+                                        How does the security deposit work?
+                                    </button>
+                                </h2>
+                                <div id="p2" class="accordion-collapse collapse" data-bs-parent="#paymentsAccordion">
+                                    <div class="accordion-body">
+                                        A security deposit is held on your card at the time of booking. This is not charged unless there's damage, excessive mileage, or other violations of the rental agreement. The hold is released within 5-7 business days after the rental ends if no issues are reported.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p3">
+                                        When do vehicle owners get paid?
+                                    </button>
+                                </h2>
+                                <div id="p3" class="accordion-collapse collapse" data-bs-parent="#paymentsAccordion">
+                                    <div class="accordion-body">
+                                        Vehicle owners receive payment within 3-5 business days after the rental is completed. Payments are made via direct bank transfer to your verified bank account. You can track all earnings and pending payouts in your dashboard.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p4">
+                                        What fees does YTR charge?
+                                    </button>
+                                </h2>
+                                <div id="p4" class="accordion-collapse collapse" data-bs-parent="#paymentsAccordion">
+                                    <div class="accordion-body">
+                                        YTR charges a 15% service fee on each booking, which covers payment processing, customer support and platform maintenance. This fee is deducted from the rental amount before payment to the vehicle owner. Renters may see a small service fee added to their booking total.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- Account & Profile -->
+                    <div id="account" class="faq-category" data-aos="fade-up">
+                        <h3><i class="fas fa-user me-2 text-gradient"></i>Account & Profile</h3>
+                        <div class="accordion faq-accordion" id="accountAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1">
+                                        How do I update my profile information?
+                                    </button>
+                                </h2>
+                                <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#accountAccordion">
+                                    <div class="accordion-body">
+                                        Log in to your account, go to Settings > Profile, and update your information. Some changes (like your name or ID) may require re-verification. Profile photos and descriptions can be updated instantly. Keep your profile up-to-date for the best experience.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2">
+                                        How do I delete my account?
+                                    </button>
+                                </h2>
+                                <div id="a2" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+                                    <div class="accordion-body">
+                                        To delete your account, go to Settings > Account > Delete Account. Note that you cannot delete your account if you have active bookings or pending payments. Account deletion is permanent and cannot be undone. We'll retain certain information as required by law.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3">
+                                        How do reviews work?
+                                    </button>
+                                </h2>
+                                <div id="a3" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+                                    <div class="accordion-body">
+                                        After each rental, both the renter and vehicle owner can leave reviews. Reviews are mutual and revealed simultaneously to ensure fairness. You have 14 days to leave a review after a rental ends. Reviews cannot be edited or deleted once submitted, ensuring authenticity.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Still Need Help CTA -->
+                    <div class="help-cta" data-aos="fade-up">
+                        <h3 class="text-white mb-4">Still Have Questions?</h3>
+                        <p class="text-white-50 mb-4">Our support team is available 24/7 to help you with any questions or concerns.</p>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="contact.html" class="btn btn-primary btn-lg">
+                                <i class="fas fa-envelope me-2"></i>Contact Support
+                            </a>
+                            <a href="tel:+27123456789" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-phone me-2"></i>Call Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="60" class="mb-4">
+                    <p class="text-white-50 mb-4">South Africa's premier peer-to-peer vehicle rental marketplace.</p>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="browse.html">Browse Vehicles</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                        <li><a href="list-vehicle.html">List Your Vehicle</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="text-white mb-4">Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="text-white mb-4">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="safety.html">Safety</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="text-white mb-4">Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-5" style="border-color: rgba(255,255,255,0.1);">
+            <p class="text-white-50 text-center mb-0">&copy; 2026 Yours To Rent. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        
+        // FAQ Search
+        document.getElementById('faqSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            accordionItems.forEach(item => {
+                const question = item.querySelector('.accordion-button').textContent.toLowerCase();
+                const answer = item.querySelector('.accordion-body').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = searchTerm === '' ? 'block' : 'none';
+                }
+            });
+        });
+        
+        // Smooth scroll for category navigation
+        document.querySelectorAll('.faq-category-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                const offset = 120;
+                const targetPosition = target.offsetTop - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                document.querySelectorAll('.faq-category-nav a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

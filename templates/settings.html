@@ -8,7 +8,7 @@
     <meta name="description" content="Manage your account settings on Yours To Rent.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +24,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-responsive.css' %}">
     
     <style>
         :root {
@@ -366,76 +368,14 @@
         }
     </style>
 </head>
-<body>
+<body class="ytr-account-body">
     <div class="dashboard-wrapper">
         <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <a href="index.html">
-                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
-                </a>
-            </div>
-            
-            <div class="sidebar-user">
-                <div class="d-flex align-items-center">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar me-3">
-                    <div>
-                        <h6 class="text-white mb-0">John Doe</h6>
-                        <small class="text-white-50">Premium Member</small>
-                    </div>
-                </div>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <div class="nav-label">Main Menu</div>
-                <a href="dashboard.html" class="nav-link">
-                    <i class="fas fa-th-large"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="my-bookings.html" class="nav-link">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>My Bookings</span>
-                </a>
-                <a href="my-vehicles.html" class="nav-link">
-                    <i class="fas fa-car"></i>
-                    <span>My Vehicles</span>
-                </a>
-                <a href="{% url 'inbox' %}" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-                
-                <div class="nav-label">Finance</div>
-                <a href="earnings.html" class="nav-link">
-                    <i class="fas fa-wallet"></i>
-                    <span>Earnings</span>
-                </a>
-                <a href="transactions.html" class="nav-link">
-                    <i class="fas fa-exchange-alt"></i>
-                    <span>Transactions</span>
-                </a>
-                
-                <div class="nav-label">Account</div>
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
-                <a href="settings.html" class="nav-link active">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </nav>
-        </aside>
+        {% include 'partials/account_sidebar.html' %}
         
         <!-- Main Content -->
         <main class="main-content">
-            <button class="btn btn-outline-light d-lg-none mb-4" onclick="document.getElementById('sidebar').classList.toggle('active')">
-                <i class="fas fa-bars me-2"></i>Menu
-            </button>
+            {% include 'partials/account_topbar.html' %}
             
             <div class="page-header">
                 <h1>Settings</h1>
@@ -458,14 +398,16 @@
                         <h4>Account Information</h4>
                     </div>
                     <div class="card-body">
+                        <form method="POST" action="{% url 'settings' %}">
+                            {% csrf_token %}
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <label class="form-label text-white-50">Full Name</label>
-                                <input type="text" class="form-control custom-input" value="John Doe">
+                                <input type="text" class="form-control custom-input" value="{{ user.get_full_name|default:user.username }}">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-white-50">Email Address</label>
-                                <input type="email" class="form-control custom-input" value="john@example.com">
+                                <input type="email" class="form-control custom-input" value="{{ user.email }}">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-white-50">Phone Number</label>
@@ -652,7 +594,7 @@
                             </div>
                             <div class="info">
                                 <h5>Email Verified</h5>
-                                <p>john@example.com</p>
+                                <p>{{ user.email }}</p>
                             </div>
                             <div class="status">
                                 <span class="badge badge-success">Verified</span>
@@ -709,14 +651,15 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-white-50">New Password</label>
-                                <input type="password" class="form-control custom-input" placeholder="Enter new password">
+                                <input type="password" class="form-control custom-input" name="new_password" placeholder="Enter new password">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-white-50">Confirm New Password</label>
-                                <input type="password" class="form-control custom-input" placeholder="Confirm new password">
+                                <input type="password" class="form-control custom-input" name="confirm_password" placeholder="Confirm new password">
                             </div>
                         </div>
-                        <button class="btn btn-primary mt-4">Update Password</button>
+                        <button type="submit" class="btn btn-primary mt-4">Update Password</button>
+                        </form>
                     </div>
                 </div>
                 
@@ -947,7 +890,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% include 'partials/account_shell_scripts.html' %}
     <script>
         // Tab Navigation
         document.querySelectorAll('.settings-nav .nav-btn').forEach(btn => {

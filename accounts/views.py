@@ -64,7 +64,7 @@ def register(request):
         return redirect('owner_dashboard')
 
     ctx = _auth_page_extra_context(request)
-    return render(request, "download/signup.html", ctx)
+    return render(request, "signup.html", ctx)
 
 
 def user_login(request):
@@ -97,7 +97,7 @@ def user_login(request):
 
     next_val = (request.POST.get("next") or request.GET.get("next") or "").strip()
     ctx = _auth_page_extra_context(request, next_val)
-    return render(request, "download/login.html", ctx)
+    return render(request, "login.html", ctx)
 
 
 def user_logout(request):

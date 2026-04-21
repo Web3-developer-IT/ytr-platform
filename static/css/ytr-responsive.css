@@ -116,7 +116,7 @@ svg {
   }
 }
 
-/* --- Dashboard (download/dashboard + templates/dashboard inline styles) --- */
+/* --- Dashboard (templates/dashboard inline styles) --- */
 @media (max-width: 1199.98px) {
   .dashboard-wrapper .main-content {
     margin-left: 0 !important;

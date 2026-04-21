@@ -47,7 +47,7 @@ def documents_center(request):
             topbar_subtitle="Uploads & platform notices",
         )
     )
-    return render(request, "download/document-verification.html", ctx)
+    return render(request, "document-verification.html", ctx)
 
 
 @login_required

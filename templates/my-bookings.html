@@ -1,952 +1,168 @@
 {% load static %}
+{% load ytr_images %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bookings | Yours To Rent</title>
-    <meta name="description" content="View and manage your vehicle bookings on Yours To Rent.">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/static/images/ytr-logo-reference.svg">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- DataTables -->
-    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/components.css' %}">
-    
-
-<style>
-.ytr__Δ77_overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999998;
-}
-.ytr__Δ77_box {
-  background: #0b0b0b;
-  border: 1px solid #1c1c1c;
-  padding: 26px;
-  max-width: 420px;
-  border-radius: 18px;
-  color: #e6f2ec;
-  font-family: system-ui, sans-serif;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(0,255,136,0.22);
-}
-.ytr__Δ77_box strong {
-  color: #00ff88;
-  letter-spacing: 0.4px;
-}
-.ytr__Δ77_box button {
-  margin-top: 18px;
-  padding: 10px 20px;
-  background: #00ff88;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  color: #000;
-}
-</style>
-
-<div class="ytr__Δ77_overlay" id="ytrPreviewNotice">
-  <div class="ytr__Δ77_box">
-    <strong>Platform Preview</strong>
-    <p style="margin-top:14px;font-size:14px;color:#9aa3a0;">
-      Some features displayed are part of the planned platform roadmap and are shown for conceptual and design demonstration purposes only.
-    </p>
-    <button onclick="document.getElementById('ytrPreviewNotice').remove()">Continue</button>
-  </div>
-</div>
-
-<style>
-.ytr__InfoOrb {
-  position: fixed;
-  bottom: 84px;
-  right: 22px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #00ff88;
-  color: #000;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 999996;
-  box-shadow: 0 0 18px rgba(0,255,136,0.35);
-}
-</style>
-
-<div class="ytr__InfoOrb"
-  onclick="alert('This platform is currently presented as a UI/UX prototype to demonstrate vision and planned functionality.')">
-  i
-</div>
-
-<script>
-(function () {
-  const path = window.location.pathname;
-
-  const ytrMessages = {
-    "/list-vehicle": "This page demonstrates the intended vehicle listing flow. Submission and uploads activate in a later rollout phase.",
-    "/signup": "Sign-up currently captures early access interest only.",
-    "/login": "Login functionality will activate once backend systems are live.",
-    "/how-it-works": "This page outlines the planned user journey for demonstration.",
-    "/insurance": "Insurance alignment shown reflects future intent, not active coverage.",
-    "/trust-safety": "Trust & safety principles shown represent the platform’s intended framework."
-  };
-
-  if (ytrMessages[path]) {
-    const n = document.createElement("div");
-    n.textContent = ytrMessages[path];
-    Object.assign(n.style, {
-      position: "fixed",
-      top: "90px",
-      right: "22px",
-      background: "#0b0b0b",
-      border: "1px solid #1c1c1c",
-      color: "#9aa3a0",
-      padding: "12px 14px",
-      fontSize: "12px",
-      borderRadius: "14px",
-      maxWidth: "300px",
-      zIndex: "999997",
-      boxShadow: "0 0 16px rgba(0,255,136,0.18)"
-    });
-    document.body.appendChild(n);
-  }
-})();
-</script>
-<style>
-.ytr__ψBtnHint {
-  position: absolute;
-  background: #0b0b0b;
-  color: #00ff88;
-  padding: 6px 10px;
-  font-size: 11px;
-  border-radius: 8px;
-  border: 1px solid #1c1c1c;
-  z-index: 999999;
-  box-shadow: 0 0 12px rgba(0,255,136,0.25);
-}
-</style>
-
-<script>
-document.addEventListener("mouseover", function (e) {
-  if (
-    e.target.tagName === "BUTTON" &&
-    /submit|book|upload|register|list/i.test(e.target.innerText)
-  ) {
-    const h = document.createElement("div");
-    h.className = "ytr__ψBtnHint";
-    h.textContent = "Preview only · Activates in a later phase";
-    document.body.appendChild(h);
-
-    const r = e.target.getBoundingClientRect();
-    h.style.top = r.top - 36 + "px";
-    h.style.left = r.left + "px";
-
-    e.target.addEventListener("mouseleave", () => h.remove(), { once: true });
-  }
-});
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <style>
-        :root {
-            --sidebar-width: 280px;
-        }
-        
-        body {
-            background: #0a0a0a;
-        }
-        
-        .dashboard-wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        .sidebar {
-            width: var(--sidebar-width);
-            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-        
-        .sidebar-header {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-user {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-user .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-color);
-        }
-        
-        .sidebar-nav {
-            padding: 20px 0;
-        }
-        
-        .sidebar-nav .nav-label {
-            color: rgba(255,255,255,0.4);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 15px 25px 10px;
-        }
-        
-        .sidebar-nav .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 15px 25px;
-            color: rgba(255,255,255,0.7);
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-        
-        .sidebar-nav .nav-link:hover,
-        .sidebar-nav .nav-link.active {
-            background: rgba(255,165,0,0.1);
-            color: var(--primary-color);
-            border-left-color: var(--primary-color);
-        }
-        
-        .sidebar-nav .nav-link i {
-            width: 24px;
-            margin-right: 15px;
-            font-size: 18px;
-        }
-        
-        .sidebar-nav .nav-link .badge {
-            margin-left: auto;
-            background: var(--primary-color);
-            color: #000;
-        }
-        
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            padding: 30px;
-        }
-        
-        .page-header {
-            margin-bottom: 40px;
-        }
-        
-        .page-header h1 {
-            color: #fff;
-            font-weight: 700;
-        }
-        
-        .booking-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .booking-tab {
-            padding: 12px 24px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 30px;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .booking-tab:hover,
-        .booking-tab.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: #000;
-        }
-        
-        .booking-tab .count {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 50%;
-            margin-left: 8px;
-            font-size: 12px;
-        }
-        
-        .booking-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .booking-card:hover {
-            border-color: rgba(255,165,0,0.3);
-            transform: translateY(-3px);
-        }
-        
-        .booking-card-body {
-            padding: 25px;
-        }
-        
-        .booking-vehicle {
-            display: flex;
-            align-items: center;
-        }
-        
-        .booking-vehicle img {
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-right: 25px;
-        }
-        
-        .booking-vehicle .details h4 {
-            color: #fff;
-            margin-bottom: 8px;
-        }
-        
-        .booking-vehicle .details p {
-            color: rgba(255,255,255,0.5);
-            margin: 0;
-        }
-        
-        .booking-info {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            padding: 20px 0;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            margin: 20px 0;
-        }
-        
-        .booking-info-item {
-            text-align: center;
-        }
-        
-        .booking-info-item .label {
-            color: rgba(255,255,255,0.5);
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-        
-        .booking-info-item .value {
-            color: #fff;
-            font-weight: 600;
-        }
-        
-        .booking-status {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        
-        .booking-status.confirmed {
-            background: rgba(0,200,83,0.1);
-            color: #00c853;
-        }
-        
-        .booking-status.pending {
-            background: rgba(255,165,0,0.1);
-            color: #ffa500;
-        }
-        
-        .booking-status.completed {
-            background: rgba(100,100,255,0.1);
-            color: #6464ff;
-        }
-        
-        .booking-status.cancelled {
-            background: rgba(255,68,68,0.1);
-            color: #ff4444;
-        }
-        
-        .booking-status.active {
-            background: rgba(0,200,83,0.1);
-            color: #00c853;
-        }
-        
-        .booking-status i {
-            margin-right: 8px;
-        }
-        
-        .booking-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-        }
-        
-        .empty-state i {
-            font-size: 80px;
-            color: rgba(255,255,255,0.1);
-            margin-bottom: 30px;
-        }
-        
-        .empty-state h3 {
-            color: #fff;
-            margin-bottom: 15px;
-        }
-        
-        .empty-state p {
-            color: rgba(255,255,255,0.5);
-            margin-bottom: 30px;
-        }
-        
-        @media (max-width: 1200px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .booking-info {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .booking-vehicle {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .booking-vehicle img {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-            
-            .booking-info {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings | Yours To Rent</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ytr-premium-account.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ytr-account-shell.css' %}">
+  <style>
+    :root { --sidebar-width: 280px; }
+    body { background:#0a0a0a; color:#fff; }
+    .dashboard-wrapper { display:flex; min-height:100vh; }
+    .main-content { flex:1; margin-left:var(--sidebar-width); padding:0 30px 48px; }
+    .card-dark { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.12); border-radius:16px; }
+    .booking-image { width:100%; height:160px; object-fit:cover; border-radius:12px; }
+    .muted { color:rgba(255,255,255,.62); }
+    .booking-stat { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:14px 16px; }
+    .booking-stat .label { color:rgba(255,255,255,.62); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; }
+    .booking-stat .value { font-size:1.2rem; font-weight:800; color:#fff; }
+    @media (max-width:1200px){ .sidebar{transform:translateX(-100%);transition:transform .3s} .sidebar.active{transform:translateX(0)} .main-content{margin-left:0} }
+    @media (max-width:768px){
+      .main-content{padding:0 14px 28px;}
+      .card-dark{padding:14px !important;}
+      .booking-image{height:140px;}
+      .booking-stat .value{font-size:1rem;}
+      .d-flex.gap-2.mt-3{flex-direction:column;}
+      .d-flex.gap-2.mt-3 .btn{width:100%;}
+    }
+  </style>
 </head>
-<body>
-    <div class="dashboard-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <a href="index.html">
-                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="45">
-                </a>
-            </div>
-            
-            <div class="sidebar-user">
-                <div class="d-flex align-items-center">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&amp;h=96&amp;fit=crop&amp;face" alt="" class="avatar me-3">
-                    <div>
-                        <h6 class="text-white mb-0">John Doe</h6>
-                        <small class="text-white-50">Premium Member</small>
-                    </div>
-                </div>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <div class="nav-label">Main Menu</div>
-                <a href="dashboard.html" class="nav-link">
-                    <i class="fas fa-th-large"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="my-bookings.html" class="nav-link active">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>My Bookings</span>
-                    <span class="badge">3</span>
-                </a>
-                <a href="my-vehicles.html" class="nav-link">
-                    <i class="fas fa-car"></i>
-                    <span>My Vehicles</span>
-                </a>
-                <a href="{% url 'inbox' %}" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-                
-                <div class="nav-label">Finance</div>
-                <a href="earnings.html" class="nav-link">
-                    <i class="fas fa-wallet"></i>
-                    <span>Earnings</span>
-                </a>
-                <a href="transactions.html" class="nav-link">
-                    <i class="fas fa-exchange-alt"></i>
-                    <span>Transactions</span>
-                </a>
-                
-                <div class="nav-label">Account</div>
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
-                <a href="settings.html" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </nav>
-        </aside>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            <button class="btn btn-outline-light d-lg-none mb-4" onclick="document.getElementById('sidebar').classList.toggle('active')">
-                <i class="fas fa-bars me-2"></i>Menu
-            </button>
-            
-            <div class="page-header d-flex justify-content-between align-items-center flex-wrap">
-                <div>
-                    <h1>My Bookings</h1>
-                    <p class="text-white-50">Manage all your vehicle rentals in one place</p>
-                </div>
-                <a href="browse.html" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>New Booking
-                </a>
-            </div>
-            
-            <!-- Booking Tabs -->
-            <div class="booking-tabs">
-                <a href="#" class="booking-tab active" data-filter="all">
-                    All<span class="count">8</span>
-                </a>
-                <a href="#" class="booking-tab" data-filter="active">
-                    Active<span class="count">2</span>
-                </a>
-                <a href="#" class="booking-tab" data-filter="upcoming">
-                    Upcoming<span class="count">3</span>
-                </a>
-                <a href="#" class="booking-tab" data-filter="completed">
-                    Completed<span class="count">2</span>
-                </a>
-                <a href="#" class="booking-tab" data-filter="cancelled">
-                    Cancelled<span class="count">1</span>
-                </a>
-            </div>
-            
-            <!-- Booking Cards -->
-            <div id="bookingsList">
-                <!-- Active Booking -->
-                <div class="booking-card" data-status="active">
-                    <div class="booking-card-body">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
-                            <div class="booking-vehicle">
-                                <img src="/static/images/matthew-chow-q6XVEHtdtao-unsplash.jpg" alt="BMW X5">
-                                <div class="details">
-                                    <h4>BMW X5 2024</h4>
-                                    <p><i class="fas fa-user me-2"></i>Owner: Michael Smith</p>
-                                    <p><i class="fas fa-map-marker-alt me-2"></i>Sandton, Johannesburg</p>
-                                </div>
-                            </div>
-                            <span class="booking-status active">
-                                <i class="fas fa-car"></i>In Progress
-                            </span>
-                        </div>
-                        
-                        <div class="booking-info">
-                            <div class="booking-info-item">
-                                <div class="label">Booking ID</div>
-                                <div class="value">#YTR-2026-0015</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Pick-up Date</div>
-                                <div class="value">Jan 15, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Return Date</div>
-                                <div class="value">Jan 20, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Total Price</div>
-                                <div class="value text-gradient">R 7,500</div>
-                            </div>
-                        </div>
-                        
-                        <div class="booking-actions">
-                            <a href="vehicle-details.html" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-eye me-1"></i>View Details
-                            </a>
-                            <a href="{% url 'inbox' %}" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-comment me-1"></i>Contact Owner
-                            </a>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-map me-1"></i>Get Directions
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm">
-                                <i class="fas fa-exclamation-triangle me-1"></i>Report Issue
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Upcoming Booking -->
-                <div class="booking-card" data-status="upcoming">
-                    <div class="booking-card-body">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
-                            <div class="booking-vehicle">
-                                <img src="/static/images/foto-k-YlIEAP5k6JQ-unsplash.jpg" alt="Mercedes">
-                                <div class="details">
-                                    <h4>Mercedes C-Class 2023</h4>
-                                    <p><i class="fas fa-user me-2"></i>Owner: Sarah Johnson</p>
-                                    <p><i class="fas fa-map-marker-alt me-2"></i>Rosebank, Johannesburg</p>
-                                </div>
-                            </div>
-                            <span class="booking-status confirmed">
-                                <i class="fas fa-check-circle"></i>Confirmed
-                            </span>
-                        </div>
-                        
-                        <div class="booking-info">
-                            <div class="booking-info-item">
-                                <div class="label">Booking ID</div>
-                                <div class="value">#YTR-2026-0018</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Pick-up Date</div>
-                                <div class="value">Jan 25, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Return Date</div>
-                                <div class="value">Jan 28, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Total Price</div>
-                                <div class="value text-gradient">R 3,600</div>
-                            </div>
-                        </div>
-                        
-                        <div class="booking-actions">
-                            <a href="vehicle-details.html" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-eye me-1"></i>View Details
-                            </a>
-                            <a href="{% url 'inbox' %}" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-comment me-1"></i>Contact Owner
-                            </a>
-                            <button class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-edit me-1"></i>Modify Booking
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm">
-                                <i class="fas fa-times me-1"></i>Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Pending Booking -->
-                <div class="booking-card" data-status="upcoming">
-                    <div class="booking-card-body">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
-                            <div class="booking-vehicle">
-                                <img src="/static/images/ytr-logo-reference.svg" alt="Audi">
-                                <div class="details">
-                                    <h4>Audi A4 2024</h4>
-                                    <p><i class="fas fa-user me-2"></i>Owner: David Williams</p>
-                                    <p><i class="fas fa-map-marker-alt me-2"></i>Centurion, Pretoria</p>
-                                </div>
-                            </div>
-                            <span class="booking-status pending">
-                                <i class="fas fa-clock"></i>Pending Approval
-                            </span>
-                        </div>
-                        
-                        <div class="booking-info">
-                            <div class="booking-info-item">
-                                <div class="label">Booking ID</div>
-                                <div class="value">#YTR-2026-0021</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Pick-up Date</div>
-                                <div class="value">Feb 1, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Return Date</div>
-                                <div class="value">Feb 5, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Total Price</div>
-                                <div class="value text-gradient">R 4,400</div>
-                            </div>
-                        </div>
-                        
-                        <div class="booking-actions">
-                            <a href="vehicle-details.html" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-eye me-1"></i>View Details
-                            </a>
-                            <a href="{% url 'inbox' %}" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-comment me-1"></i>Contact Owner
-                            </a>
-                            <button class="btn btn-outline-danger btn-sm">
-                                <i class="fas fa-times me-1"></i>Cancel Request
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Completed Booking -->
-                <div class="booking-card" data-status="completed">
-                    <div class="booking-card-body">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
-                            <div class="booking-vehicle">
-                                <img src="/static/images/ralphs_fotos-truck-3561413_1920.jpg" alt="Toyota">
-                                <div class="details">
-                                    <h4>Toyota Fortuner 2023</h4>
-                                    <p><i class="fas fa-user me-2"></i>Owner: Lisa Brown</p>
-                                    <p><i class="fas fa-map-marker-alt me-2"></i>Fourways, Johannesburg</p>
-                                </div>
-                            </div>
-                            <span class="booking-status completed">
-                                <i class="fas fa-check-double"></i>Completed
-                            </span>
-                        </div>
-                        
-                        <div class="booking-info">
-                            <div class="booking-info-item">
-                                <div class="label">Booking ID</div>
-                                <div class="value">#YTR-2026-0010</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Pick-up Date</div>
-                                <div class="value">Jan 5, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Return Date</div>
-                                <div class="value">Jan 10, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Total Price</div>
-                                <div class="value text-gradient">R 4,500</div>
-                            </div>
-                        </div>
-                        
-                        <div class="booking-actions">
-                            <a href="vehicle-details.html" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-eye me-1"></i>View Details
-                            </a>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-star me-1"></i>Leave Review
-                            </button>
-                            <button class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-redo me-1"></i>Book Again
-                            </button>
-                            <button class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-download me-1"></i>Receipt
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Cancelled Booking -->
-                <div class="booking-card" data-status="cancelled">
-                    <div class="booking-card-body">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
-                            <div class="booking-vehicle">
-                                <img src="/static/images/661512-volkswagen-1490218.jpg" alt="VW Golf">
-                                <div class="details">
-                                    <h4>Volkswagen Golf GTI 2024</h4>
-                                    <p><i class="fas fa-user me-2"></i>Owner: Peter van der Berg</p>
-                                    <p><i class="fas fa-map-marker-alt me-2"></i>Waterkloof, Pretoria</p>
-                                </div>
-                            </div>
-                            <span class="booking-status cancelled">
-                                <i class="fas fa-ban"></i>Cancelled
-                            </span>
-                        </div>
-                        
-                        <div class="booking-info">
-                            <div class="booking-info-item">
-                                <div class="label">Booking ID</div>
-                                <div class="value">#YTR-2026-0008</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Pick-up Date</div>
-                                <div class="value">Jan 2, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Return Date</div>
-                                <div class="value">Jan 4, 2026</div>
-                            </div>
-                            <div class="booking-info-item">
-                                <div class="label">Refund Status</div>
-                                <div class="value text-success">Refunded</div>
-                            </div>
-                        </div>
-                        
-                        <div class="booking-actions">
-                            <a href="vehicle-details.html" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-eye me-1"></i>View Details
-                            </a>
-                            <button class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-redo me-1"></i>Book Again
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+<body class="ytr-account-body">
+<div class="dashboard-wrapper">
+  {% include 'partials/account_sidebar.html' %}
+  <main class="main-content">
+    {% include 'partials/account_topbar.html' %}
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script>
-        // Filter bookings by status
-        document.querySelectorAll('.booking-tab').forEach(tab => {
-            tab.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Update active tab
-                document.querySelectorAll('.booking-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                const filter = this.dataset.filter;
-                const cards = document.querySelectorAll('.booking-card');
-                
-                cards.forEach(card => {
-                    if (filter === 'all' || card.dataset.status === filter) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
+    {% include 'partials/ytr_account_hero.html' %}
+
+    <div class="ytr-premium-wrap px-0">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4" data-aos="fade-up">
+        <div>
+          <h2 class="h4 mb-1 fw-bold">Trip overview</h2>
+          <p class="muted mb-0 small">Real bookings from your account. Reviews and loyalty perks are <span class="text-warning">coming soon</span>.</p>
+        </div>
+        <a href="{% url 'browse' %}" class="btn btn-warning fw-bold text-dark"><i class="fas fa-search me-2"></i>Browse vehicles</a>
+      </div>
+
+      <div class="row g-3 mb-4" data-aos="fade-up" data-aos-delay="40">
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Total trips</div>
+            <div class="value">{{ booking_summary.total }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Active</div>
+            <div class="value text-warning">{{ booking_summary.active }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Pending</div>
+            <div class="value">{{ booking_summary.pending }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Completed</div>
+            <div class="value">{{ booking_summary.completed }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Total value</div>
+            <div class="value">R {{ booking_summary.total_spend }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="booking-stat h-100">
+            <div class="label">Next trip</div>
+            <div class="value small fw-bold">{% if booking_summary.next_trip_date %}{{ booking_summary.next_trip_date }}{% else %}-{% endif %}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-5">
+        {% for row in booking_rows %}
+        <div class="col-lg-6">
+          <div class="card-dark p-4 h-100" data-aos="fade-up">
+            <img src="{% listing_card_image row.booking.listing %}" alt="{{ row.booking.listing.title }}" class="booking-image mb-3" loading="lazy" decoding="async">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="mb-0">{{ row.booking.listing.title }}</h5>
+              <span class="badge {% if row.status == 'completed' %}text-bg-success{% elif row.status == 'active' %}text-bg-warning text-dark{% else %}text-bg-secondary{% endif %}">{{ row.status_label }}</span>
+            </div>
+            <p class="muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i>{{ row.booking.listing.location }}</p>
+            <p class="small mb-2"><strong>From:</strong> {{ row.booking.start_date }} &nbsp; <strong>To:</strong> {{ row.booking.end_date }}</p>
+            <p class="small mb-2"><strong>Host:</strong> {{ row.booking.listing.owner.get_full_name|default:row.booking.listing.owner.username }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="small muted">{{ row.days }} day{{ row.days|pluralize }}</span>
+              <strong>R {{ row.total }}</strong>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+              <a href="{% url 'listing_detail' row.booking.listing.id %}" class="btn btn-sm btn-outline-light flex-fill">View vehicle</a>
+              <a href="{% url 'conversation' row.booking.listing.id row.booking.listing.owner.id %}" class="btn btn-sm btn-outline-warning flex-fill">Message host</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+          <div class="ytr-premium-glass p-5 text-center" data-aos="fade-up">
+            <h5 class="mb-2">No bookings yet</h5>
+            <p class="muted mb-3">When you submit a booking request and it is recorded, it appears here.</p>
+            <a href="{% url 'browse' %}" class="btn btn-warning fw-bold text-dark">Browse vehicles</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="ytr-premium-glass p-4 p-md-5 mb-4" data-aos="fade-up">
+        <h3 class="ytr-premium-section-title"><i class="fas fa-info-circle text-warning me-2"></i>How bookings work</h3>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <p class="ytr-premium-muted mb-0"><strong class="text-white">Requests</strong> — Submit dates from the vehicle page. The host reviews availability before a trip is treated as confirmed.</p>
+          </div>
+          <div class="col-md-4">
+            <p class="ytr-premium-muted mb-0"><strong class="text-white">Messages</strong> — Coordinate pickup, keys, and return windows in <a href="{% url 'inbox' %}" class="text-warning text-decoration-none">Messages</a>.</p>
+          </div>
+          <div class="col-md-4">
+            <p class="ytr-premium-muted mb-0"><strong class="text-white">Payments</strong> — In-platform payments and statements are <span class="text-warning">coming soon</span>; nothing is presented as settled until go-live.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ytr-premium-grid-3">
+        <div class="ytr-premium-icon-card text-center" data-aos="fade-up">
+          <i class="fas fa-clipboard-check"></i>
+          <div class="fw-bold small">Host approval</div>
+          <p class="ytr-premium-muted small mb-0 mt-2">Listings remain under owner control until checkout features launch.</p>
+        </div>
+        <div class="ytr-premium-icon-card text-center" data-aos="fade-up" data-aos-delay="40">
+          <i class="fas fa-file-signature"></i>
+          <div class="fw-bold small">Verification</div>
+          <p class="ytr-premium-muted small mb-0 mt-2">Document checks protect hosts and renters — see <a href="{% url 'documents_center' %}" class="text-warning text-decoration-none">Documents</a>.</p>
+        </div>
+        <div class="ytr-premium-icon-card text-center" data-aos="fade-up" data-aos-delay="80">
+          <i class="fas fa-headset"></i>
+          <div class="fw-bold small">Support</div>
+          <p class="ytr-premium-muted small mb-0 mt-2">Questions? <a href="{% url 'help_center' %}" class="text-warning text-decoration-none">Help center</a> or <a href="{% url 'contact' %}" class="text-warning text-decoration-none">contact</a>.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% include 'partials/account_shell_scripts.html' %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 650, once: true });</script>
 </body>
 </html>
