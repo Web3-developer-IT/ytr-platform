@@ -801,17 +801,27 @@
             justify-content: center;
         }
 
-        .trusted-logos img {
-            height: 30px;
-            width: auto;
-            filter: grayscale(100%) brightness(0.8);
-            opacity: 0.6;
+        .trusted-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            padding: 8px 14px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 999px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            background: rgba(255,255,255,0.02);
             transition: all 0.3s ease;
         }
 
-        .trusted-logos img:hover {
-            filter: grayscale(0%) brightness(1);
+        .trusted-logo:hover {
+            border-color: rgba(255,165,0,0.6);
+            color: #fff;
             opacity: 1;
+            transform: translateY(-2px);
         }
 
         /* ============================================
@@ -3289,11 +3299,11 @@ burger.addEventListener('click',()=>{
             <div class="trusted-wrapper">
                 <span class="trusted-text">Trusted by leading companies</span>
                 <div class="trusted-logos">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/200px-Amazon_logo.svg.png" alt="Amazon">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/200px-Google_2015_logo.svg.png" alt="Google">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/200px-Microsoft_logo.svg.png" alt="Microsoft">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/200px-Netflix_2015_logo.svg.png" alt="Netflix">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/200px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="YouTube">
+                    <span class="trusted-logo">Amazon</span>
+                    <span class="trusted-logo">Google</span>
+                    <span class="trusted-logo">Microsoft</span>
+                    <span class="trusted-logo">Netflix</span>
+                    <span class="trusted-logo">YouTube</span>
                 </div>
             </div>
         </div>
@@ -3980,7 +3990,7 @@ burger.addEventListener('click',()=>{
                 disableOnInteraction: false
             },
             pagination: {
-                el: '.swiper-pagination',
+                el: '.featured-swiper .swiper-pagination',
                 clickable: true
             },
             navigation: {
@@ -4005,7 +4015,7 @@ burger.addEventListener('click',()=>{
                     disableOnInteraction: false
                 },
                 pagination: {
-                    el: '.swiper-pagination',
+                    el: '.testimonials-swiper .swiper-pagination',
                     clickable: true
                 },
                 breakpoints: {

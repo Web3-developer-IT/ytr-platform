@@ -67,6 +67,8 @@ def account_sidebar_context(request, sidebar_active="", *, topbar_title=None, to
 
 def home(request):
     base = _public_listings_qs().prefetch_related("images")
+    # Hide temporary/demo records from homepage hero/featured rails.
+    base = base.exclude(title__iregex=r"^test\s*slide")
     commercial_list = list(
         base.filter(body_style__in=COMMERCIAL_BODY_STYLES).order_by("-created_at")[:8]
     )
