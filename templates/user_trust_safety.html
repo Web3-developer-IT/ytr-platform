@@ -11,7 +11,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
- 
+    <link rel="stylesheet" href="{% static 'css/ytr-enterprise-nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-public-shell.css' %}">
 
    <style>
         :root { --primary-gold: #D4A853; --primary-orange: #E8722A; --dark-bg: #0A0A0B; --dark-card: #111113; --dark-border: #1E1E22; --text-primary: #FFFFFF; --text-secondary: #9CA3AF; --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A); }
@@ -88,28 +89,9 @@
         }
     </style>
 </head>
-<body>
-     <nav class="navbar-ytr">
-        <div class="container">
-            <div class="d-flex align-items-center justify-content-between">
-                <a class="navbar-brand" href="index.html">
-                <img src="{{ ytr_logo_url }}" height="40px" width="40px" alt="Yours To Rent" class="logo">
-            </a>
-                <div class="d-none d-lg-flex align-items-center gap-2">
-                    <a href="index.html" class="nav-link">Home</a>
-                    <a href="browse.html" class="nav-link">Browse Cars</a>
-                    <a href="how-it-works.html" class="nav-link">How It Works</a>
-                    <a href="list-your-car.html" class="nav-link active">List Your Car</a>
-                    <a href="about.html" class="nav-link">About</a>
-                    <a href="contact.html" class="nav-link">Contact</a>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <a href="login.html" class="btn-cta" style="background: transparent; border: 2px solid var(--primary-gold); color: var(--primary-gold);">Log In</a>
-                    <a href="register.html" class="btn-cta">Sign Up</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body class="ytr-public-body">
+{% include 'partials/ytr_enterprise_nav.html' %}
+
 
     <section class="page-hero">
         <div class="container">
@@ -149,7 +131,7 @@
                     <span class="section-badge">Comprehensive Coverage</span>
                     <h2 class="section-title">Industry-Leading Insurance Protection</h2>
                     <p class="text-secondary mb-4">Every trip on Yours To Rent is protected by comprehensive insurance coverage, giving you peace of mind whether you're renting or listing your vehicle.</p>
-                    <a href="insurance.html" class="btn-cta">Learn More About Insurance <i class="fas fa-arrow-right"></i></a>
+                    <a href="{% url 'insurance' %}" class="btn-cta">Learn More About Insurance <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left">
                     <div class="insurance-highlight">
@@ -300,58 +282,15 @@
                 <h2 class="section-title mb-3">Ready to Experience Safe Car Sharing?</h2>
                 <p class="text-secondary mb-4">Join 50,000+ South Africans who trust Yours To Rent for their car rental needs.</p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="browse.html" class="btn-cta"><i class="fas fa-search"></i> Browse Cars</a>
-                    <a href="list-your-car.html" class="btn-cta" style="background: transparent; border: 2px solid var(--primary-gold); color: var(--primary-gold);"><i class="fas fa-car"></i> List Your Car</a>
+                    <a href="{% url 'browse' %}" class="btn-cta"><i class="fas fa-search"></i> Browse Cars</a>
+                    <a href="{% url 'add_listing' %}" class="btn-cta" style="background: transparent; border: 2px solid var(--primary-gold); color: var(--primary-gold);"><i class="fas fa-car"></i> List Your Car</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4">
-                     <img src="{{ ytr_logo_url }}" alt="Yours To Rent" class="footer-logo" style="height: 60px; margin-bottom: 20px;">
-                    <p class="text-secondary">South Africa's trusted peer-to-peer vehicle rental marketplace.</p>
-                </div>
-                <div class="col-lg-2 col-md-4">
-                    <h5 class="footer-title">Quick Links</h5>
-                    <ul class="footer-links">
-                        <li><a href="browse.html">Browse Cars</a></li>
-                        <li><a href="list-your-car.html">List Your Car</a></li>
-                        <li><a href="how-it-works.html">How It Works</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-4">
-                    <h5 class="footer-title">Company</h5>
-                    <ul class="footer-links">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="careers.html">Careers</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-4">
-                    <h5 class="footer-title">Legal</h5>
-                    <ul class="footer-links">
-                        <li><a href="terms.html">Terms of Service</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="insurance.html">Insurance</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2">
-                    <h5 class="footer-title">Support</h5>
-                    <ul class="footer-links">
-                        <li><a href="help.html">Help Center</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="safety.html">Safety</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom text-center">
-                <p>&copy; 2026 Yours To Rent (Pty) Ltd. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    {% include 'partials/public_footer.html' %}
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>

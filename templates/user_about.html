@@ -1,0 +1,1394 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Yours To Rent</title>
+    <meta name="description" content="Learn about Yours To Rent - South Africa's premier peer-to-peer vehicle rental marketplace. Our mission, values, and team.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ ytr_logo_url }}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/ytr-enterprise-nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ytr-public-shell.css' %}">
+
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        /* About Page Styles */
+        .about-hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1600') center/cover;
+            opacity: 0.08;
+        }
+        
+        .about-hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .about-hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about-hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+        
+        .about-hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 600px;
+        }
+        
+        .about-hero-image {
+            position: relative;
+        }
+        
+        .about-hero-image img {
+            width: 100%;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .hero-stats-card {
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            gap: 24px;
+        }
+        
+        .hero-stat {
+            text-align: center;
+        }
+        
+        .hero-stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+            display: block;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.813rem;
+            color: var(--text-muted);
+        }
+        
+        /* Story Section */
+        .story-section {
+            padding: 100px 0;
+            background: var(--bg-dark);
+        }
+        
+        .story-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+        
+        .story-content p {
+            color: var(--text-light);
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+        
+        .story-image {
+            position: relative;
+        }
+        
+        .story-image img {
+            width: 100%;
+            border-radius: var(--radius-xl);
+        }
+        
+        .story-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-brand);
+            color: var(--bg-dark);
+            padding: 12px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+        }
+        
+        /* Mission & Vision */
+        .mission-section {
+            padding: 100px 0;
+            background: var(--bg-dark-2);
+        }
+        
+        .mission-card {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            height: 100%;
+            transition: var(--transition-normal);
+        }
+        
+        .mission-card:hover {
+            border-color: var(--border-gold);
+            transform: translateY(-8px);
+        }
+        
+        .mission-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,215,0,0.1);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        
+        .mission-icon i {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+        }
+        
+        .mission-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .mission-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        
+        /* Values Section */
+        .values-section {
+            padding: 100px 0;
+            background: var(--bg-dark);
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .value-card {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-brand);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .value-icon i {
+            font-size: 1.75rem;
+            color: var(--bg-dark);
+        }
+        
+        .value-card h4 {
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+        }
+        
+        .value-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        
+        /* Team Section */
+        .team-section {
+            padding: 100px 0;
+            background: var(--bg-dark-2);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .team-card {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition-normal);
+        }
+        
+        .team-card:hover {
+            border-color: var(--border-gold);
+            transform: translateY(-8px);
+        }
+        
+        .team-image {
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+        
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+        
+        .team-card:hover .team-image img {
+            transform: scale(1.1);
+        }
+        
+        .team-info {
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .team-info h4 {
+            font-size: 1.125rem;
+            margin-bottom: 4px;
+        }
+        
+        .team-info .role {
+            color: var(--primary-gold);
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+        }
+        
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .team-social a {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-dark-4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: var(--transition-fast);
+        }
+        
+        .team-social a:hover {
+            background: var(--primary-gold);
+            color: var(--bg-dark);
+        }
+        
+        /* Timeline Section */
+        .timeline-section {
+            padding: 100px 0;
+            background: var(--bg-dark);
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--border-dark);
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            padding: 24px;
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            text-align: right;
+        }
+        
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-brand);
+            color: var(--bg-dark);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+        }
+        
+        .timeline-content h4 {
+            font-size: 1.125rem;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-content p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        
+        /* Partners Section */
+        .partners-section {
+            padding: 80px 0;
+            background: var(--bg-dark-2);
+        }
+        
+        .partners-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 60px;
+        }
+        
+        .partners-grid .partner-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 22px 26px;
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            min-width: 130px;
+            opacity: 0.88;
+            transition: var(--transition-normal);
+        }
+        .partners-grid .partner-tile i {
+            font-size: 1.85rem;
+            color: var(--primary-gold);
+        }
+        .partners-grid .partner-tile span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-weight: 600;
+        }
+        .partners-grid .partner-tile:hover {
+            opacity: 1;
+            border-color: rgba(212, 168, 83, 0.45);
+            transform: translateY(-3px);
+        }
+        
+        /* CTA Section */
+        .about-cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-2) 100%);
+            text-align: center;
+        }
+        
+        .about-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .about-cta p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .values-grid,
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-stats-card {
+                position: relative;
+                bottom: 0;
+                left: 0;
+                margin-top: 30px;
+                justify-content: center;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: column;
+                padding-left: 50px;
+            }
+            
+            .timeline-content,
+            .timeline-item:nth-child(odd) .timeline-content {
+                width: 100%;
+                text-align: left;
+            }
+            
+            .timeline-year {
+                left: 0;
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .values-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+ <style>
+        :root {
+            --primary-gold: #D4A853;
+            --primary-orange: #E8722A;
+            --primary-red: #C41E3A;
+            --dark-bg: #0A0A0B;
+            --dark-card: #111113;
+            --dark-border: #1E1E22;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-muted: #6B7280;
+            --gradient-gold: linear-gradient(135deg, #D4A853, #E8722A, #C41E3A);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--text-primary); line-height: 1.6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 4px; }
+        
+        .navbar-ytr { background: rgba(10, 10, 11, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--dark-border); padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .navbar-brand img { height: 45px; }
+        .nav-link { color: var(--text-secondary) !important; font-weight: 500; padding: 8px 18px !important; transition: all 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary-gold) !important; }
+        .btn-nav-primary { background: var(--gradient-gold); border: none; color: #000; font-weight: 600; padding: 10px 24px; border-radius: 8px; }
+        .btn-nav-outline { border: 1px solid var(--primary-gold); color: var(--primary-gold); background: transparent; padding: 10px 24px; border-radius: 8px; }
+        
+        /* Hero */
+        .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; overflow: hidden; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920') center/cover no-repeat; opacity: 0.1; }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; color: #22c55e; margin-bottom: 25px; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; }
+        .hero-title .gradient-text { background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 550px; }
+        .hero-cta { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 50px; }
+        .btn-hero { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        .btn-hero-outline { background: transparent; border: 2px solid var(--dark-border); color: var(--text-primary); }
+        .btn-hero-outline:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+        
+        /* Earnings Calculator */
+        .earnings-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 24px; padding: 40px; }
+        .earnings-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .earnings-title i { color: var(--primary-gold); }
+        .earnings-field { margin-bottom: 25px; }
+        .earnings-label { display: block; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .earnings-select { width: 100%; background: var(--dark-bg); border: 1px solid var(--dark-border); border-radius: 12px; padding: 14px 16px; color: var(--text-primary); font-size: 1rem; cursor: pointer; }
+        .earnings-select:focus { outline: none; border-color: var(--primary-gold); }
+        .earnings-slider { width: 100%; margin: 15px 0; }
+        .days-display { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); }
+        .earnings-result { background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); border-radius: 16px; padding: 25px; text-align: center; margin-top: 20px; }
+        .earnings-amount { font-size: 3rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .earnings-period { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        
+        .section-padding { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.2); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 15px; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        
+        /* Why List */
+        .why-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 40px 30px; height: 100%; transition: all 0.4s; }
+        .why-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.1); }
+        .why-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin-bottom: 25px; transition: all 0.4s; }
+        .why-card:hover .why-icon { background: var(--gradient-gold); color: #000; }
+        .why-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; }
+        .why-text { color: var(--text-secondary); }
+        
+        /* Requirements */
+        .requirements-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        .requirement-item { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 16px; padding: 25px; display: flex; gap: 20px; transition: all 0.3s; }
+        .requirement-item:hover { border-color: var(--primary-gold); }
+        .requirement-icon { width: 50px; height: 50px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.3rem; flex-shrink: 0; }
+        .requirement-title { font-weight: 600; margin-bottom: 5px; }
+        .requirement-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* Testimonials */
+        .testimonial-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 20px; padding: 35px; height: 100%; }
+        .testimonial-stars { color: var(--primary-gold); margin-bottom: 20px; }
+        .testimonial-text { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 25px; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; gap: 15px; }
+        .testimonial-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-gold); }
+        .testimonial-name { font-weight: 600; }
+        .testimonial-info { font-size: 0.85rem; color: var(--text-muted); }
+        .testimonial-earnings { background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-left: auto; }
+        
+        /* Protection */
+        .protection-section { background: var(--dark-card); border-radius: 30px; padding: 60px; }
+        .protection-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .protection-item { text-align: center; }
+        .protection-icon { width: 70px; height: 70px; background: rgba(212, 168, 83, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary-gold); margin: 0 auto 15px; }
+        .protection-title { font-weight: 600; margin-bottom: 8px; }
+        .protection-text { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* CTA */
+        .cta-section { background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, rgba(232, 114, 42, 0.1) 100%); border-radius: 30px; padding: 80px; text-align: center; position: relative; overflow: hidden; }
+        .cta-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 20px; }
+        .cta-text { color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn-cta { background: var(--gradient-gold); border: none; color: #000; font-weight: 700; padding: 18px 50px; border-radius: 12px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212, 168, 83, 0.3); color: #000; }
+        
+        .footer { background: var(--dark-bg); padding: 80px 0 30px; border-top: 1px solid var(--dark-border); margin-top: 100px; }
+        .footer-logo { height: 50px; margin-bottom: 20px; }
+        .footer-text { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; max-width: 300px; }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 45px; height: 45px; background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.3s; }
+        .footer-social a:hover { background: var(--gradient-gold); border-color: var(--primary-gold); color: #000; }
+        .footer-title { font-weight: 700; margin-bottom: 25px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-gold); }
+        .footer-bottom { border-top: 1px solid var(--dark-border); padding-top: 30px; margin-top: 60px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-copyright { color: var(--text-muted); font-size: 0.9rem; }
+        
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3rem; }
+            .requirements-grid { grid-template-columns: 1fr; }
+            .protection-grid { grid-template-columns: repeat(2, 1fr); }
+            .cta-section { padding: 50px 30px; }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .protection-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<!-- =========================================================
+YTR ENTERPRISE NAV + HERO SYSTEM v4.0 (FULLY RESPONSIVE)
+PASTE ONCE • MOBILE-FIRST • ENTERPRISE SAFE
+========================================================= -->
+
+<style>
+/* ================= RESET & SAFETY ================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  background: #000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ================= NAVBAR ================= */
+.ytrE-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 88px;
+  z-index: 100000;
+  background: rgba(0,0,0,0.97);
+  border-bottom: 1px solid rgba(255,69,0,0.4);
+  backdrop-filter: blur(14px);
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink { height: 64px; }
+
+.ytrE-nav-inner {
+  max-width: 1480px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ytrE-logo img {
+  height: 44px;
+  transition: height .3s ease;
+}
+.ytrE-nav.shrink .ytrE-logo img { height: 34px; }
+
+/* ================= DESKTOP LINKS ================= */
+.ytrE-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+.ytrE-links a {
+  position: relative;
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+.ytrE-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg,#ff4500,#ff7a18);
+  transition: width .25s ease;
+}
+.ytrE-links a:hover::after { width: 100%; }
+
+/* ================= ACTIONS ================= */
+.ytrE-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ytrE-login {
+  padding: 7px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.ytrE-signup {
+  padding: 7px 20px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#ff4500,#ff7a18);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+
+/* ================= BURGER ================= */
+.ytrE-burger {
+  display: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ================= MEGA MENU ================= */
+.ytrE-mega {
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  background: #0b0b0b;
+  display: none;
+}
+.ytrE-mega.show { display: block; }
+
+.ytrE-mega-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 32px;
+}
+.ytrE-mega h6 {
+  margin: 0 0 12px;
+  color: #ff7a18;
+  font-size: 14px;
+}
+.ytrE-mega a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* ================= MOBILE DRAWER ================= */
+.ytrE-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(88%, 380px);
+  background: #050505;
+  z-index: 200000;
+  transform: translateX(-100%);
+  transition: transform .35s ease;
+  padding: 90px 22px 30px;
+}
+.ytrE-drawer.open { transform: translateX(0); }
+
+.ytrE-drawer a {
+  display: block;
+  padding: 14px 0;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ================= HERO ================= */
+.ytrE-hero {
+  padding-top: 140px;
+  padding-bottom: 120px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,69,0,0.18), transparent 45%),
+    radial-gradient(circle at 88% 20%, rgba(255,122,24,0.15), transparent 45%),
+    #000;
+}
+.ytrE-hero-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 56px;
+  align-items: center;
+}
+.ytrE-hero-img img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 60px 140px rgba(0,0,0,0.9));
+}
+.ytrE-hero h1 {
+  color: #fff;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.12;
+  margin: 0;
+}
+.ytrE-hero p {
+  margin-top: 18px;
+  max-width: 560px;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.6;
+}
+
+/* ================= STATS ================= */
+.ytrE-stats {
+  margin-top: 38px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px;
+}
+.ytrE-stat {
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .ytrE-links, .ytrE-actions { display: none; }
+  .ytrE-burger { display: block; }
+}
+
+@media (max-width: 900px) {
+  .ytrE-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .ytrE-hero p { margin-left: auto; margin-right: auto; }
+  .ytrE-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+</style>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="ytrE-nav" id="ytrENav">
+  <div class="ytrE-nav-inner">
+    <a href="{% url 'home' %}" class="ytrE-logo">
+      <img src="{{ ytr_logo_url }}" alt="YTR">
+    </a>
+
+    <div class="ytrE-links">
+      <a href="#" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="{% url 'how_it_works' %}">How It Works</a>
+      <a href="{% url 'add_listing' %}">List Vehicle</a>
+      <a href="{% url 'about' %}">Company</a>
+      <a href="{% url 'contact' %}">Support</a>
+    </div>
+
+    <div class="ytrE-actions">
+      <a href="{% url 'login' %}" class="ytrE-login">Login</a>
+      <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
+    </div>
+
+    <div class="ytrE-burger" id="ytrEBurger">☰</div>
+  </div>
+
+  <!-- Mega Menu -->
+  <div class="ytrE-mega" id="ytrEMega">
+    <div class="ytrE-mega-inner">
+      <div>
+        <h6>By Category</h6>
+        <a>Sedan</a><a>SUV</a><a>Luxury</a><a>Economy</a>
+      </div>
+      <div>
+        <h6>More</h6>
+        <a>Bakkie</a><a>Van</a><a>Commercial</a>
+      </div>
+      <div>
+        <h6>Services</h6>
+        <a>License Test</a><a>Corporate</a>
+      </div>
+      <div>
+        <h6>Featured</h6>
+        <a>BMW 3 Series</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= MOBILE DRAWER ================= -->
+<div class="ytrE-drawer" id="ytrEDrawer">
+<a href="{% url 'home' %}">Homepage</a>
+  <a href="{% url 'browse' %}">Browse Vehicles</a>
+  <a href="{% url 'how_it_works' %}">How It Works</a>
+  <a href="{% url 'add_listing' %}">List Vehicle</a>
+  <a href="{% url 'about' %}">Company</a>
+  <a href="{% url 'contact' %}">Support</a>
+</div>
+
+<script>
+/* ================= JS ================= */
+const nav = document.getElementById('ytrENav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) nav.classList.add('shrink');
+  else nav.classList.remove('shrink');
+});
+
+const mega = document.getElementById('ytrEMega');
+const browse = document.getElementById('ytrEBrowse');
+browse && browse.addEventListener('mouseenter',()=>mega.classList.add('show'));
+nav.addEventListener('mouseleave',()=>mega.classList.remove('show'));
+
+const burger = document.getElementById('ytrEBurger');
+const drawer = document.getElementById('ytrEDrawer');
+burger.addEventListener('click',()=>{
+  drawer.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+});
+</script>
+
+    <!-- About Hero -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about-hero-content" data-aos="fade-right">
+                        <span class="section-badge">About Us</span>
+                        <h1>Monetize <span class="gradient-text">Idle Fleet Assets</span></h1> 
+                        <p>Yours To Rent is a peer-to-peer vehicle rental platform built to help everyday South Africans <br>earn extra income through their vehicles. <br><br> We focus on trust, transparency, and simplicity — because the best opportunities are the ones that are easy to access.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-hero-image" data-aos="fade-left">
+                        <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800" alt="YTR Team"><br>
+                        <div class="hero-stats-card">
+                            <div class="hero-stat">
+                                <span class="hero-stat-number">5K+</span>
+                                <span class="hero-stat-label">Projected Vehicles</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-number">25K+</span>
+                                <span class="hero-stat-label">Expected Users</span>
+                            </div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-number">50+</span>
+                                <span class="hero-stat-label">Target Cities</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="story-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?w=700" alt="Our Story">
+                        <div class="story-badge">Est. 2023</div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="story-content ps-lg-5">
+                        <span class="section-badge">How It Began</span>
+                        <h2>From Idea to <span class="gradient-text">Movement</span></h2>
+                        <p>Yours To Rent was born from a simple search for opportunity. In 2023, I looked for a way to put my own vehicle to work and found a gap where there should have been a bridge. South Africans didn’t just need another rental site — they needed a way to thrive in a struggling economy.</p>
+                        <p>I built this platform as a neighbor, not just a founder, to ensure we all have a path to earn more while offering reliable, affordable transport.</p>
+			<p>Our peer-to-peer model helps:</p>
+
+			<p>Owners earn extra income</p>
+
+			<p>Renters access affordable, reliable transport</p>
+                        <a href="{% url 'how_it_works' %}" class="btn btn-gradient mt-3">
+                            Learn How It Works <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <span class="section-badge">Purpose</span>
+                <h2 class="section-title">Our Mission & <span class="gradient-text">Vision</span></h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>To empower everyday vehicle owners with a fair and accessible way to earn income using their existing assets.</p>
+                        <p>We focus on transparency, simplicity, and community value — not unnecessary bells and whistles.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>A future where South Africans can sustainably supplement their income through shared mobility, and where vehicles serve as opportunities, not just expenses.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="values-section">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <span class="section-badge">Values</span>
+                <h2 class="section-title">What We <span class="gradient-text">Stand For</span></h2>
+                <p class="section-subtitle">Our core values guide everything we do</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Trust</h4>
+                    <p>We believe trust is built through verification, transparency, and consistent delivery.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Community</h4>
+                    <p>We believe the best economic growth happens when communities support each other.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="value-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h4>Opportunity</h4>
+                    <p>We are committed to creating practical earning opportunities for everyday people.</p>
+                </div>
+                <div class="value-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="value-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h4>Transparency</h4>
+                    <p>We provide clear pricing, clear requirements, and clear expectations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+   <!-- Timeline: Platform Evolution & Trust Framework -->
+<section class="timeline-section">
+    <div class="container">
+        <div class="section-header text-center" data-aos="fade-up">
+            <span class="section-badge">Platform Journey</span>
+            <h2 class="section-title">
+                Building <span class="gradient-text">Trust, Income & Transparency</span>
+            </h2>
+            <p class="section-subtitle">
+                Yours To Rent is not built on hype or inflated numbers.  
+                Every milestone reflects real platform safeguards, income protection, and community-first systems.
+            </p>
+        </div>
+
+        <div class="timeline">
+
+            <!-- Phase 1 -->
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    Concept
+                </div>
+                <div class="timeline-content">
+                    <h4>Problem Identification & Platform Vision</h4>
+                    <p>
+                        Yours To Rent was created to address unemployment, underused vehicles, and unsafe informal rentals.
+                        The goal was simple: allow everyday vehicle owners to earn income while renters experience fairness,
+                        protection, and transparency.
+                    </p>
+                    <p>
+                        From pensioners with idle cars to individuals offering license-test rentals or chauffeur services,
+                        the platform was designed to welcome <strong>all vehicle types and services</strong> under one trusted system.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    Trust
+                </div>
+                <div class="timeline-content">
+                    <h4>Deposit Strategy & Holding Account Model</h4>
+                    <p>
+                        A core milestone was the introduction of a structured deposit-based payment system.
+                        All renter payments are placed into a secure holding account to protect both parties.
+                    </p>
+                    <p>
+                        <strong>How it works in practice:</strong><br>
+                        If a vehicle is listed at R550, the renter pays a refundable deposit equal to double the rental price.
+                        The vehicle owner receives payment in two controlled releases—ensuring honesty, vehicle quality,
+                        and renter satisfaction before final payout.
+                    </p>
+                    <p>
+                        This system eliminates disputes, discourages misrepresentation, and builds long-term platform trust.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">
+                    <i class="fa-solid fa-user-shield"></i>
+                    Verification
+                </div>
+                <div class="timeline-content">
+                    <h4>Identity, Vehicle & Document Verification</h4>
+                    <p>
+                        To protect the community, Yours To Rent implemented strict verification requirements for both owners
+                        and renters. Owners may verify using an ID or driver’s license, ensuring inclusion even for those
+                        who own vehicles but do not drive.
+                    </p>
+                    <p>
+                        Vehicle documentation, service history, roadworthy certificates, tracer proof, and photos are
+                        reviewed before listings become active. This ensures every vehicle meets platform standards
+                        before earning income.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    Income
+                </div>
+                <div class="timeline-content">
+                    <h4>Fair Earnings & No Listing Fees</h4>
+                    <p>
+                        Unlike traditional rental platforms, Yours To Rent does not charge users to list vehicles.
+                        Owners keep full control over pricing, availability, and services offered.
+                    </p>
+                    <p>
+                        The platform sustains itself through a transparent <strong>10% service fee</strong>,
+                        automatically deducted per successful rental. This ensures owners retain 90% of earnings
+                        while benefiting from marketing, exposure, and payment handling.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Phase 5 -->
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">
+                    <i class="fa-solid fa-comments"></i>
+                    Community
+                </div>
+                <div class="timeline-content">
+                    <h4>Reviews, Accountability & Safety</h4>
+                    <p>
+                        Reviews are mandatory and visible. Both renters and vehicle owners rate each other using
+                        star ratings, comments, and condition checklists.
+                    </p>
+                    <p>
+                        Reporting tools allow users to flag unsafe behavior, misrepresentation, or disputes.
+                        This ensures the platform remains self-regulating and community-driven.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Phase 6 -->
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-year">
+                    <i class="fa-solid fa-road"></i>
+                    Growth
+                </div>
+                <div class="timeline-content">
+                    <h4>Scalable Foundation for Expansion</h4>
+                    <p>
+                        Yours To Rent begins in South Africa with Rand-based transactions, focusing on stability,
+                        compliance, and trust before expansion.
+                    </p>
+                    <p>
+                        As backend systems, insurance partnerships, and legal frameworks mature, the platform is
+                        designed to scale into additional services, regions, and vehicle categories—without compromising
+                        safety or fairness.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+    <!-- Partners -->
+    <section class="partners-section">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <span class="section-badge">Partners</span>
+                <h2 class="section-title">Built for <span class="gradient-text">trust &amp; scale</span></h2>
+                <p class="section-subtitle text-center mx-auto" style="max-width: 640px; color: var(--text-muted);">What we optimise for as we grow — no fragile third-party logo hotlinks in production.</p>
+            </div>
+            
+            <div class="partners-grid" data-aos="fade-up" data-aos-delay="100">
+                <div class="partner-tile"><i class="fas fa-shield-halved" aria-hidden="true"></i><span>Verified users</span></div>
+                <div class="partner-tile"><i class="fas fa-car-side" aria-hidden="true"></i><span>Fleet-ready</span></div>
+                <div class="partner-tile"><i class="fas fa-lock" aria-hidden="true"></i><span>Escrow payments</span></div>
+                <div class="partner-tile"><i class="fas fa-file-contract" aria-hidden="true"></i><span>Clear terms</span></div>
+                <div class="partner-tile"><i class="fas fa-headset" aria-hidden="true"></i><span>SA support</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="about-cta">
+        <div class="container" data-aos="fade-up">
+            <h2>Join the <span class="gradient-text">Movement</span></h2>
+            <p>Listing is not a commitment — it’s an opportunity. You can explore, submit, and decide at your pace.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'browse' %}" class="btn btn-gradient btn-lg">
+                    <i class="fas fa-car"></i> Browse Vehicles
+                </a>
+                <a href="{% url 'careers' %}" class="btn btn-outline-gold btn-lg">
+                    <i class="fas fa-briefcase"></i> Join Our Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-5" style="background: var(--bg-dark-2); border-top: 1px solid var(--border-dark);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <img src="{{ ytr_logo_url }}" alt="Yours To Rent" style="height: 60px; margin-bottom: 20px;">
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Your Fleet. Your Services. Your Terms. The premier vehicle rental marketplace in South Africa.</p>
+                    <div class="social-links">
+                        <a href="#" style="color: var(--text-muted); margin-right: 16px; font-size: 1.25rem;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: var(--text-muted); margin-right: 16px; font-size: 1.25rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: var(--text-muted); margin-right: 16px; font-size: 1.25rem;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: var(--text-muted); font-size: 1.25rem;"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5 style="color: var(--text-white); margin-bottom: 20px;">Company</h5>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="{% url 'about' %}" style="color: var(--text-muted);">About Us</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'partners' %}" style="color: var(--text-muted);">Partners</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5 style="color: var(--text-white); margin-bottom: 20px;">Support</h5>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="{% url 'help_center' %}" style="color: var(--text-muted);">Help Center</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'faq' %}" style="color: var(--text-muted);">FAQ</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'contact' %}" style="color: var(--text-muted);">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5 style="color: var(--text-white); margin-bottom: 20px;">Legal</h5>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="{% url 'terms' %}" style="color: var(--text-muted);">Terms of Service</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'privacy' %}" style="color: var(--text-muted);">Privacy Policy</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'cookies' %}" style="color: var(--text-muted);">Cookie Policy</a></li>
+                    </ul>
+                </div>
+               
+            </div>
+            <hr style="border-color: var(--border-dark); margin: 40px 0 20px;">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <p style="color: var(--text-muted); margin: 0;">&copy; 2026 Yours To Rent. All rights reserved.</p>
+                <div>
+                    {% include 'partials/payment_trust_row.html' %}
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 from decimal import Decimal
 import json
 import mimetypes
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.files.storage import default_storage
@@ -18,7 +18,9 @@ from django.contrib.auth.models import User
 
 from .models import Listing, ListingImage
 from .ytr_media import normalize_image_url
-from bookings.models import Booking
+from bookings.models import Booking, HostPayout
+from bookings.payment_flow import run_payment_background_jobs
+from bookings.payment_math import booking_money_snapshot
 from messaging.models import Message
 from users.models import UserProfile, is_user_verified
 
@@ -96,11 +98,11 @@ def home(request):
 
 
 def about(request):
-    return render(request, "about.html")
+    return render(request, "user_about.html")
 
 
 def how_it_works(request):
-    return render(request, "how_it_works.html")
+    return render(request, "user_howitworks.html")
 
 
 def contact(request):
@@ -365,11 +367,20 @@ def book_listing(request, listing_id):
             messages.error(request, "Return date must be on or after pick-up date.")
             return redirect("book_listing", listing_id=listing.id)
 
+        days = max((end_date - start_date).days + 1, 1)
+        rental, deposit, total_due, platform_fee, owner_payout = booking_money_snapshot(
+            listing, days=days
+        )
         Booking.objects.create(
             listing=listing,
             user=request.user,
             start_date=start_date,
             end_date=end_date,
+            rental_total=rental,
+            deposit_total=deposit,
+            amount_due_total=total_due,
+            platform_fee_amount=platform_fee,
+            owner_payout_amount=owner_payout,
         )
         messages.success(
             request,
@@ -387,6 +398,7 @@ def book_listing(request, listing_id):
 
 @login_required
 def owner_dashboard(request):
+    run_payment_background_jobs()
     today = timezone.now().date()
 
     listings = request.user.listings.all()
@@ -483,9 +495,71 @@ def owner_dashboard(request):
 @login_required
 def approve_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, listing__owner=request.user)
+    days = max((booking.end_date - booking.start_date).days + 1, 1)
+    rental, deposit, total_due, platform_fee, owner_payout = booking_money_snapshot(
+        booking.listing, days=days
+    )
     booking.approved = True
+    booking.rental_total = rental
+    booking.deposit_total = deposit
+    booking.amount_due_total = total_due
+    booking.platform_fee_amount = platform_fee
+    booking.owner_payout_amount = owner_payout
+    booking.payment_state = Booking.PaymentState.PAYMENT_PENDING
+    deadline_days = int(getattr(settings, "YTR_PAYMENT_DEADLINE_DAYS", 5))
+    booking.payment_due_at = timezone.now() + timedelta(days=deadline_days)
     booking.save()
+    messages.success(
+        request,
+        "Booking approved. The renter has "
+        f"{deadline_days} days to pay rental + deposit into YTR escrow (on-site card or EFT — they pay from My Bookings).",
+    )
     return redirect('owner_dashboard')
+
+
+@login_required
+def booking_checkout(request, booking_id):
+    """Takealot-style on-site checkout (card or EFT) — completes into YTR escrow until trip end."""
+    run_payment_background_jobs()
+    booking = get_object_or_404(
+        Booking.objects.select_related("listing", "listing__owner"),
+        id=booking_id,
+        user=request.user,
+    )
+    if booking.payment_state != Booking.PaymentState.PAYMENT_PENDING:
+        messages.info(request, "This booking is not awaiting payment.")
+        return redirect("my_bookings")
+    if booking.payment_due_at and timezone.now() > booking.payment_due_at:
+        Booking.objects.filter(pk=booking.pk, payment_state=Booking.PaymentState.PAYMENT_PENDING).update(
+            payment_state=Booking.PaymentState.CANCELLED
+        )
+        messages.error(request, "The payment window has expired. Please contact the host to request a new approval.")
+        return redirect("my_bookings")
+
+    if request.method == "POST":
+        method = (request.POST.get("payment_method") or "").strip().lower()
+        if method not in ("card", "eft"):
+            messages.error(request, "Choose card or EFT to continue.")
+            return redirect("booking_checkout", booking_id=booking.id)
+        booking.payment_method = method
+        booking.paid_at = timezone.now()
+        booking.payment_state = Booking.PaymentState.IN_ESCROW
+        booking.save(update_fields=["payment_method", "paid_at", "payment_state"])
+        messages.success(
+            request,
+            "Payment recorded — funds are held in YTR escrow until the trip ends, then the host is paid automatically "
+            f"(platform commission {getattr(settings, 'YTR_PLATFORM_COMMISSION_PERCENT', '10')}% applied to the rental portion).",
+        )
+        return redirect("my_bookings")
+
+    return render(
+        request,
+        "booking_checkout.html",
+        {
+            "booking": booking,
+            "listing": booking.listing,
+        },
+    )
 
 
 def _decimal(val, default="0"):
@@ -697,6 +771,7 @@ def settings_page(request):
 
 @login_required
 def my_bookings_page(request):
+    run_payment_background_jobs()
     renter_bookings = (
         Booking.objects.filter(user=request.user)
         .select_related("listing", "listing__owner")
@@ -712,10 +787,25 @@ def my_bookings_page(request):
     for b in renter_bookings:
         days = max((b.end_date - b.start_date).days + 1, 1)
         total = (b.listing.price_per_day or Decimal("0")) * days
-        if not b.approved:
+        if b.payment_state == Booking.PaymentState.CANCELLED and b.approved:
+            status = "cancelled"
+            status_label = "Payment window expired"
+        elif not b.approved:
             status = "upcoming"
-            status_label = "Pending"
+            status_label = "Pending host"
             pending_count += 1
+        elif b.payment_state == Booking.PaymentState.PAYMENT_PENDING:
+            status = "upcoming"
+            status_label = "Pay now"
+            pending_count += 1
+        elif b.payment_state == Booking.PaymentState.IN_ESCROW and b.end_date < today:
+            status = "completed"
+            status_label = "Trip ended — escrow released"
+            completed_count += 1
+        elif b.payment_state == Booking.PaymentState.RELEASED:
+            status = "completed"
+            status_label = "Completed"
+            completed_count += 1
         elif b.end_date < today:
             status = "completed"
             status_label = "Completed"
@@ -811,6 +901,7 @@ def earnings_page(request):
 
 @login_required
 def transactions_page(request):
+    run_payment_background_jobs()
     owner_rows = []
     for b in (
         Booking.objects.filter(listing__owner=request.user)
@@ -825,7 +916,7 @@ def transactions_page(request):
                 "label": f"Booking — {b.listing.title}",
                 "detail": f"Renter: {b.user.get_full_name() or b.user.username}",
                 "amount": int(amt),
-                "status": "Completed" if b.approved else "Pending",
+                "status": b.get_payment_state_display(),
                 "ref": f"BK-{b.id}",
             }
         )
@@ -843,7 +934,7 @@ def transactions_page(request):
                 "label": f"Booking — {b.listing.title}",
                 "detail": f"Host: {b.listing.owner.get_full_name() or b.listing.owner.username}",
                 "amount": int(amt),
-                "status": "Completed" if b.approved else "Pending",
+                "status": b.get_payment_state_display(),
                 "ref": f"BK-{b.id}",
             }
         )
@@ -864,13 +955,22 @@ def transactions_page(request):
 
 @login_required
 def payouts_page(request):
-    ctx = {"payouts_live": False}
+    run_payment_background_jobs()
+    payout_rows = list(
+        HostPayout.objects.filter(owner=request.user)
+        .select_related("booking", "booking__listing")
+        .order_by("-created_at")[:100]
+    )
+    ctx = {
+        "payouts_live": True,
+        "payout_rows": payout_rows,
+    }
     ctx.update(
         account_sidebar_context(
             request,
             "payouts",
             topbar_title="Payouts",
-            topbar_subtitle="Bank & payout preferences",
+            topbar_subtitle="Automatic settlements after trips",
         )
     )
     return render(request, "payouts.html", ctx)
@@ -945,7 +1045,7 @@ def insurance_page(request):
 
 
 def trust_safety_public_page(request):
-    return render(request, "public_trust_safety.html")
+    return render(request, "user_trust_safety.html")
 
 
 def media_with_fallback(request, path):
@@ -963,7 +1063,7 @@ def media_with_fallback(request, path):
         pass
 
     if rel_path.startswith("profile_avatars/"):
-        return redirect(static("images/ytr-logo-reference.svg"))
+        return redirect(static(getattr(settings, "YTR_LOGO_STATIC_PATH", "images/nikki.png")))
     return redirect(
         getattr(
             settings,

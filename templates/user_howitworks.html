@@ -251,7 +251,7 @@ document.addEventListener("mouseover", function (e) {
     <style>
         .list-hero {
             background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(20,20,20,0.98) 100%),
-                        url('/static/images/hero-cars-reference.png') center/cover;
+                        url('/placeholder.svg?height=800&width=1920') center/cover;
             min-height: 50vh;
             display: flex;
             align-items: center;
@@ -1430,12 +1430,12 @@ html, body {
 <!-- ================= NAVBAR ================= -->
 <nav class="ytrE-nav" id="ytrENav">
   <div class="ytrE-nav-inner">
-    <a href="index.html" class="ytrE-logo">
+    <a href="{% url 'home' %}" class="ytrE-logo">
       <img src="{{ ytr_logo_url }}" alt="YTR">
     </a>
 
     <div class="ytrE-links">
-      <a href="{% url 'browse' %}" id="ytrEBrowse">Browse Vehicles</a>
+      <a href="#" id="ytrEBrowse">Browse Vehicles</a>
       <a href="{% url 'how_it_works' %}">How It Works</a>
       <a href="{% url 'add_listing' %}">List Vehicle</a>
       <a href="{% url 'about' %}">Company</a>
@@ -1443,13 +1443,8 @@ html, body {
     </div>
 
     <div class="ytrE-actions">
-      {% if user.is_authenticated %}
-      <a href="{% url 'owner_dashboard' %}" class="ytrE-login">Dashboard</a>
-      <a href="{% url 'logout' %}" class="ytrE-signup">Logout</a>
-      {% else %}
       <a href="{% url 'login' %}" class="ytrE-login">Login</a>
       <a href="{% url 'register' %}" class="ytrE-signup">Sign Up</a>
-      {% endif %}
     </div>
 
     <div class="ytrE-burger" id="ytrEBurger">☰</div>
@@ -1486,13 +1481,6 @@ html, body {
   <a href="{% url 'add_listing' %}">List Vehicle</a>
   <a href="{% url 'about' %}">Company</a>
   <a href="{% url 'contact' %}">Support</a>
-  {% if user.is_authenticated %}
-  <a href="{% url 'owner_dashboard' %}">Dashboard</a>
-  <a href="{% url 'logout' %}">Logout</a>
-  {% else %}
-  <a href="{% url 'login' %}">Login</a>
-  <a href="{% url 'register' %}">Sign Up</a>
-  {% endif %}
 </div>
 
 <script>
@@ -1541,7 +1529,7 @@ burger.addEventListener('click',()=>{
                         <div class="step-features">
                             <span class="step-feature"><i class="fas fa-check"></i> Advanced Filters</span>
                             <span class="step-feature"><i class="fas fa-check"></i> Map View</span>
-                            <span class="step-feature"><i class="fas fa-check"></i> Host Approval</span>
+                            <span class="step-feature"><i class="fas fa-check"></i> Instant Availability</span>
                             <span class="step-feature"><i class="fas fa-check"></i> Price Comparison</span>
                         </div>
                     </div>
@@ -1553,10 +1541,10 @@ burger.addEventListener('click',()=>{
                 <div class="step-card" data-aos="fade-up">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3 class="step-title">Request to Book</h3>
-                        <p class="step-text">Found the perfect match? Send a booking request directly to the host. Once they review your dates and approve the stay, your spot is secured. Our system handles the details so you can focus on the trip.</p>
+                        <h3 class="step-title">Book Instantly</h3>
+                        <p class="step-text">Found the one? Book it instantly or send a request to the owner. Our secure booking system handles everything - dates, pricing, and protection. Get confirmation within minutes.</p>
                         <div class="step-features">
-                            <span class="step-feature"><i class="fas fa-check"></i> Host Approval</span>
+                            <span class="step-feature"><i class="fas fa-check"></i> Instant Booking</span>
                             <span class="step-feature"><i class="fas fa-check"></i> Secure Payments</span>
                             <span class="step-feature"><i class="fas fa-check"></i> Flexible Dates</span>
                         </div>
@@ -1570,11 +1558,12 @@ burger.addEventListener('click',()=>{
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h3 class="step-title">Pick Up & Drive</h3>
-                        <p class="step-text">Meet the owner, complete the handover checklist, and you're ready to go! Our website guides you through the entire process. Document the vehicle condition with photos for peace of mind.</p>
+                        <p class="step-text">Meet the owner, complete the handover checklist, and you're ready to go! Our app guides you through the entire process. Document the vehicle condition with photos for peace of mind.</p>
                         <div class="step-features">
                             <span class="step-feature"><i class="fas fa-check"></i> Digital Handover</span>
                             <span class="step-feature"><i class="fas fa-check"></i> Photo Documentation</span>
                             <span class="step-feature"><i class="fas fa-check"></i> 24/7 Support</span>
+                            <span class="step-feature"><i class="fas fa-check"></i> Roadside Assistance</span>
                         </div>
                     </div>
                     <div class="step-image">
@@ -1626,8 +1615,8 @@ burger.addEventListener('click',()=>{
                 <div class="step-card" data-aos="fade-up">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3 class="step-title">Deposit-Backed Booking Requests</h3>
-                        <p class="step-text">Pickup / Dropoff locations are only confirmed once deposit has been paid. This significantly reduces cancellations and increases rental reliability.</p>
+                        <h3 class="step-title">Accept Bookings</h3>
+                        <p class="step-text">Get notified when someone wants to rent your vehicle. Review their profile, ratings, and driving history. Accept, decline, or enable instant booking for maximum convenience.</p>
                        
 <p class="step-text">What Happens After Submission?</p>
 
@@ -1649,7 +1638,7 @@ burger.addEventListener('click',()=>{
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h3 class="step-title">Hand Over</h3>
-                        <p class="step-text">Meet your renter at the agreed location. Use our website to complete the digital handover checklist and document the vehicle condition. It's quick and professional.</p>
+                        <p class="step-text">Meet your renter at the agreed location. Use our app to complete the digital handover checklist and document the vehicle condition. It's quick and professional.</p>
                         <div class="step-features">
                             <span class="step-feature"><i class="fas fa-check"></i> Digital Checklist</span>
                             <span class="step-feature"><i class="fas fa-check"></i> Photo Proof</span>
@@ -1818,7 +1807,7 @@ burger.addEventListener('click',()=>{
                     </div>
                     
                     <div class="text-center mt-4" data-aos="fade-up">
-                        <a href="faq.html"  class="btn btn-nav-primary" class="btn btn-outline-gold">View All FAQs <i class="fas fa-arrow-right ms-2"></i></a>
+                        <a href="{% url 'faq' %}" class="btn btn-outline-gold">View All FAQs <i class="fas fa-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -1832,11 +1821,11 @@ burger.addEventListener('click',()=>{
                 <h2>Ready to Get Started?</h2>
                 <p>Join thousands of South Africans who are already enjoying the benefits of Yours To Rent.</p>
                 <div class="cta-buttons">
-                    <a href="browse.html" class="btn btn-nav-primary">
+                    <a href="{% url 'browse' %}" class="btn btn-nav-primary">
                         <i class="fas fa-car"></i> Browse Vehicles
                     </a>
-                    <a href="list-vehicle.html" class="btn btn-nav-primary" class="btn btn-outline-gold btn-lg">
-                        <i class="fas fa-plus-circle"class="btn btn-nav-primary"></i> List Your Vehicle
+                    <a href="{% url 'add_listing' %}" class="btn btn-outline-gold btn-lg">
+                        <i class="fas fa-plus-circle"></i> List Your Vehicle
                     </a>
                 </div>
             </div>
@@ -1859,17 +1848,17 @@ burger.addEventListener('click',()=>{
                 <div class="col-lg-2 col-md-4 mb-4">
                     <h5 style="color: var(--text-white); margin-bottom: 20px;">Company</h5>
                     <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="about.html" style="color: var(--text-muted);">About Us</a></li>
-                        <li style="margin-bottom: 10px;"><a href="careers.html" style="color: var(--text-muted);">Careers</a></li>
-                        <li style="margin-bottom: 10px;"><a href="partners.html" style="color: var(--text-muted);">Partners</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'about' %}" style="color: var(--text-muted);">About Us</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'careers' %}" style="color: var(--text-muted);">Careers</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'partners' %}" style="color: var(--text-muted);">Partners</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4">
                     <h5 style="color: var(--text-white); margin-bottom: 20px;">Support</h5>
                     <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="help.html" style="color: var(--text-muted);">Help Center</a></li>
-                        <li style="margin-bottom: 10px;"><a href="faq.html" style="color: var(--text-muted);">FAQ</a></li>
-                        <li style="margin-bottom: 10px;"><a href="contact.html" style="color: var(--text-muted);">Contact Us</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'help_center' %}" style="color: var(--text-muted);">Help Center</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'faq' %}" style="color: var(--text-muted);">FAQ</a></li>
+                        <li style="margin-bottom: 10px;"><a href="{% url 'contact' %}" style="color: var(--text-muted);">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4">

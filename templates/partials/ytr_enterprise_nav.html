@@ -2,17 +2,13 @@
 <nav class="ytrE-nav" id="ytrENav">
   <div class="ytrE-nav-inner">
     <a href="{% url 'home' %}" class="ytrE-logo">
-      <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" width="132" height="44" decoding="async">
+      <img src="{{ ytr_logo_url }}" alt="Yours To Rent" width="132" height="44" decoding="async">
       <span class="ytrE-tagline d-none d-xl-inline">South Africa&rsquo;s Premier Vehicle Marketplace</span>
     </a>
     <div class="ytrE-links">
       <a href="{% url 'browse' %}" id="ytrEBrowse">Browse Vehicles</a>
-      <a href="{% url 'how_it_works' %}">How It Works</a>
-      <a href="{% url 'services' %}">Services</a>
-      <a href="{% url 'fleet_solutions' %}">Fleet</a>
-      <a href="{% url 'mobility_hub' %}">Mobility</a>
-      <a href="{% url 'dispatch_console' %}">Dispatch</a>
-      <a href="{% url 'trust_center' %}">Trust Center</a>
+      <a href="{% url 'faq' %}">FAQ</a>
+      <a href="{% url 'partner_network' %}">Partners</a>
       <a href="{% url 'add_listing' %}">List Vehicle</a>
       <a href="{% url 'about' %}">Company</a>
       <a href="{% url 'contact' %}">Support</a>
@@ -43,26 +39,21 @@
       </div>
       <div>
         <h6>Help</h6>
-        <a href="{% url 'how_it_works' %}">How it works</a>
-        <a href="{% url 'help_center' %}">Help center</a>
+        <a href="{% url 'faq' %}">FAQ</a>
+        <a href="{% url 'contact' %}">Contact</a>
       </div>
       <div>
-        <h6>Solutions</h6>
-        <a href="{% url 'dispatch_console' %}">Dispatch console</a>
-        <a href="{% url 'fleet_solutions' %}">Fleet</a>
+        <h6>Browse</h6>
+        <a href="{% url 'browse' %}?commercial=1">Commercial</a>
+        <a href="{% url 'browse' %}">All vehicles</a>
       </div>
     </div>
   </div>
 </nav>
 <div class="ytrE-drawer" id="ytrEDrawer">
   <a href="{% url 'browse' %}">Browse Vehicles</a>
-  <a href="{% url 'how_it_works' %}">How It Works</a>
-  <a href="{% url 'services' %}">Services</a>
-  <a href="{% url 'fleet_solutions' %}">Fleet</a>
-  <a href="{% url 'mobility_hub' %}">Mobility</a>
-  <a href="{% url 'dispatch_console' %}">Dispatch</a>
-  <a href="{% url 'trust_center' %}">Trust Center</a>
-  <a href="{% url 'partner_network' %}">Partner Network</a>
+  <a href="{% url 'faq' %}">FAQ</a>
+  <a href="{% url 'partner_network' %}">Partners</a>
   <a href="{% url 'add_listing' %}">List Vehicle</a>
   <a href="{% url 'about' %}">Company</a>
   <a href="{% url 'contact' %}">Support</a>

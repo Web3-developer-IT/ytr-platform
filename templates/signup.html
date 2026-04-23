@@ -8,7 +8,7 @@
     <meta name="description" content="Create your Yours To Rent account to start renting or listing vehicles.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    <link rel="icon" type="image/png" href="{{ ytr_logo_url }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -346,7 +346,7 @@
         <div class="auth-left" data-aos="fade-right">
             <div class="auth-left-content">
                 <a href="{% url 'home' %}">
-                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" class="auth-logo">
+                    <img src="{{ ytr_logo_url }}" alt="Yours To Rent" class="auth-logo">
                 </a>
                 <h1>Join <span class="gradient-text">Yours To Rent</span> Today</h1>
                 <p>Whether you want to rent a vehicle or earn money by listing yours, we've got you covered.</p>
@@ -372,7 +372,7 @@
         <div class="auth-right" data-aos="fade-left">
             <div class="auth-form-header">
                 <a href="{% url 'home' %}" class="d-lg-none">
-                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" style="height: 50px; margin-bottom: 20px;">
+                    <img src="{{ ytr_logo_url }}" alt="Yours To Rent" style="height: 50px; margin-bottom: 20px;">
                 </a>
                 <h2>Create Account</h2>
                 <p>Start your journey with Yours To Rent</p>

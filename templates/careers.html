@@ -8,7 +8,7 @@
     <meta name="description" content="Join the team at Yours To Rent and help revolutionize vehicle rentals in South Africa.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/static/images/ytr-logo-reference.svg">
+    <link rel="icon" type="image/png" href="{{ ytr_logo_url }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -719,7 +719,7 @@ html, body {
 <nav class="ytrE-nav" id="ytrENav">
   <div class="ytrE-nav-inner">
     <a href="index.html" class="ytrE-logo">
-      <img src="/static/images/ytr-logo-reference.svg" alt="YTR">
+      <img src="{{ ytr_logo_url }}" alt="YTR">
     </a>
 
     <div class="ytrE-links">
@@ -1120,7 +1120,7 @@ burger.addEventListener('click',()=>{
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4">
-                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" height="50" class="mb-4">
+                    <img src="{{ ytr_logo_url }}" alt="Yours To Rent" height="50" class="mb-4">
                     <p class="text-white-50">South Africa's premier peer-to-peer vehicle rental platform. Rent from trusted owners or earn by sharing your vehicle.</p>
                 </div>
                 <div class="col-6 col-lg-2">

@@ -2,7 +2,7 @@
 <header class="ytr-auth-public-nav" role="banner">
   <div class="ytr-auth-public-nav-inner">
     <a href="{% url 'home' %}" class="ytr-auth-public-brand">
-      <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" height="36" width="120" decoding="async">
+      <img src="{{ ytr_logo_url }}" alt="Yours To Rent" height="36" width="120" decoding="async">
     </a>
     <nav class="ytr-auth-public-links" aria-label="Account pages">
       <a href="{% url 'browse' %}">Browse</a>

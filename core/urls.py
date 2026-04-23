@@ -2,6 +2,9 @@ from django.urls import path, re_path
 from django.views.generic.base import RedirectView
 from . import views
 
+# Removed from public site (redirect to home). Names preserved for {% url %} compatibility.
+_REDIRECT_HOME = RedirectView.as_view(url="/", permanent=False)
+
 urlpatterns = [
     # Legacy static filenames (must be before 'listings/' and '<int:listing_id>' patterns)
     path('listings/vehicle-details.html', views.listing_detail_fallback, name='listings_vehicle_details_html'),
@@ -15,8 +18,8 @@ urlpatterns = [
     path('how-it-works.html', views.how_it_works),
     path('contact/', views.contact, name='contact'),
     path('contact.html', views.contact),
-    path('services/', views.services, name='services'),
-    path('services.html', views.services),
+    path('services/', _REDIRECT_HOME, name='services'),
+    path('services.html', _REDIRECT_HOME),
     path('feedback/', views.feedback_page, name='feedback'),
     path('feedback.html', views.feedback_page),
     path('faq/', views.faq_page, name='faq'),
@@ -36,11 +39,11 @@ urlpatterns = [
     path('insurance.html', views.insurance_page),
     path('trust-safety/', views.trust_safety_public_page, name='trust_safety'),
     path('trust-safety.html', views.trust_safety_public_page),
-    path('solutions/fleet/', views.fleet_solutions, name='fleet_solutions'),
-    path('solutions/mobility/', views.mobility_hub, name='mobility_hub'),
-    path('solutions/dispatch/', views.dispatch_console, name='dispatch_console'),
+    path('solutions/fleet/', _REDIRECT_HOME, name='fleet_solutions'),
+    path('solutions/mobility/', _REDIRECT_HOME, name='mobility_hub'),
+    path('solutions/dispatch/', _REDIRECT_HOME, name='dispatch_console'),
     path('solutions/partners/', views.partner_network, name='partner_network'),
-    path('solutions/trust-center/', views.trust_center, name='trust_center'),
+    path('solutions/trust-center/', _REDIRECT_HOME, name='trust_center'),
     path('newsletter/subscribe/', views.newsletter_subscribe, name='newsletter_subscribe'),
 
     path('listings/', views.listings_page, name='listings'),
@@ -69,6 +72,7 @@ urlpatterns = [
     ),
 
     path('listings/<int:listing_id>/book/', views.book_listing, name='book_listing'),
+    path('bookings/<int:booking_id>/checkout/', views.booking_checkout, name='booking_checkout'),
 
     path('search/', views.search_listings, name='search_listings'),
 

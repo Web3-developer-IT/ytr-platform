@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+from decimal import Decimal
 from urllib.parse import urlsplit
 
 try:
@@ -45,6 +46,7 @@ except ImportError:
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# Deploy: set a long random SECRET_KEY in the host environment (django-insecure-* fails check --deploy).
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
     "django-insecure-^nomskov6exp@su@ponl_9ns021i4s5*$ywmsf=101zcfttv0+",
@@ -115,9 +117,26 @@ ALLOWED_HOSTS = list(
     )
 )
 
+# HTTPS / cookies when going live (DEBUG=False). Uses X-Forwarded-Proto on Render, Hostinger, etc.
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "True").lower() in ("true", "1", "yes")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", "31536000"))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv("SECURE_HSTS_INCLUDE_SUBDOMAINS", "True").lower() in (
+        "true",
+        "1",
+        "yes",
+    )
+    SECURE_HSTS_PRELOAD = os.getenv("SECURE_HSTS_PRELOAD", "False").lower() in ("true", "1", "yes")
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Primary site logo (PNG in static/images; override with YTR_LOGO_STATIC_PATH env).
+YTR_LOGO_STATIC_PATH = os.getenv("YTR_LOGO_STATIC_PATH", "images/nikki.png")
 
 # Browse/home cards when a listing has no photo (curated Unsplash + rotating fallbacks; override via env).
 YTR_DEFAULT_VEHICLE_IMAGE_URL = os.getenv(
@@ -130,6 +149,12 @@ YTR_IMAGE_FALLBACK_URLS = [
     "https://images.unsplash.com/photo-1606611013016-969c19ba27bb?auto=format&fit=crop&w=1200&q=80",
     "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
 ]
+
+# Payments / escrow (amounts computed on booking approval; gateway integration wires in later).
+# SA preference: on-site checkout like Takealot — card + EFT. PayFast / Ozow / Yoco plug in via env + webhooks.
+YTR_PAYMENT_DEADLINE_DAYS = int(os.getenv("YTR_PAYMENT_DEADLINE_DAYS", "5"))
+YTR_PLATFORM_COMMISSION_PERCENT = Decimal(os.getenv("YTR_PLATFORM_COMMISSION_PERCENT", "10"))
+YTR_DEPOSIT_PERCENT = Decimal(os.getenv("YTR_DEPOSIT_PERCENT", "20"))
 
 # Media/user uploads (default storage set in STORAGES below — Cloudinary in production-style configs).
 MEDIA_URL = "/media/"
@@ -398,6 +423,8 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    # Render / nginx / Cloudflare terminate TLS; Django needs this for is_secure() and redirect logic.
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Email / launch communication settings
 BUSINESS_CONTACT_EMAIL = os.getenv("BUSINESS_CONTACT_EMAIL", "info@yourstorent.co.za")
@@ -425,8 +452,8 @@ JAZZMIN_SETTINGS = {
     "site_title": "YTR Control",
     "site_header": "Yours To Rent",
     "site_brand": "Yours To Rent",
-    "site_logo": "images/ytr-logo-reference.svg",
-    "login_logo": "images/ytr-logo-reference.svg",
+    "site_logo": YTR_LOGO_STATIC_PATH,
+    "login_logo": YTR_LOGO_STATIC_PATH,
     "welcome_sign": "Fleet control — same brand system as the owner dashboard. Verify documents, manage listings, and monitor bookings.",
     "copyright": "Yours To Rent",
     "search_model": ["auth.User", "users.UserDocument", "core.Listing", "bookings.Booking"],
@@ -436,11 +463,7 @@ JAZZMIN_SETTINGS = {
         {"name": "Owner dashboard", "url": "/dashboard/", "new_window": True},
         {"name": "Browse", "url": "/browse/", "new_window": True},
         {"name": "Browse commercial", "url": "/browse/?commercial=1", "new_window": True},
-        {"name": "Fleet solutions", "url": "/solutions/fleet/", "new_window": True},
-        {"name": "Mobility hub", "url": "/solutions/mobility/", "new_window": True},
-        {"name": "Dispatch console", "url": "/solutions/dispatch/", "new_window": True},
         {"name": "Partner network", "url": "/solutions/partners/", "new_window": True},
-        {"name": "Trust center", "url": "/solutions/trust-center/", "new_window": True},
         {"name": "List a vehicle", "url": "/listing/add/", "new_window": True},
         {"name": "Verify documents", "url": "admin:users_userdocument_changelist"},
         {"name": "Notifications", "url": "admin:users_platformnotification_changelist"},

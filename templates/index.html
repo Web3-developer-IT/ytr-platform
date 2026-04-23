@@ -8,7 +8,7 @@
     <meta name="description" content="South Africa's Premier Vehicle Rental Marketplace - From daily demands to dream drives.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{{ ytr_logo_url }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2197,7 +2197,7 @@
   <!-- Preloader -->
     <div id="preloader">
         <div class="loader">
-            <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="YTR Logo" class="loader-logo">
+            <img src="{{ ytr_logo_url }}" alt="YTR Logo" class="loader-logo">
             <div class="loader-bar"></div>
         </div>
     </div>
@@ -2686,14 +2686,14 @@ html, body {
 <nav class="ytrE-nav" id="ytrENav">
   <div class="ytrE-nav-inner">
     <a href="{% url 'home' %}" class="ytrE-logo d-flex">
-      <img class="ytrE-logoImg" src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" width="132" height="44" decoding="async">
+      <img class="ytrE-logoImg" src="{{ ytr_logo_url }}" alt="Yours To Rent" width="132" height="44" decoding="async">
       <span class="ytrE-tagline d-none d-lg-inline">South Africa&rsquo;s Premier Vehicle Marketplace</span>
     </a>
 
     <div class="ytrE-links">
       <a href="{% url 'browse' %}?commercial=1" id="ytrEBrowse">Browse Vehicles</a>
-      <a href="{% url 'how_it_works' %}">How It Works</a>
-      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'faq' %}">FAQ</a>
+      <a href="{% url 'partner_network' %}">Partners</a>
       <a href="{% url 'add_listing' %}">List Vehicle</a>
       <a href="{% url 'about' %}">Company</a>
       <a href="{% url 'contact' %}">Support</a>
@@ -2724,8 +2724,8 @@ html, body {
         <a href="{% url 'browse' %}?style=Bakkie">Bakkie</a><a href="{% url 'browse' %}">All vehicles</a><a href="{% url 'browse' %}?category=equipment">Equipment</a>
       </div>
       <div>
-        <h6>Services</h6>
-        <a href="{% url 'how_it_works' %}">How it works</a><a href="{% url 'contact' %}">Corporate</a>
+        <h6>Help</h6>
+        <a href="{% url 'faq' %}">FAQ</a><a href="{% url 'contact' %}">Contact</a>
       </div>
       <div>
         <h6>Browse</h6>
@@ -2738,8 +2738,8 @@ html, body {
 <!-- ================= MOBILE DRAWER ================= -->
 <div class="ytrE-drawer" id="ytrEDrawer">
   <a href="{% url 'browse' %}?commercial=1">Browse Vehicles</a>
-  <a href="{% url 'how_it_works' %}">How It Works</a>
-  <a href="{% url 'services' %}">Services</a>
+  <a href="{% url 'faq' %}">FAQ</a>
+  <a href="{% url 'partner_network' %}">Partners</a>
   <a href="{% url 'add_listing' %}">List Vehicle</a>
   <a href="{% url 'about' %}">Company</a>
   <a href="{% url 'contact' %}">Support</a>
@@ -3297,13 +3297,13 @@ burger.addEventListener('click',()=>{
     <section class="trusted-section">
         <div class="container">
             <div class="trusted-wrapper">
-                <span class="trusted-text">Trusted by leading companies</span>
+                <span class="trusted-text">Built for South African renters &amp; hosts</span>
                 <div class="trusted-logos">
-                    <span class="trusted-logo">Amazon</span>
-                    <span class="trusted-logo">Google</span>
-                    <span class="trusted-logo">Microsoft</span>
-                    <span class="trusted-logo">Netflix</span>
-                    <span class="trusted-logo">YouTube</span>
+                    <span class="trusted-logo">Verified listings</span>
+                    <span class="trusted-logo">Escrow-ready checkout</span>
+                    <span class="trusted-logo">Card &amp; EFT</span>
+                    <span class="trusted-logo">Document checks</span>
+                    <span class="trusted-logo">In-app messaging</span>
                 </div>
             </div>
         </div>
@@ -3882,7 +3882,7 @@ burger.addEventListener('click',()=>{
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" class="logo">
+                    <img src="{{ ytr_logo_url }}" alt="Yours To Rent" class="logo">
                     <p>Your Fleet. Your Services. Your Terms. South Africa's premier peer-to-peer vehicle rental marketplace.</p>
                     <div class="footer-social">
                         <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
@@ -3916,7 +3916,7 @@ burger.addEventListener('click',()=>{
                     <h5>Services</h5>
                     <ul class="footer-links">
                         <li><a href="license-test.html">License Test</a></li>
-                        <li><a href="{% url 'services' %}">Weddings</a></li>
+                        <li><a href="{% url 'contact' %}">Weddings &amp; events</a></li>
                         <li><a href="corporate.html">Corporate</a></li>
                     </ul>
                 </div>

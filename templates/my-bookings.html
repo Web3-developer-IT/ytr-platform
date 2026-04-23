@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Bookings | Yours To Rent</title>
-  <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+  <link rel="icon" type="image/png" href="{{ ytr_logo_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -100,16 +100,39 @@
             <img src="{% listing_card_image row.booking.listing %}" alt="{{ row.booking.listing.title }}" class="booking-image mb-3" loading="lazy" decoding="async">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <h5 class="mb-0">{{ row.booking.listing.title }}</h5>
-              <span class="badge {% if row.status == 'completed' %}text-bg-success{% elif row.status == 'active' %}text-bg-warning text-dark{% else %}text-bg-secondary{% endif %}">{{ row.status_label }}</span>
+              <span class="badge {% if row.status == 'completed' %}text-bg-success{% elif row.status == 'active' %}text-bg-warning text-dark{% elif row.status == 'cancelled' %}text-bg-danger{% elif row.status == 'upcoming' and row.status_label == 'Pay now' %}text-bg-warning text-dark{% else %}text-bg-secondary{% endif %}">{{ row.status_label }}</span>
             </div>
             <p class="muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i>{{ row.booking.listing.location }}</p>
             <p class="small mb-2"><strong>From:</strong> {{ row.booking.start_date }} &nbsp; <strong>To:</strong> {{ row.booking.end_date }}</p>
             <p class="small mb-2"><strong>Host:</strong> {{ row.booking.listing.owner.get_full_name|default:row.booking.listing.owner.username }}</p>
+            {% if row.booking.approved and row.booking.payment_state == 'payment_pending' and row.booking.payment_due_at %}
+            <div class="alert alert-warning text-dark small mb-2 py-2">
+              <strong>Payment due</strong> by {{ row.booking.payment_due_at|date:"d M Y, H:i" }} ({{ ytr_payment_deadline_days }}-day window after host approval) —
+              pay <strong>R {{ row.booking.amount_due_total }}</strong> (rental + deposit). Funds are held in <strong>YTR escrow</strong> until your trip ends; the host is then paid automatically and the platform keeps <strong>{{ ytr_commission_percent }}%</strong> of the rental portion.
+              <span class="d-block mt-1">Checkout is on this site — <strong>card</strong> or <strong>EFT</strong> (Takealot-style). Connect PayFast or your SA gateway in production.</span>
+            </div>
+            {% elif row.booking.approved and row.booking.payment_state == 'cancelled' %}
+            <div class="alert alert-danger small mb-2 py-2">
+              <strong>Payment window expired.</strong> This booking was approved but not paid in time. Message the host to request a new approval if the vehicle is still available.
+            </div>
+            {% elif row.booking.approved and row.booking.payment_state == 'in_escrow' %}
+            <div class="alert alert-success small mb-2 py-2">
+              <strong>Paid — in escrow.</strong>{% if row.booking.payment_method %} Method: {{ row.booking.get_payment_method_display }}.{% endif %} Rental R {{ row.booking.rental_total }}, deposit R {{ row.booking.deposit_total }}.
+              Platform commission R {{ row.booking.platform_fee_amount }}; host receives R {{ row.booking.owner_payout_amount }} after the trip (automatic payout).
+            </div>
+            {% elif row.booking.approved and row.booking.payment_state == 'released' %}
+            <div class="alert alert-secondary small mb-2 py-2">
+              <strong>Escrow released.</strong> Trip completed; host payout was processed automatically (net of {{ ytr_commission_percent }}% commission on rental).
+            </div>
+            {% endif %}
             <div class="d-flex justify-content-between align-items-center mt-3">
               <span class="small muted">{{ row.days }} day{{ row.days|pluralize }}</span>
               <strong>R {{ row.total }}</strong>
             </div>
-            <div class="d-flex gap-2 mt-3">
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              {% if row.booking.approved and row.booking.payment_state == 'payment_pending' %}
+              <a href="{% url 'booking_checkout' row.booking.id %}" class="btn btn-sm btn-warning fw-bold text-dark flex-fill">Pay now</a>
+              {% endif %}
               <a href="{% url 'listing_detail' row.booking.listing.id %}" class="btn btn-sm btn-outline-light flex-fill">View vehicle</a>
               <a href="{% url 'conversation' row.booking.listing.id row.booking.listing.owner.id %}" class="btn btn-sm btn-outline-warning flex-fill">Message host</a>
             </div>
@@ -136,7 +159,7 @@
             <p class="ytr-premium-muted mb-0"><strong class="text-white">Messages</strong> — Coordinate pickup, keys, and return windows in <a href="{% url 'inbox' %}" class="text-warning text-decoration-none">Messages</a>.</p>
           </div>
           <div class="col-md-4">
-            <p class="ytr-premium-muted mb-0"><strong class="text-white">Payments</strong> — In-platform payments and statements are <span class="text-warning">coming soon</span>; nothing is presented as settled until go-live.</p>
+            <p class="ytr-premium-muted mb-0"><strong class="text-white">Payments</strong> — After host approval you have <strong class="text-white">{{ ytr_payment_deadline_days }} days</strong> to pay rental + deposit on-site (card or EFT). Money sits in YTR escrow until the trip ends; hosts are paid automatically minus <strong class="text-white">{{ ytr_commission_percent }}%</strong> commission on the rental.</p>
           </div>
         </div>
       </div>
@@ -145,7 +168,7 @@
         <div class="ytr-premium-icon-card text-center" data-aos="fade-up">
           <i class="fas fa-clipboard-check"></i>
           <div class="fw-bold small">Host approval</div>
-          <p class="ytr-premium-muted small mb-0 mt-2">Listings remain under owner control until checkout features launch.</p>
+          <p class="ytr-premium-muted small mb-0 mt-2">Hosts approve requests before you pay; unpaid requests expire after the payment window.</p>
         </div>
         <div class="ytr-premium-icon-card text-center" data-aos="fade-up" data-aos-delay="40">
           <i class="fas fa-file-signature"></i>

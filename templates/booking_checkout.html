@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pay booking | Yours To Rent</title>
+  <link rel="icon" type="image/png" href="{{ ytr_logo_url }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
+  <style>
+    body { background: #0a0a0a; color: #f8fafc; min-height: 100vh; }
+    .pay-card {
+      max-width: 520px;
+      margin: 2rem auto;
+      background: linear-gradient(165deg, rgba(30,30,32,.95), rgba(12,12,14,.98));
+      border: 1px solid rgba(212,168,83,.35);
+      border-radius: 20px;
+      box-shadow: 0 0 48px rgba(212,168,83,.12);
+    }
+    .amount-pill { font-size: 1.75rem; font-weight: 800; color: #fcd34d; }
+    .method-tab { cursor: pointer; border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 1rem; transition: .2s; }
+    .method-tab.active { border-color: #d4a853; background: rgba(212,168,83,.12); }
+    .muted { color: rgba(248,250,252,.65); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <div class="text-center mb-3">
+      <a href="{% url 'home' %}"><img src="{{ ytr_logo_url }}" alt="Yours To Rent" height="44"></a>
+    </div>
+    <div class="pay-card p-4 p-md-5">
+      <h1 class="h4 fw-bold mb-2">Secure checkout</h1>
+      <p class="muted mb-4">Pay on this site (Takealot-style). Choose <strong class="text-white">card</strong> or <strong class="text-white">EFT</strong>. Funds go to <strong class="text-warning">YTR escrow</strong> until your trip ends; the host is then paid automatically minus the <strong class="text-warning">{{ ytr_commission_percent }}%</strong> platform commission on the rental portion.</p>
+
+      <div class="rounded-3 bg-black bg-opacity-50 border border-secondary border-opacity-25 p-3 mb-4">
+        <div class="small text-white-50 text-uppercase">Total due now</div>
+        <div class="amount-pill">R {{ booking.amount_due_total }}</div>
+        <div class="small mt-2">Rental <strong class="text-white">R {{ booking.rental_total }}</strong> + deposit <strong class="text-white">R {{ booking.deposit_total }}</strong></div>
+        {% if booking.payment_due_at %}
+        <div class="small text-warning mt-2"><i class="fas fa-clock me-1"></i>Pay by {{ booking.payment_due_at|date:"d M Y, H:i" }}</div>
+        {% endif %}
+      </div>
+
+      <form method="post" action="">
+        {% csrf_token %}
+        <p class="fw-semibold mb-2">Payment method</p>
+        <div class="row g-2 mb-4">
+          <div class="col-6">
+            <label class="method-tab d-block text-center mb-0 active" id="tabCard">
+              <input class="d-none" type="radio" name="payment_method" value="card" checked>
+              <i class="fas fa-credit-card fa-lg text-warning d-block mb-1"></i>
+              <span class="small fw-bold">Card</span>
+            </label>
+          </div>
+          <div class="col-6">
+            <label class="method-tab d-block text-center mb-0" id="tabEft">
+              <input class="d-none" type="radio" name="payment_method" value="eft">
+              <i class="fas fa-university fa-lg text-warning d-block mb-1"></i>
+              <span class="small fw-bold">EFT</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="panelCard" class="border border-secondary border-opacity-25 rounded-3 p-3 mb-3">
+          <p class="small mb-2"><strong class="text-white">Card</strong> — production will use your SA gateway (e.g. PayFast) so the card is charged on <code class="text-warning">yourstorent.co.za</code> without leaving the site.</p>
+          <p class="muted mb-0">Demo: submit confirms payment into escrow (no real charge).</p>
+        </div>
+        <div id="panelEft" class="border border-secondary border-opacity-25 rounded-3 p-3 mb-3 d-none">
+          <p class="small mb-2"><strong class="text-white">EFT</strong> — use reference <code class="text-warning">YTR-{{ booking.id }}</code> for the exact amount <strong>R {{ booking.amount_due_total }}</strong>.</p>
+          <p class="muted mb-0">Demo: submit marks the booking as paid into escrow. Live banking details will appear here once your merchant account is linked.</p>
+        </div>
+
+        <button type="submit" class="btn btn-warning w-100 fw-bold text-dark py-3 rounded-3">
+          <i class="fas fa-lock me-2"></i>Pay R {{ booking.amount_due_total }}
+        </button>
+        <a href="{% url 'my_bookings' %}" class="btn btn-outline-light w-100 mt-2">Back to My Bookings</a>
+      </form>
+    </div>
+  </div>
+  <script>
+    (function () {
+      function sync() {
+        var card = document.querySelector('input[value="card"]').checked;
+        document.getElementById('panelCard').classList.toggle('d-none', !card);
+        document.getElementById('panelEft').classList.toggle('d-none', card);
+        document.getElementById('tabCard').classList.toggle('active', card);
+        document.getElementById('tabEft').classList.toggle('active', !card);
+      }
+      document.querySelectorAll('input[name="payment_method"]').forEach(function (r) {
+        r.addEventListener('change', sync);
+      });
+      sync();
+    })();
+  </script>
+</body>
+</html>

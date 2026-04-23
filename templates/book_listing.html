@@ -131,7 +131,7 @@
             <p><strong class="text-white">1. Request</strong> — Your dates are saved as a booking request tied to this listing.</p>
             <p><strong class="text-white">2. Host review</strong> — The host can approve or discuss changes via messages.</p>
             <p><strong class="text-white">3. In-app messaging</strong> — Use <a href="{% url 'inbox' %}" class="text-warning text-decoration-none">Messages</a> to align on handover details.</p>
-            <p class="mb-0"><strong class="text-white">4. Payments &amp; payouts</strong> — Integrated card processing and automated payouts are <span class="text-warning">coming soon</span>; nothing is charged until those systems go live.</p>
+            <p class="mb-0"><strong class="text-white">4. Pay after approval</strong> — If the host approves, you have <strong class="text-white">{{ ytr_payment_deadline_days }} days</strong> to pay rental + deposit on-site (<strong class="text-white">card</strong> or <strong class="text-white">EFT</strong>). Funds stay in YTR escrow until the trip ends; the host is paid automatically minus <strong class="text-white">{{ ytr_commission_percent }}%</strong> platform commission on the rental.</p>
           </div>
         </div>
 

@@ -9,7 +9,7 @@
     <meta name="description" content="{{ listing.description|truncatewords:32 }} Rent in {{ listing.location }} from Yours To Rent.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{{ ytr_logo_url }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1107,7 +1107,7 @@ html, body {
 <nav class="ytrE-nav" id="ytrENav">
   <div class="ytrE-nav-inner">
     <a href="{% url 'home' %}" class="ytrE-logo">
-      <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" height="42">
+      <img src="{{ ytr_logo_url }}" alt="Yours To Rent" height="42">
     </a>
 
     <div class="ytrE-links">
@@ -1641,7 +1641,7 @@ burger.addEventListener('click',()=>{
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" style="height: 60px; margin-bottom: 20px;">
+                    <img src="{{ ytr_logo_url }}" alt="Yours To Rent" style="height: 60px; margin-bottom: 20px;">
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Your Fleet. Your Services. Your Terms. The premier vehicle rental marketplace in South Africa.</p>
                     <div class="social-links">
                         <a href="#" style="color: var(--text-muted); margin-right: 16px; font-size: 1.25rem;"><i class="fab fa-facebook"></i></a>
@@ -1679,9 +1679,7 @@ burger.addEventListener('click',()=>{
             <div class="d-flex flex-wrap justify-content-between align-items-center">
                 <p style="color: var(--text-muted); margin: 0;">&copy; 2026 Yours To Rent. All rights reserved.</p>
                 <div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/100px-Visa_Inc._logo.svg.png" alt="Visa" style="height: 20px; margin-right: 12px; filter: grayscale(100%) brightness(0.8);">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/100px-Mastercard-logo.svg.png" alt="Mastercard" style="height: 20px; margin-right: 12px;">
-                    <span style="color: var(--text-muted); font-size: 0.875rem;">Secure Payments</span>
+                    {% include 'partials/payment_trust_row.html' %}
                 </div>
             </div>
         </div>

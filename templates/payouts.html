@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payouts | Yours To Rent</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    <link rel="icon" type="image/png" href="{{ ytr_logo_url }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/ytr-platform-contrast.css' %}">
@@ -41,7 +41,7 @@
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
                 <div>
                     <h1 class="text-white mb-2">Payouts</h1>
-                    <p class="muted mb-0">Automated host payouts and bank reconciliation are not enabled yet. Nothing below is sample financial data.</p>
+                    <p class="muted mb-0">Policy: <strong class="text-white">automatic host payouts</strong> after each trip when escrow releases — the platform keeps <strong class="text-warning">{{ ytr_commission_percent }}%</strong> of the <em>rental</em> portion automatically. Checkout uses on-site <strong class="text-white">card</strong> + <strong class="text-white">EFT</strong> (South Africa); wire PayFast / Ozow / Yoco in production.</p>
                 </div>
             </div>
 
@@ -51,14 +51,14 @@
                         <i class="fas fa-hourglass-half text-warning fs-5"></i>
                     </div>
                     <div>
-                        <h2 class="h5 text-white mb-2">Coming soon</h2>
+                        <h2 class="h5 text-white mb-2">Gateway connection</h2>
                         <p class="muted mb-3 small">
-                            When payment processing goes live, hosts will set a payout method here and see each transfer with references and statuses. Admins will configure provider keys and rules from Django Admin.
+                            Target: Takealot-style checkout on your domain — <strong class="text-white">card</strong> and <strong class="text-white">EFT</strong> (South Africa). Renter pays rental + deposit into YTR escrow after host approval (default window set in env <code>YTR_PAYMENT_DEADLINE_DAYS</code>). Owners receive automated payouts minus commission once release rules are met.
                         </p>
                         <ul class="muted small mb-0 ps-3">
-                            <li>Stripe / Paystack / bank payout integration (to be configured)</li>
-                            <li>Scheduled payouts and downloadable statements</li>
-                            <li>No placeholder rand amounts will be shown before go-live</li>
+                            <li><strong class="text-white">PayFast</strong> / similar — merchant ID + key in production <code>.env</code></li>
+                            <li>Scheduled payouts, statements, and webhook reconciliation</li>
+                            <li>No fake balances — only rows from your live provider after go-live</li>
                         </ul>
                     </div>
                 </div>
@@ -66,7 +66,35 @@
 
             <div class="card-dark p-4">
                 <h5 class="mb-3 text-white-50"><i class="fas fa-list me-2"></i>Payout history</h5>
-                <p class="muted mb-0 small">No payouts recorded yet. This table will populate from your payment provider once connected.</p>
+                {% if payout_rows %}
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover table-sm align-middle mb-0">
+                        <thead>
+                            <tr class="text-white-50 small">
+                                <th>Date</th>
+                                <th>Trip</th>
+                                <th class="text-end">Net to you</th>
+                                <th class="text-end">Commission</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in payout_rows %}
+                            <tr>
+                                <td class="small">{{ p.completed_at|default:p.created_at|date:"d M Y H:i" }}</td>
+                                <td class="small">{{ p.booking.listing.title }} <span class="text-white-50">#{{ p.booking.id }}</span></td>
+                                <td class="text-end fw-bold text-warning">R {{ p.amount }}</td>
+                                <td class="text-end small text-white-50">R {{ p.commission_amount }}</td>
+                                <td><span class="badge text-bg-success">{{ p.get_status_display }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <p class="muted small mt-3 mb-0">Demo rows are created when trips end and escrow auto-releases. Live payouts will reconcile with your bank / gateway.</p>
+                {% else %}
+                <p class="muted mb-0 small">No payouts yet. When a renter’s trip finishes and escrow releases, your net share (after {{ ytr_commission_percent }}% commission on rental) appears here automatically.</p>
+                {% endif %}
             </div>
         </main>
     </div>

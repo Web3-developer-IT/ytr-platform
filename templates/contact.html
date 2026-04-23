@@ -8,7 +8,7 @@
     <meta name="description" content="Get in touch with Yours To Rent. We're here to help with any questions about renting or listing vehicles.">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'images/ytr-logo-reference.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{{ ytr_logo_url }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -831,7 +831,7 @@ html, body {
 <nav class="ytrE-nav" id="ytrENav">
   <div class="ytrE-nav-inner">
     <a href="{% url 'home' %}" class="ytrE-logo d-flex align-items-center gap-2">
-      <img src="{% static 'images/ytr-logo-reference.svg' %}" alt="Yours To Rent" width="132" height="44" decoding="async">
+      <img src="{{ ytr_logo_url }}" alt="Yours To Rent" width="132" height="44" decoding="async">
     </a>
 
     <div class="ytrE-links">
@@ -1163,50 +1163,7 @@ burger.addEventListener('click',()=>{
     </section>
 <br><br><br><br>
 
-    <!-- Footer -->
-    <footer class="ytr-footer-section">
-        <div class="ytr-section-container">
-            <div class="ytr-footer-grid">
-                <div class="ytr-footer-brand">
-                    <img src="/static/images/ytr-logo-reference.svg" alt="Yours To Rent" class="ytr-footer-logo">
-                    <p class="ytr-footer-tagline">South Africa's Premier Vehicle Marketplace. Your Fleet. Your Services. Your Terms.</p>
-                    <div class="ytr-footer-social">
-                        <a href="#" class="ytr-social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="ytr-social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="ytr-social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="ytr-social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="ytr-footer-links">
-                    <h4 class="ytr-footer-heading">Quick Links</h4>
-                    <a href="browse.html">Browse Vehicles</a>
-                    <a href="list-vehicle.html">List Your Vehicle</a>
-                    <a href="how-it-works.html">How It Works</a>
-                    <a href="about.html">About Us</a>
-                </div>
-                
-                <div class="ytr-footer-links">
-                    <h4 class="ytr-footer-heading">Support</h4>
-                    <a href="faq.html">FAQ</a>
-                    <a href="contact.html">Contact Us</a>
-                    <a href="help.html">Help Center</a>
-                    <a href="feedback.html">Give Feedback</a>
-                </div>
-                
-                <div class="ytr-footer-links">
-                    <h4 class="ytr-footer-heading">Legal</h4>
-                    <a href="terms.html">Terms of Service</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="cookies.html">Cookie Policy</a>
-                </div>
-            </div>
-            
-            <div class="ytr-footer-bottom">
-                <p>&copy; 2026 Yours To Rent. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    {% include 'partials/public_footer.html' %}
 
     <!-- Back to Top -->
     <button class="ytr-back-to-top" id="ytrBackToTop">

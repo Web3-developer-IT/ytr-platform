@@ -9,6 +9,9 @@ def normalize_image_url(url) -> str:
     if not url or not str(url).strip():
         return ""
     u = str(url).strip()
+    # Legacy static exports / broken relative paths → use listing fallbacks instead.
+    if u.startswith("./images/") or (u.startswith("images/") and "://" not in u and not u.startswith("/media/")):
+        return ""
     if u.startswith("//"):
         return "https:" + u
     # Upgrade http→https for third-party CDNs (fixes broken previews on HTTPS hosts like Render).
