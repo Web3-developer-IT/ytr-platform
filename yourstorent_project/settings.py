@@ -523,3 +523,11 @@ JAZZMIN_UI_TWEAKS = {
     },
 }
 
+# Optional, server-local overrides (never committed):
+# - keep production secrets and host-specific values out of git
+# - prevents pull conflicts on VPS when local settings differ
+try:
+    from .settings_local import *  # noqa: F403,F401
+except ImportError:
+    pass
+

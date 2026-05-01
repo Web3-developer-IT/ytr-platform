@@ -5,9 +5,10 @@ from datetime import datetime, timedelta
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.files.storage import default_storage
+from django.contrib.staticfiles import finders
 from django.db.models import Q, Count
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
@@ -1071,3 +1072,17 @@ def media_with_fallback(request, path):
             "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=80",
         )
     )
+
+
+def platform_logo(request):
+    """
+    Serve platform logo directly via Django view.
+    This avoids dependency on static URL mapping for the critical brand logo.
+    """
+    preferred = getattr(settings, "YTR_LOGO_STATIC_PATH", "images/nikki.png")
+    for candidate in (preferred, "images/ytr-logo-reference.svg"):
+        path = finders.find(candidate)
+        if path:
+            ctype, _ = mimetypes.guess_type(path)
+            return FileResponse(open(path, "rb"), content_type=ctype or "image/png")
+    return HttpResponseNotFound("Logo asset not found.")

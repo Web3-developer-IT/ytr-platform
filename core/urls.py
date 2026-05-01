@@ -6,6 +6,8 @@ from . import views
 _REDIRECT_HOME = RedirectView.as_view(url="/", permanent=False)
 
 urlpatterns = [
+    path('brand/logo', views.platform_logo, name='platform_logo'),
+    path('brand/logo/', views.platform_logo),
     # Legacy static filenames (must be before 'listings/' and '<int:listing_id>' patterns)
     path('listings/vehicle-details.html', views.listing_detail_fallback, name='listings_vehicle_details_html'),
     path('listings/index.html', views.home, name='listings_index_html'),
