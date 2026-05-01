@@ -3,10 +3,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% listing_card_image listing as seo_listing_image %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ listing.title }} | Yours To Rent</title>
     <meta name="description" content="{{ listing.description|truncatewords:32 }} Rent in {{ listing.location }} from Yours To Rent.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="{{ ytr_site_url }}{{ request.path }}">
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="Yours To Rent">
+    <meta property="og:title" content="{{ listing.title }} | Yours To Rent">
+    <meta property="og:description" content="{{ listing.description|truncatewords:32 }}">
+    <meta property="og:url" content="{{ ytr_site_url }}{{ request.path }}">
+    <meta property="og:image" content="{{ seo_listing_image }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ listing.title }} | Yours To Rent">
+    <meta name="twitter:description" content="{{ listing.description|truncatewords:28 }}">
+    <meta name="twitter:image" content="{{ seo_listing_image }}">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "{{ listing.title|escapejs }}",
+      "description": "{{ listing.description|truncatewords:40|escapejs }}",
+      "image": ["{{ seo_listing_image }}"],
+      "brand": {
+        "@type": "Brand",
+        "name": "Yours To Rent"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "ZAR",
+        "price": "{{ listing.price_per_day }}",
+        "availability": "{% if listing.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+        "url": "{{ ytr_site_url }}{{ request.path }}"
+      }
+    }
+    </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ ytr_logo_url }}">

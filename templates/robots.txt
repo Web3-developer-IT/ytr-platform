@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /oauth/
+Disallow: /messages/
+Disallow: /dashboard/
+Disallow: /settings/
+Disallow: /profile/
+Disallow: /my-bookings/
+Disallow: /my-vehicles/
+Disallow: /transactions/
+Disallow: /payouts/
+
+Sitemap: {{ ytr_site_url }}/sitemap.xml

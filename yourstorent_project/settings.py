@@ -137,6 +137,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Primary site logo (PNG in static/images; override with YTR_LOGO_STATIC_PATH env).
 YTR_LOGO_STATIC_PATH = os.getenv("YTR_LOGO_STATIC_PATH", "images/nikki.png")
+YTR_SITE_URL = (os.getenv("YTR_SITE_URL", "https://yourstorent.co.za") or "https://yourstorent.co.za").rstrip("/")
 
 # Browse/home cards when a listing has no photo (curated Unsplash + rotating fallbacks; override via env).
 YTR_DEFAULT_VEHICLE_IMAGE_URL = os.getenv(
@@ -192,6 +193,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'django.contrib.sites',
     'allauth',
     'allauth.account',

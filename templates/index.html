@@ -6,6 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yours To Rent | Your Fleet. Your Services. Your Terms.</title>
     <meta name="description" content="South Africa's Premier Vehicle Rental Marketplace - From daily demands to dream drives.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="{{ ytr_site_url }}{% url 'home' %}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Yours To Rent">
+    <meta property="og:title" content="Yours To Rent | Your Fleet. Your Services. Your Terms.">
+    <meta property="og:description" content="South Africa's vehicle rental marketplace for cars, SUVs, bakkies, and commercial fleet options.">
+    <meta property="og:url" content="{{ ytr_site_url }}{% url 'home' %}">
+    <meta property="og:image" content="{{ ytr_site_url }}{{ ytr_logo_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Yours To Rent">
+    <meta name="twitter:description" content="Browse and list vehicles across South Africa on Yours To Rent.">
+    <meta name="twitter:image" content="{{ ytr_site_url }}{{ ytr_logo_url }}">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Yours To Rent",
+      "url": "{{ ytr_site_url }}",
+      "logo": "{{ ytr_site_url }}{{ ytr_logo_url }}"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Yours To Rent",
+      "url": "{{ ytr_site_url }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ ytr_site_url }}{% url 'browse' %}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ ytr_logo_url }}">

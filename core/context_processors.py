@@ -18,6 +18,7 @@ def ytr_branding(request):
         ),
         "ytr_static_cdn_base": getattr(settings, "YTR_STATIC_CDN_BASE", "") or "",
         "ytr_platform_version": getattr(settings, "YTR_PLATFORM_VERSION", "1.0.0"),
+        "ytr_site_url": getattr(settings, "YTR_SITE_URL", "https://yourstorent.co.za").rstrip("/"),
         # Prefer dynamic endpoint so logo always resolves on production even
         # when static mappings differ across hosts.
         "ytr_logo_url": reverse("platform_logo"),
